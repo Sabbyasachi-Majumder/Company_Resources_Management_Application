@@ -1,9 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
+    <!-- Console appender to print logs to the console -->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>C:/Users/abc/Java Codes/Employee_Details_Operations_Application/employees/logs/employee-service.log</file>
+        <file>C:/Users/emajsab/Java Codes/Employee_Details_Operations_Application/employees/logs/employee-service.log
+        </file>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-            <fileNamePattern>C:/Users/emajsab/Java Codes/Employee_Details_Operations_Application/employees/logs/employee-service-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <fileNamePattern>C:/Users/emajsab/Java
+                Codes/Employee_Details_Operations_Application/employees/logs/employee-service-%d{yyyy-MM-dd}.%i.log
+            </fileNamePattern>
             <maxFileSize>10MB</maxFileSize>
             <maxHistory>30</maxHistory>
             <totalSizeCap>1GB</totalSizeCap>
@@ -14,7 +24,14 @@
     </appender>
 
     <root level="INFO">
-        <appender-ref ref="FILE" />
-        <appender-ref ref="CONSOLE" />
+        <appender-ref ref="FILE"/>
+        <appender-ref ref="CONSOLE"/>
     </root>
+
+    <!-- Ensures org.jboss.logging logs are captured -->
+    <logger name="org.jboss.logging" level="info"/>
+    <!-- Ensures security logs are captured -->
+    <logger name="org.springframework.security" level="TRACE"/>
+    <logger name="com.company.employee" level="INFO"/>
+
 </configuration>
