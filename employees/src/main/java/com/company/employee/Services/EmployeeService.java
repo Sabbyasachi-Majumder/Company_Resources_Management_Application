@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public interface EmployeeService {
 
-    void addData(ArrayList<EmployeeEntity> empList);
-
-    Optional<EmployeeEntity> searchData(int employeeId);
+    void addData(EmployeeEntity employeeEntity);
+    void deleteAll(ArrayList<EmployeeEntity> empList);
+    EmployeeEntity searchData(int employeeId);
 }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.company.employee.Entity.EmployeeEntity;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,11 +19,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @AllArgsConstructor
 @Component
 public class EmployeeRequestDTO {
-    @Valid
-    @JsonProperty("emp")
-    EmployeeEntity emp;
 
     @Valid
+    @NotEmpty(message = "Employee details list cannot be empty")
     @JsonProperty("empDetailsList")
     ArrayList<EmployeeEntity> empDetailsList;
 }

@@ -9,7 +9,9 @@ import jakarta.validation.constraints.*;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.function.IntFunction;
 
 //Lombok Annotations
 @Getter
@@ -67,5 +69,4 @@ public class EmployeeEntity {
     @Column(name = "ManagerEmployeeID", nullable = false)
     @Positive(message = "Manager Employee ID must be positive")
     private int managerEmployeeId;
-
 }
