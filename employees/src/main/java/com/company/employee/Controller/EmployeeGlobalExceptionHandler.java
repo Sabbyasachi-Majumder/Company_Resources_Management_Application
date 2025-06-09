@@ -1,7 +1,8 @@
 package com.company.employee.Controller;
 
-import com.company.employee.Configs.EmployeeSecurityConfig;
 import com.company.employee.DTOs.ApiResponseDTO;
+import io.jsonwebtoken.JwtException;
+import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,12 +36,16 @@ public class EmployeeGlobalExceptionHandler {
         for (FieldError error : ex.getBindingResult().getFieldErrors()) {
             errorMessage.append(error.getField()).append(": ").append(error.getDefaultMessage()).append("; ");
         }
-        return ResponseEntity.ok(new ApiResponseDTO<>("error", errorMessage.toString(), null));
+        logger.error("Validation error: {}", errorMessage);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(new ApiResponseDTO<>("error", errorMessage.toString(), null));
     }
 
     @ExceptionHandler(NoSuchElementException.class)
     public ResponseEntity<ApiResponseDTO<String>> handleNoSuchElementException(NoSuchElementException ex) {
-        return ResponseEntity.ok(new ApiResponseDTO<>("error", "Resource not found: " + ex.getMessage(), null));
+        logger.error("Resource not found: {}", ex.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(new ApiResponseDTO<>("error", "Resource not found: " + ex.getMessage(), null));
     }
 
     @ExceptionHandler(AuthenticationException.class)
@@ -54,7 +59,16 @@ public class EmployeeGlobalExceptionHandler {
             message = "Unauthorized: Authentication failed [AUTH_401_GENERIC]";
         }
         logger.error("401 Unauthorized: {} - Path: {}", message, request.getRequestURI());
-        return ResponseEntity.ok(new ApiResponseDTO<>("error", message, null));
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body(new ApiResponseDTO<>("error", message, null));
+    }
+
+    @ExceptionHandler(JwtException.class)
+    public ResponseEntity<ApiResponseDTO<String>> handleJwtException(JwtException ex, HttpServletRequest request) {
+        String message = "Unauthorized: Invalid or expired JWT token [AUTH_401_INVALID_TOKEN]";
+        logger.error("401 Unauthorized: {} - Path: {}", message, request.getRequestURI());
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body(new ApiResponseDTO<>("error", message, null));
     }
 
     @ExceptionHandler(AccessDeniedException.class)
@@ -62,18 +76,36 @@ public class EmployeeGlobalExceptionHandler {
         String username = request.getUserPrincipal() != null ? request.getUserPrincipal().getName() : "anonymous";
         String message = "Forbidden: Insufficient permissions [AUTH_403_INSUFFICIENT_PERMISSIONS]";
         logger.error("403 Forbidden: {} - Path: {} - User: {}", message, request.getRequestURI(), username);
-        ApiResponseDTO<String> response = new ApiResponseDTO<>("error", message, null);
-        return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
+        return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                .body(new ApiResponseDTO<>("error", message, null));
     }
 
-
     @ExceptionHandler(DataIntegrityViolationException.class)
-    public ResponseEntity<ApiResponseDTO<String>> DataIntegrityViolationException(DataIntegrityViolationException ex) {
-        return ResponseEntity.ok(new ApiResponseDTO<>("error", "Database constraint violation: " + Objects.requireNonNull(ex.getRootCause()).getMessage(), null));
+    public ResponseEntity<ApiResponseDTO<String>> handleDataIntegrityViolationException(DataIntegrityViolationException ex) {
+        String message = "Database constraint violation: " + Objects.requireNonNull(ex.getRootCause()).getMessage();
+        logger.error("Database error: {}", message);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(new ApiResponseDTO<>("error", message, null));
+    }
+
+    @ExceptionHandler(ServletException.class)
+    public ResponseEntity<ApiResponseDTO<String>> handleServletException(ServletException ex, HttpServletRequest request) {
+        logger.error("Servlet error: {} - Path: {}", ex.getMessage(), request.getRequestURI());
+        if (ex.getCause() instanceof AuthenticationException) {
+            return handleAuthenticationException((AuthenticationException) ex.getCause(), request);
+        } else if (ex.getCause() instanceof AccessDeniedException) {
+            return handleAccessDeniedException((AccessDeniedException) ex.getCause(), request);
+        } else if (ex.getCause() instanceof JwtException) {
+            return handleJwtException((JwtException) ex.getCause(), request);
+        }
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(new ApiResponseDTO<>("error", "Internal server error: " + ex.getMessage(), null));
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ApiResponseDTO<String>> handleGenericException(Exception ex) {
-        return ResponseEntity.ok(new ApiResponseDTO<>("error", "An unexpected error occurred: " + ex.getMessage(), null));
+    public ResponseEntity<ApiResponseDTO<String>> handleGenericException(Exception ex, HttpServletRequest request) {
+        logger.error("Unexpected error: {} - Path: {}", ex.getMessage(), request.getRequestURI());
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(new ApiResponseDTO<>("error", "Internal server error: " + ex.getMessage(), null));
     }
 }

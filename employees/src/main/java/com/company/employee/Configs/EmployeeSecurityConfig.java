@@ -34,22 +34,36 @@ public class EmployeeSecurityConfig {
         this.jwtRequestFilter = jwtRequestFilter;
     }
 
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        logger.info("Creating rules to access endpoints");
-        http.csrf(csrf -> csrf.disable())
+        logger.info("Configuring SecurityFilterChain");
+        http
+                .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/login").permitAll()
                         .requestMatchers("/testConnection", "/testDataBaseConnection").permitAll()
                         .requestMatchers("/fetchEmployees", "/searchEmployee/**").hasAnyRole("USER", "ADMIN")
-                        .requestMatchers("/addEmployees", "/updateEmployees", "/deleteEmployees").hasRole("ADMIN")
+                        .requestMatchers("/addEmployees").hasRole("ADMIN")
+                        .requestMatchers("/updateEmployees").hasRole("ADMIN")
+                        .requestMatchers("/deleteEmployees").hasRole("ADMIN")
                         .anyRequest().authenticated()
-                ).addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
-        logger.info("Rules to access endpoints created and enforced");
+                )
+                .exceptionHandling(exception -> exception
+                        .authenticationEntryPoint((request, response, authException) -> {
+                            logger.debug("Authentication exception: {}", authException.getMessage());
+                            throw authException; // Propagate to @RestControllerAdvice
+                        })
+                        .accessDeniedHandler((request, response, accessDeniedException) -> {
+                            logger.debug("Access denied: {}", accessDeniedException.getMessage());
+                            throw accessDeniedException; // Propagate to @RestControllerAdvice
+                        })
+                )
+                .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+
         return http.build();
     }
+
 
     // Used for manually generating user details . Replaced by database driven user profile storage
     //@Bean
@@ -70,15 +84,13 @@ public class EmployeeSecurityConfig {
     //     return manager;
     // }
 
-    // Encrypts the given password
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-    /*Added AuthenticationManager bean for /login.*/
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
-        return config.getAuthenticationManager();
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
+        return authConfig.getAuthenticationManager();
     }
 }
