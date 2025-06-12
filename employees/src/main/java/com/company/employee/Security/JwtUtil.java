@@ -1,7 +1,7 @@
 //Generates JWTs with username and roles.
 //Validates tokens using a secret key(hardcoded for now,move to application.properties in production).
 
-package com.company.employee.Security;
+package com.company.employee.security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

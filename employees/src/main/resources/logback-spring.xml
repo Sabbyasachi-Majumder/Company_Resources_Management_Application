@@ -23,15 +23,18 @@
         </encoder>
     </appender>
 
-    <root level="INFO">
-        <appender-ref ref="FILE"/>
-        <appender-ref ref="CONSOLE"/>
-    </root>
-
     <!-- Ensures org.jboss.logging logs are captured -->
     <logger name="org.jboss.logging" level="info"/>
     <!-- Ensures security logs are captured -->
     <logger name="org.springframework.security" level="TRACE"/>
-    <logger name="com.company.employee" level="INFO"/>
+    <logger name="com.company.employee" level="DEBUG" additivity="false">
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="FILE"/>
+    </logger>
+
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="FILE"/>
+    </root>
 
 </configuration>

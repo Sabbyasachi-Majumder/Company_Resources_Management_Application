@@ -1,6 +1,6 @@
-package com.company.employee.Entity;
+package com.company.employee.entity;
 
-//Entity class to correspond with employees table to manipulate data
+//entity class to correspond with employees table to manipulate data
 
 import jakarta.persistence.*;
 //For input validation checks
@@ -9,21 +9,16 @@ import jakarta.validation.constraints.*;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.function.IntFunction;
 
 //Lombok Annotations
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
+@Data
 @Entity
 @Table(name = "employees")
 public class EmployeeEntity {
     @Id
+// @GeneratedValue(strategy = GenerationType.IDENTITY) Commenting out now to manually create employeeId . will later use this to generate employeeId automatically .
     @Column(name = "EmployeeID", nullable = false)
-    @Positive(message = "Employee ID must be positive")
     private int employeeId;
 
     @Column(name = "FirstName", nullable = false, length = 50)
@@ -46,7 +41,7 @@ public class EmployeeEntity {
     @Pattern(regexp = "^(Male|Female|Other)$", message = "Gender must be Male, Female, or Other")
     private String gender;
 
-    @Column(name = "Salary", nullable = false, precision = 10)
+    @Column(name = "Salary", nullable = false)
     @Positive(message = "Salary must be positive")
     private double salary;
 
@@ -66,7 +61,7 @@ public class EmployeeEntity {
     @Size(max = 100, message = "Designation must be at most 100 characters")
     private String designation;
 
-    @Column(name = "ManagerEmployeeID", nullable = false)
+    @Column(name = "ManagerEmployeeID", nullable = true)
     @Positive(message = "Manager Employee ID must be positive")
     private int managerEmployeeId;
 }

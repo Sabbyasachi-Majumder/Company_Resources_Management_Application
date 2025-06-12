@@ -1,6 +1,6 @@
-package com.company.employee.Configs;
+package com.company.employee.configs;
 
-import com.company.employee.Security.JwtRequestFilter;
+import com.company.employee.security.JwtRequestFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
@@ -23,7 +23,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableWebSecurity
-@ComponentScan(basePackages = {"DTOs", "Repositories", "Services", "Controllers", "Entity"})
+@ComponentScan(basePackages = {"dto", "repository", "service", "Controllers", "entity"})
 public class EmployeeSecurityConfig {
 
     private static final Logger logger = LoggerFactory.getLogger(EmployeeSecurityConfig.class);
@@ -41,12 +41,11 @@ public class EmployeeSecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/login").permitAll()
-                        .requestMatchers("/testConnection", "/testDataBaseConnection").permitAll()
-                        .requestMatchers("/fetchEmployees", "/searchEmployee/**").hasAnyRole("USER", "ADMIN")
-                        .requestMatchers("/addEmployees").hasRole("ADMIN")
-                        .requestMatchers("/updateEmployees").hasRole("ADMIN")
-                        .requestMatchers("/deleteEmployees").hasRole("ADMIN")
+                        .requestMatchers("/login", "/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
+                        .requestMatchers("/api/v1/employees/testConnection", "/api/v1/employees/testDataBaseConnection").permitAll()
+                        .requestMatchers("/actuator/**").hasRole("ADMIN")
+                        .requestMatchers("/api/v1/employees/fetchEmployees", "/api/v1/employees/searchEmployee/**").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers("/api/v1/employees/addEmployees", "/api/v1/employees/updateEmployees", "/api/v1/employees/deleteEmployees").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .exceptionHandling(exception -> exception
@@ -63,7 +62,6 @@ public class EmployeeSecurityConfig {
 
         return http.build();
     }
-
 
     // Used for manually generating user details . Replaced by database driven user profile storage
     //@Bean

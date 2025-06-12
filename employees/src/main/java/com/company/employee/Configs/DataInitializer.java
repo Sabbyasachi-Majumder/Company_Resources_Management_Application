@@ -1,9 +1,9 @@
-package com.company.employee.Configs;
+package com.company.employee.configs;
 
-import com.company.employee.Entity.RoleEntity;
-import com.company.employee.Entity.UserProfileEntity;
-import com.company.employee.Repositories.RoleRepository;
-import com.company.employee.Repositories.UserRepository;
+import com.company.employee.entity.RoleEntity;
+import com.company.employee.entity.UserProfileEntity;
+import com.company.employee.repository.RoleRepository;
+import com.company.employee.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
