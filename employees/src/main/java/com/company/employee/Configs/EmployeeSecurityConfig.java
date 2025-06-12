@@ -1,5 +1,6 @@
 package com.company.employee.configs;
 
+import com.company.employee.security.CustomAuthenticationEntryPoint;
 import com.company.employee.security.JwtRequestFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,9 +30,12 @@ public class EmployeeSecurityConfig {
     private static final Logger logger = LoggerFactory.getLogger(EmployeeSecurityConfig.class);
 
     private final JwtRequestFilter jwtRequestFilter;
+    private final CustomAuthenticationEntryPoint authenticationEntryPoint;
 
-    public EmployeeSecurityConfig(JwtRequestFilter jwtRequestFilter) {
+    public EmployeeSecurityConfig(JwtRequestFilter jwtRequestFilter,
+                                  CustomAuthenticationEntryPoint authenticationEntryPoint) {
         this.jwtRequestFilter = jwtRequestFilter;
+        this.authenticationEntryPoint = authenticationEntryPoint;
     }
 
     @Bean
@@ -49,10 +53,7 @@ public class EmployeeSecurityConfig {
                         .anyRequest().authenticated()
                 )
                 .exceptionHandling(exception -> exception
-                        .authenticationEntryPoint((request, response, authException) -> {
-                            logger.debug("Authentication exception: {}", authException.getMessage());
-                            throw authException; // Propagate to @RestControllerAdvice
-                        })
+                        .authenticationEntryPoint(authenticationEntryPoint)
                         .accessDeniedHandler((request, response, accessDeniedException) -> {
                             logger.debug("Access denied: {}", accessDeniedException.getMessage());
                             throw accessDeniedException; // Propagate to @RestControllerAdvice
