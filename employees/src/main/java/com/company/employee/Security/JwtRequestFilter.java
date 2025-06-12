@@ -38,6 +38,8 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws ServletException, IOException {
         String path = request.getRequestURI();
+        logger.debug("Processing request in JwtRequestFilter - Path: {}", path);
+
         if (shouldSkipJwtProcessing(path)) {
             logger.debug("Skipping JWT filter for public endpoint: {}", path);
             chain.doFilter(request, response);
@@ -53,7 +55,8 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                 username = jwtUtil.extractUsername(jwt);
             } else {
                 logger.warn("No JWT token provided in request - Path: {}", path);
-                throw new AuthenticationException("No JWT token provided") {};
+                throw new AuthenticationException("No JWT token provided") {
+                };
             }
 
             if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
@@ -66,13 +69,14 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                     logger.debug("JWT authentication successful for user: {}", username);
                 } else {
                     logger.warn("Invalid JWT token for user: {}", username);
-                    throw new AuthenticationException("Invalid JWT token") {};
+                    throw new AuthenticationException("Invalid JWT token") {
+                    };
                 }
             }
             chain.doFilter(request, response);
         } catch (AuthenticationException | io.jsonwebtoken.JwtException e) {
             logger.error("Authentication error: {} - Path: {}", e.getMessage(), path);
-            throw e; // Propagate to EmployeeGlobalExceptionHandler
+            throw e; // Propagate to Spring Security's ExceptionTranslationFilter
         } catch (Exception e) {
             logger.error("Unexpected error in JWT filter: {} - Path: {}", e.getMessage(), path);
             throw new ServletException("Unexpected error during JWT processing", e);
@@ -80,11 +84,26 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     }
 
     private boolean shouldSkipJwtProcessing(String path) {
-        return path.startsWith("/swagger-ui/") ||
-                path.equals("/swagger-ui.html") ||
-                path.startsWith("/v3/api-docs/") ||
-                path.equals("/api/v1/employees/testConnection") ||
-                path.equals("/api/v1/employees/testDataBaseConnection") ||
-                path.equals("/login");
+        // Normalize path for consistent matching
+        String normalizedPath = path.toLowerCase().trim();
+        if (normalizedPath.endsWith("/")) {
+            normalizedPath = normalizedPath.substring(0, normalizedPath.length() - 1);
+        }
+
+        // Skip paths that are defined as public or explicitly permitted
+        boolean shouldSkip = normalizedPath.startsWith("/swagger-ui") ||
+                normalizedPath.equals("/swagger-ui.html") ||
+                normalizedPath.startsWith("/v3/api-docs") ||
+                normalizedPath.equals("/favicon.ico") ||
+                normalizedPath.startsWith("/error") ||
+                normalizedPath.equals("/login") ||
+                normalizedPath.equals("/api/v1/employees/testconnection") ||
+                normalizedPath.equals("/api/v1/employees/testdatabaseconnection");
+        if (shouldSkip) {
+            logger.debug("Path {} is configured to skip JWT processing", path);
+        } else {
+            logger.debug("Path {} requires JWT processing", path);
+        }
+        return shouldSkip;
     }
 }

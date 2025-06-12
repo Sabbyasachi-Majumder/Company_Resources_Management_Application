@@ -1,0 +1,55 @@
+Below is a list of the issues we’ve encountered, the problems identified, and the techniques used to resolve them. Each entry includes the error or issue, the root cause, the solution applied, and the techniques or best practices employed.
+
+Issue 1: OpenAPI Endpoints Require JWT Authentication
+Error/Issue: Accessing /v3/api-docs and /swagger-ui/** endpoints resulted in a com.company.employee.security.JwtRequestFilter$1: No JWT token provided error, even though these should be public endpoints.
+Root Cause:
+The securityMatcher in EmployeeSecurityConfig.java was not correctly excluding OpenAPI endpoints (/v3/api-docs/**, /swagger-ui/**) due to issues with path matching (e.g., query parameters, trailing slashes).
+The JwtRequestFilter was being applied to these endpoints because the securedFilterChain was processing them.
+Solution:
+Initially attempted to fix by using RequestMatchers.antMatchers in EmployeeSecurityConfig.java to define a publicFilterChain that excludes OpenAPI endpoints.
+Updated JwtRequestFilter.java to explicitly skip OpenAPI endpoints in the shouldSkipJwtProcessing method as a fallback.
+Ultimately simplified the configuration by switching to a single securityFilterChain using authorizeHttpRequests to define public endpoints with .permitAll(), ensuring they bypass authentication.
+Updated JwtRequestFilter.java to skip all public endpoints (/swagger-ui/**, /v3/api-docs/**, /favicon.ico, /error/**, /login, /api/v1/employees/testConnection, /api/v1/employees/testDataBaseConnection).
+Modified CustomAuthenticationEntryPoint.java to skip public endpoints, preventing unnecessary error responses.
+Techniques and Best Practices:
+Path Matching: Used authorizeHttpRequests with Ant-style patterns to define public endpoints, which is more reliable than manual RequestMatcher logic.
+Layered Defense: Added a fallback in JwtRequestFilter to skip public endpoints, ensuring robustness even if the security configuration fails.
+Logging: Added debug logging in JwtRequestFilter to trace which paths are processed or skipped, aiding in debugging.
+Simplification: Consolidated two filter chains into one using authorizeHttpRequests, aligning with modern Spring Security practices and reducing complexity.
+Error Handling: Ensured CustomAuthenticationEntryPoint skips public endpoints, preventing unnecessary 401 responses for permitted paths.
+Issue 2: Deprecation of AntPathRequestMatcher
+Error/Issue: The AntPathRequestMatcher class used in EmployeeSecurityConfig.java was deprecated and marked for removal in Spring Security 6.3.x.
+Root Cause:
+Spring Security 6.x deprecated AntPathRequestMatcher in favor of RequestMatchers or direct usage of authorizeHttpRequests for path matching.
+Solution:
+Initially replaced AntPathRequestMatcher with RequestMatchers.antPath in EmployeeSecurityConfig.java, but this led to the next issue (method not found).
+After further issues with RequestMatchers, switched to using authorizeHttpRequests directly to define path-based authorization rules, avoiding the need for RequestMatchers.
+Techniques and Best Practices:
+Version Awareness: Identified and addressed deprecated APIs by consulting Spring Security 6.3.x documentation and preferring modern alternatives.
+Simplification: Opted for authorizeHttpRequests over manual RequestMatcher configuration, reducing complexity and aligning with Spring Security’s recommended approach.
+Maintainability: Chose a solution that is future-proof and easier to maintain, which is important for a production-ready application.
+Issue 3: RequestMatchers.antPath Method Not Found
+Error/Issue: Compilation error Cannot resolve method 'antPath' in 'RequestMatchers' when trying to use RequestMatchers.antPath in EmployeeSecurityConfig.java.
+Root Cause:
+The antPath method does not exist in RequestMatchers in Spring Security 6.3.x; the correct method is antMatchers.
+Misunderstanding of the Spring Security API led to the incorrect method name.
+Solution:
+First attempted to fix by replacing RequestMatchers.antPath with RequestMatchers.antMatchers, which is the correct method for Ant-style path matching.
+Due to ongoing issues with RequestMatchers (as seen in later logs), ultimately removed the dependency on RequestMatchers by using authorizeHttpRequests in a single filter chain.
+Techniques and Best Practices:
+API Verification: Cross-checked the Spring Security 6.3.x API to identify the correct method (antMatchers) and later opted for a more straightforward approach.
+Iterative Debugging: Tried an initial fix with antMatchers, but pivoted to a simpler solution when further issues arose, demonstrating adaptability.
+Documentation Reliance: Relied on Spring Security’s documentation and best practices to choose authorizeHttpRequests as the preferred method for path matching.
+Issue 4: Unused Filters in EmployeeSecurityConfig.java
+Error/Issue: The SwaggerAccessLoggingFilter, RequestResponseLoggingFilter, and CorrelationIdFilter were defined in EmployeeSecurityConfig.java but not being used effectively.
+Root Cause:
+These filters were likely placeholders or partially implemented but were not providing meaningful functionality (e.g., no logging or correlation ID handling was visible).
+They were still being injected and added to the filter chain, adding unnecessary complexity.
+Solution:
+Removed the unused filters (SwaggerAccessLoggingFilter, RequestResponseLoggingFilter, CorrelationIdFilter) from EmployeeSecurityConfig.java.
+Removed their corresponding addFilterBefore calls from the filter chain.
+Suggested deleting the filter classes from the project to avoid confusion.
+Techniques and Best Practices:
+Code Cleanup: Removed unused dependencies and code to reduce complexity and improve maintainability, a key practice in production-ready applications.
+Focus on Functionality: Ensured the application only includes components that provide value, aligning with the principle of keeping code lean and purposeful.
+Documentation: Advised removing the unused filter classes from the project, ensuring the codebase remains clean and understandable for future developers or reviewers.

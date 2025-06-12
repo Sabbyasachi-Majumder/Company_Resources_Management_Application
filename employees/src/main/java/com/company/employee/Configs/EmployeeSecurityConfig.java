@@ -2,10 +2,7 @@ package com.company.employee.configs;
 
 import com.company.employee.security.CustomAuthenticationEntryPoint;
 import com.company.employee.security.JwtRequestFilter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -16,7 +13,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
 //import org.springframework.security.core.userdetails.User;
 //import org.springframework.security.core.userdetails.UserDetailsService;
 //import org.springframework.security.provisioning.InMemoryUserDetailsManager;
@@ -24,10 +20,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableWebSecurity
-@ComponentScan(basePackages = {"dto", "repository", "service", "Controllers", "entity"})
 public class EmployeeSecurityConfig {
-
-    private static final Logger logger = LoggerFactory.getLogger(EmployeeSecurityConfig.class);
 
     private final JwtRequestFilter jwtRequestFilter;
     private final CustomAuthenticationEntryPoint authenticationEntryPoint;
@@ -40,25 +33,24 @@ public class EmployeeSecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        logger.info("Configuring SecurityFilterChain");
-        http
-                .csrf(csrf -> csrf.disable())
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+        http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/login", "/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
+                        .requestMatchers(
+                                "/swagger-ui/**",
+                                "/v3/api-docs/**",
+                                "/favicon.ico",
+                                "/error",
+                                "/error/**"
+                        ).permitAll()
+                        .requestMatchers("/login").permitAll()
                         .requestMatchers("/api/v1/employees/testConnection", "/api/v1/employees/testDataBaseConnection").permitAll()
+                        .requestMatchers("/api/v1/employees/**").hasAnyRole("USER", "ADMIN")
                         .requestMatchers("/actuator/**").hasRole("ADMIN")
-                        .requestMatchers("/api/v1/employees/fetchEmployees", "/api/v1/employees/searchEmployee/**").hasAnyRole("USER", "ADMIN")
-                        .requestMatchers("/api/v1/employees/addEmployees", "/api/v1/employees/updateEmployees", "/api/v1/employees/deleteEmployees").hasRole("ADMIN")
-                        .anyRequest().authenticated()
-                )
+                        .anyRequest().authenticated())
                 .exceptionHandling(exception -> exception
-                        .authenticationEntryPoint(authenticationEntryPoint)
-                        .accessDeniedHandler((request, response, accessDeniedException) -> {
-                            logger.debug("Access denied: {}", accessDeniedException.getMessage());
-                            throw accessDeniedException; // Propagate to @RestControllerAdvice
-                        })
-                )
+                        .authenticationEntryPoint(authenticationEntryPoint))
+                .sessionManagement(session -> session
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();

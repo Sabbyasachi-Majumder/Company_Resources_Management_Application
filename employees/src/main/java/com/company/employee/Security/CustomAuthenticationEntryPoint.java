@@ -23,7 +23,22 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException)
             throws IOException, ServletException {
-        logger.error("Unauthorized access: {} - Path: {}", authException.getMessage(), request.getRequestURI());
+        String path = request.getRequestURI();
+        // Skip processing for public endpoints
+        if (path.startsWith("/swagger-ui/") ||
+                path.equals("/swagger-ui.html") ||
+                path.startsWith("/v3/api-docs/") ||
+                path.equals("/favicon.ico") ||
+                path.startsWith("/error") ||
+                path.equals("/login") ||
+                path.equals("/api/v1/employees/testConnection") ||
+                path.equals("/api/v1/employees/testDataBaseConnection")) {
+            logger.debug("Skipping authentication entry point for public path: {}", path);
+            response.setStatus(HttpServletResponse.SC_OK);
+            return;
+        }
+
+        logger.error("Unauthorized access: {} - Path: {}", authException.getMessage(), path);
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 
