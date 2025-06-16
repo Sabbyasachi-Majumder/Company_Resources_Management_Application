@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Delete Employee</title>
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+</head>
+<body>
+<div th:replace="~{navbar :: navbar}"></div>
+<div class="container mt-5">
+    <h2>Delete Employee</h2>
+    <div th:if="${response != null and response.status == 'error'}" class="alert alert-danger" th:text="${response.message}"></div>
+    <form th:object="${employeeRequest}" th:action="@{/web/employees/deleteEmployees}" method="post">
+        <div class="mb-3">
+            <label for="employeeId" class="form-label">Employee ID</label>
+            <input type="number" th:field="*{empDetailsList[0].employeeId}" id="employeeId" class="form-control" required>
+        </div>
+        <button type="submit" class="btn btn-danger">Delete Employee</button>
+        <a th:href="@{/web/employees/fetchEmployees}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>

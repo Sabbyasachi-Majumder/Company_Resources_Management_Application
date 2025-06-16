@@ -11,7 +11,7 @@ public interface EmployeeService {
 
     EmployeeEntity toEntity(EmployeeDTO dto);
 
-    public ArrayList<EmployeeDTO> fetchData();
+    ArrayList<EmployeeDTO> fetchData();
 
     void addData(EmployeeEntity employee);
 

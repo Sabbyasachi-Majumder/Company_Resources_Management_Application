@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Logout - Employee Management</title>
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container mt-5">
+    <h2 class="text-center">Logout</h2>
+    <p class="text-center">Are you sure you want to logout?</p>
+    <form action="/web/employees/logout" method="post">
+        <div class="text-center">
+            <button type="submit" class="btn btn-danger">Logout</button>
+            <a th:href="@{/web/employees/fetchEmployees}" class="btn btn-secondary">Cancel</a>
+        </div>
+    </form>
+</div>
+<script src="/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

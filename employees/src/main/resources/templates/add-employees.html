@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Employee</title>
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+</head>
+<body>
+<div th:replace="~{navbar :: navbar}"></div>
+<div class="container mt-5">
+    <h2>Add Employee</h2>
+    <div th:if="${response != null and response.status == 'error'}" class="alert alert-danger" th:text="${response.message}"></div>
+    <form th:object="${employeeRequest}" th:action="@{/web/employees/addEmployees}" method="post">
+        <div class="mb-3">
+            <label for="employeeId" class="form-label">Employee ID</label>
+            <input type="number" th:field="*{empDetailsList[0].employeeId}" id="employeeId" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label for="firstName" class="form-label">First Name</label>
+            <input type="text" th:field="*{empDetailsList[0].firstName}" id="firstName" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label for="lastName" class="form-label">Last Name</label>
+            <input type="text" th:field="*{empDetailsList[0].lastName}" id="lastName" class="form-control">
+        </div>
+        <div class="mb-3">
+            <label for="dateOfBirth" class="form-label">Date of Birth (yyyy-MM-dd)</label>
+            <input type="date" th:field="*{empDetailsList[0].dateOfBirth}" id="dateOfBirth" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label for="gender" class="form-label">Gender</label>
+            <select th:field="*{empDetailsList[0].gender}" id="gender" class="form-control" required>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="salary" class="form-label">Salary</label>
+            <input type="number" th:field="*{empDetailsList[0].salary}" id="salary" class="form-control" step="0.01" required>
+        </div>
+        <div class="mb-3">
+            <label for="hireDate" class="form-label">Hire Date (yyyy-MM-dd)</label>
+            <input type="date" th:field="*{empDetailsList[0].hireDate}" id="hireDate" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label for="jobStage" class="form-label">Job Stage</label>
+            <input type="text" th:field="*{empDetailsList[0].jobStage}" id="jobStage" class="form-control" maxlength="4" required>
+        </div>
+        <div class="mb-3">
+            <label for="designation" class="form-label">Designation</label>
+            <input type="text" th:field="*{empDetailsList[0].designation}" id="designation" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label for="managerEmployeeId" class="form-label">Manager Employee ID</label>
+            <input type="number" th:field="*{empDetailsList[0].managerEmployeeId}" id="managerEmployeeId" class="form-control">
+        </div>
+        <button type="submit" class="btn btn-primary">Add Employee</button>
+        <a th:href="@{/web/employees/fetchEmployees}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>

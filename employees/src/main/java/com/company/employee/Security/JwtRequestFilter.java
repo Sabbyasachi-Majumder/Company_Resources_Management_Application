@@ -40,12 +40,14 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         String path = request.getRequestURI();
         logger.debug("Processing request in JwtRequestFilter - Path: {}", path);
 
+        // Check if JWT processing should be skipped (API and web public endpoints)
         if (shouldSkipJwtProcessing(path)) {
             logger.debug("Skipping JWT filter for public endpoint: {}", path);
             chain.doFilter(request, response);
             return;
         }
 
+        // API-specific JWT authentication logic
         final String authorizationHeader = request.getHeader("Authorization");
         String username = null;
         String jwt = null;
@@ -54,9 +56,9 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                 jwt = authorizationHeader.substring(7);
                 username = jwtUtil.extractUsername(jwt);
             } else {
-                logger.warn("No JWT token provided in request - Path: {}", path);
-                throw new AuthenticationException("No JWT token provided") {
-                };
+                logger.debug("No JWT token provided in request - Path: {}", path);
+                chain.doFilter(request, response); // Proceed without authentication for non-API paths
+                return;
             }
 
             if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
@@ -76,13 +78,14 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             chain.doFilter(request, response);
         } catch (AuthenticationException | io.jsonwebtoken.JwtException e) {
             logger.error("Authentication error: {} - Path: {}", e.getMessage(), path);
-            throw e; // Propagate to Spring Security's ExceptionTranslationFilter
+            throw e; // Propagate to Spring Security's ExceptionTranslationFilter for API requests
         } catch (Exception e) {
             logger.error("Unexpected error in JWT filter: {} - Path: {}", e.getMessage(), path);
             throw new ServletException("Unexpected error during JWT processing", e);
         }
     }
 
+    // Shared method for skipping JWT processing (API, web public endpoints, and static resources)
     private boolean shouldSkipJwtProcessing(String path) {
         // Normalize path for consistent matching
         String normalizedPath = path.toLowerCase().trim();
@@ -90,15 +93,24 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             normalizedPath = normalizedPath.substring(0, normalizedPath.length() - 1);
         }
 
-        // Skip paths that are defined as public or explicitly permitted
-        boolean shouldSkip = normalizedPath.startsWith("/swagger-ui") ||
-                normalizedPath.equals("/swagger-ui.html") ||
-                normalizedPath.startsWith("/v3/api-docs") ||
-                normalizedPath.equals("/favicon.ico") ||
-                normalizedPath.startsWith("/error") ||
-                normalizedPath.equals("/login") ||
-                normalizedPath.equals("/api/v1/employees/testconnection") ||
-                normalizedPath.equals("/api/v1/employees/testdatabaseconnection");
+        // Skip paths for API, web public endpoints, and static resources
+        boolean shouldSkip =
+                // Web-specific public endpoints
+                normalizedPath.startsWith("/web/") ||
+                        normalizedPath.equals("/login") ||
+                        // API-specific public endpoints
+                        normalizedPath.startsWith("/swagger-ui") ||
+                        normalizedPath.equals("/swagger-ui.html") ||
+                        normalizedPath.startsWith("/v3/api-docs") ||
+                        normalizedPath.equals("/favicon.ico") ||
+                        normalizedPath.startsWith("/error") ||
+                        normalizedPath.equals("/api/v1/employees/authenticate") ||
+                        normalizedPath.equals("/api/v1/employees/register") ||
+                        normalizedPath.equals("/api/v1/employees/testconnection") ||
+                        normalizedPath.equals("/api/v1/employees/testdatabaseconnection") ||
+                        // Static resources
+                        normalizedPath.startsWith("/css/") ||
+                        normalizedPath.startsWith("/js/");
         if (shouldSkip) {
             logger.debug("Path {} is configured to skip JWT processing", path);
         } else {

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Update Employee</title>
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div th:replace="~{navbar :: navbar}"></div>
+<div class="container mt-5">
+    <h2>Update Employee</h2>
+    <div th:if="${response != null}" th:classappend="${response.status == 'error' ? 'alert-danger' : 'alert-success'}" class="alert" role="alert">
+        <span th:text="${response.message}"></span>
+    </div>
+
+    <!-- Search Form -->
+    <h4>Search Employee to Update</h4>
+    <form th:action="@{/web/employees/searchEmployees}" method="post">
+        <div class="form-group">
+            <label for="employeeId">Employee ID</label>
+            <input type="number" id="employeeId" name="empDetailsList[0].employeeId" class="form-control" required/>
+        </div>
+        <button type="submit" class="btn btn-primary">Search</button>
+    </form>
+
+    <!-- Update Form -->
+    <h4 class="mt-4">Update Employee Details</h4>
+    <form th:action="@{/web/employees/updateEmployees}" th:object="${employeeRequest}" method="post">
+        <div th:each="emp, iterStat : *{empDetailsList}">
+            <div class="form-group">
+                <label th:for="|empDetailsList_${iterStat.index}_employeeId|">Employee ID</label>
+                <input type="number" th:field="*{empDetailsList[__${iterStat.index}__].employeeId}" th:id="|empDetailsList_${iterStat.index}_employeeId|" class="form-control" required/>
+            </div>
+            <div class="form-group">
+                <label th:for="|empDetailsList_${iterStat.index}_firstName|">First Name</label>
+                <input type="text" th:field="*{empDetailsList[__${iterStat.index}__].firstName}" th:id="|empDetailsList_${iterStat.index}_firstName|" class="form-control" required/>
+            </div>
+            <div class="form-group">
+                <label th:for="|empDetailsList_${iterStat.index}_lastName|">Last Name</label>
+                <input type="text" th:field="*{empDetailsList[__${iterStat.index}__].lastName}" th:id="|empDetailsList_${iterStat.index}_lastName|" class="form-control" required/>
+            </div>
+            <div class="form-group">
+                <label th:for="|empDetailsList_${iterStat.index}_dateOfBirth|">Date of Birth (yyyy-MM-dd)</label>
+                <input type="date" th:field="*{empDetailsList[__${iterStat.index}__].dateOfBirth}" th:id="|empDetailsList_${iterStat.index}_dateOfBirth|" class="form-control" required/>
+            </div>
+            <div class="form-group">
+                <label>Gender</label><br/>
+                <input type="radio" th:field="*{empDetailsList[__${iterStat.index}__].gender}" value="Male" th:id="|empDetailsList_${iterStat.index}_gender_male|"/>
+                <label th:for="|empDetailsList_${iterStat.index}_gender_male|">Male</label>
+                <input type="radio" th:field="*{empDetailsList[__${iterStat.index}__].gender}" value="Female" th:id="|empDetailsList_${iterStat.index}_gender_female|"/>
+                <label th:for="|empDetailsList_${iterStat.index}_gender_female|">Female</label>
+                <input type="radio" th:field="*{empDetailsList[__${iterStat.index}__].gender}" value="Other" th:id="|empDetailsList_${iterStat.index}_gender_other|"/>
+                <label th:for="|empDetailsList_${iterStat.index}_gender_other|">Other</label>
+            </div>
+            <div class="form-group">
+                <label th:for="|empDetailsList_${iterStat.index}_salary|">Salary</label>
+                <input type="number" th:field="*{empDetailsList[__${iterStat.index}__].salary}" th:id="|empDetailsList_${iterStat.index}_salary|" class="form-control" step="0.01" required/>
+            </div>
+            <div class="form-group">
+                <label th:for="|empDetailsList_${iterStat.index}_hireDate|">Hire Date (yyyy-MM-dd)</label>
+                <input type="date" th:field="*{empDetailsList[__${iterStat.index}__].hireDate}" th:id="|empDetailsList_${iterStat.index}_hireDate|" class="form-control" required/>
+            </div>
+            <div class="form-group">
+                <label th:for="|empDetailsList_${iterStat.index}_jobStage|">Job Stage</label>
+                <input type="text" th:field="*{empDetailsList[__${iterStat.index}__].jobStage}" th:id="|empDetailsList_${iterStat.index}_jobStage|" class="form-control" required/>
+            </div>
+            <div class="form-group">
+                <label th:for="|empDetailsList_${iterStat.index}_designation|">Designation</label>
+                <input type="text" th:field="*{empDetailsList[__${iterStat.index}__].designation}" th:id="|empDetailsList_${iterStat.index}_designation|" class="form-control" required/>
+            </div>
+            <div class="form-group">
+                <label th:for="|empDetailsList_${iterStat.index}_managerEmployeeId|">Manager Employee ID</label>
+                <input type="number" th:field="*{empDetailsList[__${iterStat.index}__].managerEmployeeId}" th:id="|empDetailsList_${iterStat.index}_managerEmployeeId|" class="form-control"/>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Update Employee</button>
+        <a th:href="@{/web/employees/fetchEmployees}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+<script src="/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
