@@ -3,6 +3,7 @@ package com.company.employee.service;
 import com.company.employee.dto.EmployeeDTO;
 import com.company.employee.entity.EmployeeEntity;
 import com.company.employee.repository.EmployeeRepository;
+import jakarta.persistence.EntityExistsException;
 import lombok.NoArgsConstructor;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 import org.slf4j.Logger;
@@ -66,11 +68,25 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     //Adds Employee details to the employee table
-    @Transactional
-    public void addData(EmployeeEntity employee) {
-        logger.debug("Attempting to add employeeId {} ", employee.getEmployeeId());
-        employeeRepository.save(employee);
-        logger.debug("Added employeeId {} successfully", employee.getEmployeeId());
+    @Override
+    public void addData(EmployeeEntity entity) {
+        logger.debug("Attempting to add employeeId {}", entity.getEmployeeId());
+        if (employeeRepository.existsById(entity.getEmployeeId())) {
+            throw new EntityExistsException("Employee ID " + entity.getEmployeeId() + " already exists");
+        }
+        employeeRepository.save(entity);
+        logger.debug("Added employeeId {} successfully", entity.getEmployeeId());
+    }
+
+    //Update the employee record data
+    @Override
+    public void updateData(EmployeeEntity entity) {
+        logger.debug("Attempting to update employeeId {}", entity.getEmployeeId());
+        if (!employeeRepository.existsById(entity.getEmployeeId())) {
+            throw new NoSuchElementException("employeeId " + entity.getEmployeeId() + " not found");
+        }
+        employeeRepository.save(entity);
+        logger.debug("Updated employeeId {} successfully", entity.getEmployeeId());
     }
 
     @Override
@@ -88,6 +104,16 @@ public class EmployeeServiceImpl implements EmployeeService {
                 employeeRepository.deleteById(e.getEmployeeId());
             else
                 throw new NoSuchElementException("employeeId " + e.getEmployeeId() + " not found");
+        }
+    }
+
+    // Deletes Employee data using their employeeIds for web application
+    @Transactional
+    @Override
+    public void deleteWebAll(List<Integer> empList) {
+        for (Integer e : empList) {
+            if (employeeRepository.existsById(e))
+                employeeRepository.deleteById(e);
         }
     }
 }

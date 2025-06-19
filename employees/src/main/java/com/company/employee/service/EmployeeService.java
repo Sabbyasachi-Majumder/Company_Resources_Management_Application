@@ -4,6 +4,7 @@ import com.company.employee.dto.EmployeeDTO;
 import com.company.employee.entity.EmployeeEntity;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public interface EmployeeService {
 
@@ -15,7 +16,11 @@ public interface EmployeeService {
 
     void addData(EmployeeEntity employee);
 
+    void updateData(EmployeeEntity entity);
+
     void deleteAll(ArrayList<EmployeeDTO> empList);
+
+    void deleteWebAll(List<Integer> empList);
 
     EmployeeEntity searchData(int employeeId);
 }
