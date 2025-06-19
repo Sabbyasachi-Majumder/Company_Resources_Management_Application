@@ -8,11 +8,10 @@
     </appender>
 
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>C:/Users/emajsab/Java Codes/Employee_Details_Operations_Application/employees/logs/employee-service.log
+        <file>../employees/logs/employee-service.log
         </file>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-            <fileNamePattern>C:/Users/emajsab/Java
-                Codes/Employee_Details_Operations_Application/employees/logs/employee-service-%d{yyyy-MM-dd}.%i.log
+            <fileNamePattern>../employees/logs/employee-service-%d{yyyy-MM-dd}.%i.log
             </fileNamePattern>
             <maxFileSize>10MB</maxFileSize>
             <maxHistory>30</maxHistory>

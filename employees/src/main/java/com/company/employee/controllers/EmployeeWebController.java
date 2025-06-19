@@ -5,12 +5,13 @@ import com.company.employee.dto.EmployeeDTO;
 import com.company.employee.dto.EmployeeRequestDTO;
 import com.company.employee.entity.EmployeeEntity;
 import com.company.employee.service.EmployeeService;
-
 import jakarta.persistence.EntityExistsException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -53,10 +54,23 @@ public class EmployeeWebController {
         loggingStart();
         logger.debug("Displaying all employees");
         ArrayList<EmployeeDTO> empList = employeeService.fetchData();
+        if (empList == null) {
+            empList = new ArrayList<>();
+            logger.warn("Employee list is null, initializing empty list");
+        }
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        boolean isAdmin = auth != null && auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
+        logger.debug("Model attributes - employees size: {}, employeeCount: {}, isAdmin: {}, User: {}, Roles: {}",
+                empList.size(),
+                empList.size(),
+                isAdmin,
+                auth != null ? auth.getName() : "Unknown",
+                auth != null ? auth.getAuthorities() : "None");
         model.addAttribute("employees", empList);
         model.addAttribute("employeeCount", empList.size());
+        model.addAttribute("isAdmin", isAdmin);
         model.addAttribute("currentPage", "fetchEmployees");
-
+        logger.debug("Returning template: fetch-employees");
         return "fetch-employees";
     }
 
@@ -83,7 +97,6 @@ public class EmployeeWebController {
                 EmployeeEntity entity = employeeService.toEntity(dto);
                 employeeService.addData(entity);
                 response = new ApiResponseDTO<>("success", "Employee added successfully", null);
-                // Reset form after successful addition
                 model.addAttribute("employeeRequest", new EmployeeRequestDTO(new ArrayList<>(Collections.singletonList(new EmployeeDTO()))));
             } else {
                 response = new ApiResponseDTO<>("error", "No employee data provided", null);
@@ -221,7 +234,7 @@ public class EmployeeWebController {
                 EmployeeEntity existingEntity = employeeService.searchData(dto.getEmployeeId());
                 if (existingEntity != null) {
                     EmployeeEntity updatedEntity = employeeService.toEntity(dto);
-                    updatedEntity.setEmployeeId(existingEntity.getEmployeeId()); // Ensure ID is not changed
+                    updatedEntity.setEmployeeId(existingEntity.getEmployeeId());
                     employeeService.updateData(updatedEntity);
                     response = new ApiResponseDTO<>("success", "Employee updated successfully", null);
                 } else {
@@ -246,8 +259,8 @@ public class EmployeeWebController {
     @PreAuthorize("hasRole('ADMIN')")
     public String showDeleteEmployeeForm(Model model) {
         loggingStart();
-        logger.debug("Redirecting deprecated /deleteEmployees to /fetch-employees");
-        return "redirect:/web/employees/fetch-employees";
+        logger.debug("Redirecting deprecated /deleteEmployees to /fetchEmployees");
+        return "redirect:/web/employees/fetchEmployees";
     }
 
     @PostMapping("/batchDelete")
@@ -273,10 +286,15 @@ public class EmployeeWebController {
             logger.error("Error deleting employees: {}", ex.getMessage());
             response = new ApiResponseDTO<>("error", "Failed to delete employees: " + ex.getMessage(), null);
         }
-        model.addAttribute("employees", employeeService.fetchData());
+        ArrayList<EmployeeDTO> empList = employeeService.fetchData();
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        boolean isAdmin = auth != null && auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
+        model.addAttribute("employees", empList != null ? empList : new ArrayList<>());
+        model.addAttribute("employeeCount", empList != null ? empList.size() : 0);
+        model.addAttribute("isAdmin", isAdmin);
         model.addAttribute("response", response);
         model.addAttribute("currentPage", "fetchEmployees");
-        return showFetchEmployees(model);
+        return "fetch-employees";
     }
 
     @GetMapping("/logout")
