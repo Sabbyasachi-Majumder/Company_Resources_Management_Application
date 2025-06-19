@@ -7,6 +7,8 @@ import jakarta.persistence.EntityExistsException;
 import lombok.NoArgsConstructor;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -60,11 +62,18 @@ public class EmployeeServiceImpl implements EmployeeService {
         return entity;
     }
 
+    // Fetches all data without pagination . will be phased out and replaced by pagination enabled fetchData
     public ArrayList<EmployeeDTO> fetchData() {
         ArrayList<EmployeeDTO> response = new ArrayList<>();
         for (EmployeeEntity e : employeeRepository.findAll())
             response.add(toDTO(e));
         return response;
+    }
+
+    @Override
+    public Page<EmployeeDTO> fetchPageData(Pageable pageable) {
+        return employeeRepository.findAll(pageable)
+                .map(this::toDTO);
     }
 
     //Adds Employee details to the employee table

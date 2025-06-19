@@ -9,6 +9,9 @@ import jakarta.persistence.EntityExistsException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.Authentication;
@@ -50,26 +53,23 @@ public class EmployeeWebController {
 
     @GetMapping("/fetchEmployees")
     @PreAuthorize("hasRole('USER')")
-    public String showFetchEmployees(Model model) {
+    public String showFetchEmployees(Model model, @RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int size) {
         loggingStart();
-        logger.debug("Displaying all employees");
-        ArrayList<EmployeeDTO> empList = employeeService.fetchData();
-        if (empList == null) {
-            empList = new ArrayList<>();
-            logger.warn("Employee list is null, initializing empty list");
-        }
+        logger.debug("Displaying all employees with page: {}, size: {}", page, size);
+        Pageable pageable = PageRequest.of(page, size);
+        Page<EmployeeDTO> employeePage = employeeService.fetchPageData(pageable);
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         boolean isAdmin = auth != null && auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
-        logger.debug("Model attributes - employees size: {}, employeeCount: {}, isAdmin: {}, User: {}, Roles: {}",
-                empList.size(),
-                empList.size(),
-                isAdmin,
-                auth != null ? auth.getName() : "Unknown",
-                auth != null ? auth.getAuthorities() : "None");
-        model.addAttribute("employees", empList);
-        model.addAttribute("employeeCount", empList.size());
+        // Sending the employees records details
+        model.addAttribute("employees", employeePage.getContent());
+        model.addAttribute("employeeCount", employeePage.getTotalElements());
         model.addAttribute("isAdmin", isAdmin);
-        model.addAttribute("currentPage", "fetchEmployees");
+        // Sending the pagination details
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", employeePage.getTotalPages());
+        model.addAttribute("pageSize", size);
+        // Sending the current tab information
+        model.addAttribute("currentPageTemplate", "fetchEmployees");
         logger.debug("Returning template: fetch-employees");
         return "fetch-employees";
     }

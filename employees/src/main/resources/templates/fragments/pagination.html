@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <title>Pagination Controls</title>
+</head>
+<body>
+<!---->
+<div th:fragment="pagination(currentPage, totalPages, pageSize)">
+    <div class="d-flex align-items-center flex-nowrap mt-4">
+        <span class="me-2">Records per page:</span>
+        <label for="recordsPerPage"></label><select id="recordsPerPage" class="form-select" style="width: 20%"
+                                                    onchange="updateRecordsPerPage()">
+        <option value="10" th:selected="${pageSize == 10}">10</option>
+        <option value="25" th:selected="${pageSize == 25}">25</option>
+        <option value="50" th:selected="${pageSize == 50}">50</option>
+    </select>
+        <div class="ms-2 flex-shrink-0">
+            <button type="button" th:disabled="${currentPage == 0}"
+                    onclick="navigatePage(0)"
+                    class="btn btn-outline-secondary btn-sm me-1">
+                First
+            </button>
+            <button type="button" th:disabled="${currentPage == 0}"
+                    onclick="navigatePage(${currentPage - 1})"
+                    class="btn btn-outline-secondary btn-sm me-1">
+                Previous
+            </button>
+            <span class="mx-2">
+                    Page <span th:text="${currentPage + 1}"></span> of <span th:text="${totalPages}"></span>
+                </span>
+            <button type="button" th:disabled="${currentPage == totalPages - 1}"
+                    onclick="navigatePage(${currentPage + 1})"
+                    class="btn btn-outline-secondary btn-sm me-1">
+                Next
+            </button>
+            <button type="button" th:disabled="${currentPage == totalPages - 1}"
+                    onclick="navigatePage(${totalPages - 1})"
+                    class="btn btn-outline-secondary btn-sm">
+                Last
+            </button>
+        </div>
+    </div>
+
+    <script>
+        function navigatePage(page) {
+            const size = document.getElementById('recordsPerPage').value;
+            window.location.href = `/web/employees/fetchEmployees?page=${page}&size=${size}`;
+        }
+
+        function updateRecordsPerPage() {
+            const size = document.getElementById('recordsPerPage').value;
+            window.location.href = `/web/employees/fetchEmployees?page=0&size=${size}`;
+        }
+    </script>
+</div>
+</body>
+</html>
