@@ -17,6 +17,8 @@ Layered Defense: Added a fallback in JwtRequestFilter to skip public endpoints, 
 Logging: Added debug logging in JwtRequestFilter to trace which paths are processed or skipped, aiding in debugging.
 Simplification: Consolidated two filter chains into one using authorizeHttpRequests, aligning with modern Spring Security practices and reducing complexity.
 Error Handling: Ensured CustomAuthenticationEntryPoint skips public endpoints, preventing unnecessary 401 responses for permitted paths.
+
+
 Issue 2: Deprecation of AntPathRequestMatcher
 Error/Issue: The AntPathRequestMatcher class used in EmployeeSecurityConfig.java was deprecated and marked for removal in Spring Security 6.3.x.
 Root Cause:
@@ -28,6 +30,8 @@ Techniques and Best Practices:
 Version Awareness: Identified and addressed deprecated APIs by consulting Spring Security 6.3.x documentation and preferring modern alternatives.
 Simplification: Opted for authorizeHttpRequests over manual RequestMatcher configuration, reducing complexity and aligning with Spring Security’s recommended approach.
 Maintainability: Chose a solution that is future-proof and easier to maintain, which is important for a production-ready application.
+
+
 Issue 3: RequestMatchers.antPath Method Not Found
 Error/Issue: Compilation error Cannot resolve method 'antPath' in 'RequestMatchers' when trying to use RequestMatchers.antPath in EmployeeSecurityConfig.java.
 Root Cause:
@@ -40,6 +44,8 @@ Techniques and Best Practices:
 API Verification: Cross-checked the Spring Security 6.3.x API to identify the correct method (antMatchers) and later opted for a more straightforward approach.
 Iterative Debugging: Tried an initial fix with antMatchers, but pivoted to a simpler solution when further issues arose, demonstrating adaptability.
 Documentation Reliance: Relied on Spring Security’s documentation and best practices to choose authorizeHttpRequests as the preferred method for path matching.
+
+
 Issue 4: Unused Filters in EmployeeSecurityConfig.java
 Error/Issue: The SwaggerAccessLoggingFilter, RequestResponseLoggingFilter, and CorrelationIdFilter were defined in EmployeeSecurityConfig.java but not being used effectively.
 Root Cause:
