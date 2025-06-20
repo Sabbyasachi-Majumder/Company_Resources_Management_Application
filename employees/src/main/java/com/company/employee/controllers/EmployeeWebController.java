@@ -167,31 +167,23 @@ public class EmployeeWebController {
         return "search-employees";
     }
 
-    @GetMapping("/updateEmployees")
-    @PreAuthorize("hasRole('ADMIN')")
-    public String showUpdateEmployeeForm(Model model, @RequestParam(value = "employeeId", required = false) Integer employeeId) {
-        loggingStart();
-        logger.debug("Displaying update employee form for employeeId: {}", employeeId);
-        EmployeeRequestDTO searchRequest = new EmployeeRequestDTO(new ArrayList<>(Collections.singletonList(new EmployeeDTO())));
-        EmployeeRequestDTO employeeRequest = new EmployeeRequestDTO(new ArrayList<>(Collections.singletonList(new EmployeeDTO())));
-        try {
-            if (employeeId != null) {
-                EmployeeEntity entity = employeeService.searchData(employeeId);
-                if (entity != null) {
-                    employeeRequest.getEmpDetailsList().set(0, employeeService.toDTO(entity));
-                    model.addAttribute("response", new ApiResponseDTO<>("success", "Employee found for update", null));
-                } else {
-                    model.addAttribute("response", new ApiResponseDTO<>("error", "Employee ID not found", null));
-                }
-            }
-        } catch (NoSuchElementException ex) {
-            logger.error("Resource not found: {}", ex.getMessage());
-            model.addAttribute("response", new ApiResponseDTO<>("error", "Resource not found: " + ex.getMessage(), null));
+    @GetMapping("/web/employees/updateEmployees")
+    public String showUpdateEmployee(@RequestParam(value = "employeeId", required = true) Integer employeeId, Model model) {
+        if (employeeId != null) {
+            EmployeeEntity employee = employeeService.searchData(employeeId).orElseThrow(new RuntimeException("Employee not found with ID: " + employeeId));
+            model.addAttribute("employee", employee);
+        } else {
+            model.addAttribute("employee", new EmployeeEntity()); // Default empty object for initial load
         }
-        model.addAttribute("searchRequest", searchRequest);
-        model.addAttribute("employeeRequest", employeeRequest);
-        model.addAttribute("currentPage", "updateEmployees");
         return "update-employees";
+    }
+
+    @PostMapping("/web/employees/updateEmployees")
+    public String updateEmployee(@ModelAttribute EmployeeEntity employee, Model model) {
+        // Existing update logic
+        employeeService.addData(employee);
+        model.addAttribute("response", new ApiResponseDTO<>("success", "Employee updated successfully", null));
+        return "redirect:/web/employees/fetchEmployees";
     }
 
     @PostMapping("/updateEmployees/search")
