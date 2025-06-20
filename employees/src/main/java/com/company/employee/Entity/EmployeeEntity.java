@@ -31,6 +31,7 @@ public class EmployeeEntity {
     private String lastName;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @Temporal(TemporalType.DATE)
     @Column(name = "DateOfBirth", nullable = false)
     @NotNull(message = "Date of birth cannot be null")
     @Past(message = "Date of birth must be in the past")
@@ -46,6 +47,7 @@ public class EmployeeEntity {
     private double salary;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @Temporal(TemporalType.DATE)
     @Column(name = "HireDate", nullable = false)
     @NotNull(message = "Hire date cannot be null")
     @PastOrPresent(message = "Hire date must be in the past or present")
