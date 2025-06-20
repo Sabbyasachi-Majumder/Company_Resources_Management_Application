@@ -5,9 +5,12 @@ import com.company.employee.dto.EmployeeDTO;
 import com.company.employee.dto.EmployeeRequestDTO;
 import com.company.employee.entity.EmployeeEntity;
 import com.company.employee.service.EmployeeService;
+
 import jakarta.persistence.EntityExistsException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -56,7 +59,7 @@ public class EmployeeWebController {
     public String showFetchEmployees(Model model, @RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int size) {
         loggingStart();
         logger.debug("Displaying all employees with page: {}, size: {}", page, size);
-        Pageable pageable = PageRequest.of(page, size);
+        Pageable pageable = PageRequest.of(page - 1, size);
         Page<EmployeeDTO> employeePage = employeeService.fetchPageData(pageable);
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         boolean isAdmin = auth != null && auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
@@ -65,13 +68,17 @@ public class EmployeeWebController {
         model.addAttribute("employeeCount", employeePage.getTotalElements());
         model.addAttribute("isAdmin", isAdmin);
         // Sending the pagination details
-        model.addAttribute("currentPage", page);
-        model.addAttribute("totalPages", employeePage.getTotalPages());
-        model.addAttribute("pageSize", size);
+        paginationDetails(model, page, size, employeePage.getTotalPages());
         // Sending the current tab information
         model.addAttribute("currentPageTemplate", "fetchEmployees");
         logger.debug("Returning template: fetch-employees");
         return "fetch-employees";
+    }
+
+    public void paginationDetails(Model model, int page, int size, int totalRecords) {
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", totalRecords);
+        model.addAttribute("pageSize", size);
     }
 
     @GetMapping("/addEmployees")
@@ -263,9 +270,10 @@ public class EmployeeWebController {
         return "redirect:/web/employees/fetchEmployees";
     }
 
+    // Add pagination related details like fetchEmployee method has and it will fix the rendering error .
     @PostMapping("/batchDelete")
     @PreAuthorize("hasRole('ADMIN')")
-    public String batchDeleteEmployees(@RequestParam(value = "selectedIds", required = false) List<Integer> selectedIds, Model model) {
+    public String batchDeleteEmployees(@RequestParam(value = "selectedIds", required = false) List<Integer> selectedIds, Model model, @RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int size) {
         loggingStart();
         logger.debug("Processing batch delete request for employee IDs: {}", selectedIds);
         ApiResponseDTO<String> response;
@@ -286,15 +294,20 @@ public class EmployeeWebController {
             logger.error("Error deleting employees: {}", ex.getMessage());
             response = new ApiResponseDTO<>("error", "Failed to delete employees: " + ex.getMessage(), null);
         }
-        ArrayList<EmployeeDTO> empList = employeeService.fetchData();
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        boolean isAdmin = auth != null && auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
-        model.addAttribute("employees", empList != null ? empList : new ArrayList<>());
-        model.addAttribute("employeeCount", empList != null ? empList.size() : 0);
-        model.addAttribute("isAdmin", isAdmin);
+        // Add response to model for UI feedback
         model.addAttribute("response", response);
-        model.addAttribute("currentPage", "fetchEmployees");
-        return "fetch-employees";
+        // Ensure page is at least 1 to avoid negative index
+        int validPage = Math.max(page, 1);
+        // Check total pages after deletion to adjust page if needed
+        Pageable pageable = PageRequest.of(validPage - 1, size); // 0-based for Pageable
+        Page<EmployeeDTO> employeePage = employeeService.fetchPageData(pageable);
+        int adjustedPage = Math.min(validPage, employeePage.getTotalPages()); // 1-based page
+        if (adjustedPage <= 0) {
+            adjustedPage = 1; // Default to page 1 if no pages remain
+        }
+        // Reuse showFetchEmployees to fetch data and set model attributes
+        logger.debug("Calling showFetchEmployees with adjusted page: {}, size: {}", adjustedPage, size);
+        return showFetchEmployees(model, adjustedPage, size);
     }
 
     @GetMapping("/logout")
