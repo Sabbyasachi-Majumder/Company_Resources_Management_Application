@@ -6,6 +6,7 @@
     <title>Employee List</title>
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
     <link th:href="@{/css/user-profile.css}" rel="stylesheet">
+    <link th:href="@{/css/pagination.css}" rel="stylesheet">
     <style>
         .header-container {
             display: flex;
@@ -41,10 +42,6 @@
         </div>
         <div th:replace="~{fragments/userProfileBox :: userProfile}"></div>
     </div>
-    <!-- Debug Outputs -->
-    <!--    <p th:text="'Debug: Current User = ' + ${#authentication?.name ?: 'Unknown'}"></p>-->
-    <!--    <p th:text="'Debug: User Roles = ' + ${#authentication?.authorities ?: 'None'}"></p>-->
-    <!--    <p th:text="'Debug: Is Admin = ' + ${isAdmin}"></p>-->
 
     <!-- New Flex Container for Delete Button and Pagination -->
     <div class="d-flex justify-content-between align-items-center">

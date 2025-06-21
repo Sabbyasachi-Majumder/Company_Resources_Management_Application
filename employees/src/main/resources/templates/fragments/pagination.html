@@ -5,7 +5,17 @@
     <title>Pagination Fragment</title>
 </head>
 <body>
-<div th:fragment="pagination(currentPage, totalPages, pageSize)">
+<div th:fragment="pagination(currentPage, totalPages, pageSize)" class="pagination-box">
+    <div>
+        Records per page:
+        <label>
+            <select>
+                <option>10</option>
+                <option>25</option>
+                <option>50</option>
+            </select>
+        </label>
+    </div>
     <nav aria-label="Page navigation">
         <ul class="pagination justify-content-end">
             <!-- First Page -->
@@ -41,15 +51,6 @@
             </li>
         </ul>
     </nav>
-    <div class="d-flex align-items-center justify-content-end mt-2">
-        <span class="me-2">Records per page:</span>
-        <label for="pageSizeSelect"></label><select id="pageSizeSelect"
-                                                    onchange="window.location.href='/web/employees/fetchEmployees?page=1&size=' + this.value">
-        <option th:value="10" th:selected="${pageSize == 10}">10</option>
-        <option th:value="25" th:selected="${pageSize == 25}">25</option>
-        <option th:value="50" th:selected="${pageSize == 50}">50</option>
-    </select>
-    </div>
 </div>
 </body>
 </html>
