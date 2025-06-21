@@ -185,6 +185,25 @@ public class EmployeeWebController {
         return "update-employees";
     }
 
+    @GetMapping("/updateEmployees")
+    @PreAuthorize("hasRole('ADMIN')")
+    public String updateEmployeeForm(Model model) {
+        loggingStart();
+        EmployeeEntity employee = (EmployeeEntity) model.getAttribute("employee");
+        logger.debug("Displaying update employee form for employeeId: {}", employee.getEmployeeId());
+        try {
+            employeeService.updateData(employee);
+            model.addAttribute("employee", employee);
+        } catch (NoSuchElementException ex) {
+            logger.error("Employee not found: {}", ex.getMessage());
+            model.addAttribute("response", new ApiResponseDTO<>("error", "Employee ID not found", null));
+            model.addAttribute("employee", new EmployeeDTO());
+            model.addAttribute("currentPage", "updateEmployees");
+        }
+        return showFetchEmployees(model , (Integer) model.getAttribute("page"),
+                (((Integer) model.getAttribute("size")).intValue()));
+    }
+
     @GetMapping("/deleteEmployees")
     @PreAuthorize("hasRole('ADMIN')")
     public String showDeleteEmployeeForm(Model model) {
