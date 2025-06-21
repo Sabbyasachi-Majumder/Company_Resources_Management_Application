@@ -64,7 +64,10 @@
                         <input type="checkbox" th:name="selectedIds" th:value="${employee.employeeId}"
                                class="employee-checkbox" aria-label="Select employee">
                     </td>
-                    <td><a th:href="@{/web/employees/updateEmployees(employeeId=${employee.employeeId})}" th:text="${employee.employeeId}"></a></td>
+                    <td>
+                        <a th:if="${isAdmin}" th:href="@{/web/employees/updateEmployees/{id}(id=${employee.employeeId})}" th:text="${employee.employeeId}"></a>
+                        <span th:unless="${isAdmin}" th:text="${employee.employeeId}"></span>
+                    </td>
                     <td th:text="${employee.firstName}"></td>
                     <td th:text="${employee.lastName}"></td>
                     <td th:text="${#dates.format(employee.dateOfBirth, 'yyyy-MM-dd')}"></td>

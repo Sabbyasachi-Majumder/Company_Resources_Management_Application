@@ -17,20 +17,6 @@
 
             <form th:action="@{/web/employees/updateEmployees}" method="post" th:object="${employee}">
                 <input type="hidden" th:field="*{employeeId}" />
-
-<!--                <div class="mb-3">-->
-<!--                    <h3>Search Employee to Update</h3>-->
-<!--                    <div class="row">-->
-<!--                        <div class="col-md-6">-->
-<!--                            <label for="searchEmployeeId" class="form-label">Employee ID</label>-->
-<!--                            <input type="number" class="form-control" id="searchEmployeeId" name="searchEmployeeId" th:value="${param.employeeId}" required>-->
-<!--                        </div>-->
-<!--                        <div class="col-md-6 align-self-end">-->
-<!--                            <button type="submit" class="btn btn-primary">Search</button>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-
                 <div class="mb-3">
                     <h3>Update Employee Details</h3>
                     <div class="row">

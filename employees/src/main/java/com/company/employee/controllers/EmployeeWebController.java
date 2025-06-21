@@ -167,98 +167,21 @@ public class EmployeeWebController {
         return "search-employees";
     }
 
-    @GetMapping("/updateEmployees")
+    @GetMapping("/updateEmployees/{employeeId}")
     @PreAuthorize("hasRole('ADMIN')")
-    public String showUpdateEmployeeForm(Model model, @RequestParam(value = "employeeId", required = false) Integer employeeId) {
+    public String showUpdateEmployeeForm(@PathVariable("employeeId") int employeeId, Model model) {
         loggingStart();
         logger.debug("Displaying update employee form for employeeId: {}", employeeId);
-        EmployeeRequestDTO searchRequest = new EmployeeRequestDTO(new ArrayList<>(Collections.singletonList(new EmployeeDTO())));
-        EmployeeRequestDTO employeeRequest = new EmployeeRequestDTO(new ArrayList<>(Collections.singletonList(new EmployeeDTO())));
         try {
-            if (employeeId != null) {
-                EmployeeEntity entity = employeeService.searchData(employeeId);
-                if (entity != null) {
-                    employeeRequest.getEmpDetailsList().set(0, employeeService.toDTO(entity));
-                    model.addAttribute("response", new ApiResponseDTO<>("success", "Employee found for update", null));
-                } else {
-                    model.addAttribute("response", new ApiResponseDTO<>("error", "Employee ID not found", null));
-                }
-            }
+            EmployeeDTO employee = employeeService.toDTO(employeeService.searchData(employeeId));
+            model.addAttribute("employee", employee);
+            model.addAttribute("currentPage", "updateEmployees");
         } catch (NoSuchElementException ex) {
-            logger.error("Resource not found: {}", ex.getMessage());
-            model.addAttribute("response", new ApiResponseDTO<>("error", "Resource not found: " + ex.getMessage(), null));
+            logger.error("Employee not found: {}", ex.getMessage());
+            model.addAttribute("response", new ApiResponseDTO<>("error", "Employee ID not found", null));
+            model.addAttribute("employee", new EmployeeDTO());
+            model.addAttribute("currentPage", "updateEmployees");
         }
-        model.addAttribute("searchRequest", searchRequest);
-        model.addAttribute("employeeRequest", employeeRequest);
-        model.addAttribute("currentPage", "updateEmployees");
-        return "update-employees";
-    }
-
-    @PostMapping("/updateEmployees/search")
-    @PreAuthorize("hasRole('ADMIN')")
-    public String searchForUpdate(@ModelAttribute("searchRequest") EmployeeRequestDTO searchRequest, Model model) {
-        loggingStart();
-        logger.debug("Processing update search request with input: {}", searchRequest);
-        ApiResponseDTO<String> response;
-        EmployeeRequestDTO employeeRequest = new EmployeeRequestDTO(new ArrayList<>(Collections.singletonList(new EmployeeDTO())));
-        try {
-            if (!searchRequest.getEmpDetailsList().isEmpty()) {
-                EmployeeDTO dto = searchRequest.getEmpDetailsList().get(0);
-                logger.debug("Searching for employeeId: {}", dto.getEmployeeId());
-                EmployeeEntity entity = employeeService.searchData(dto.getEmployeeId());
-                if (entity != null) {
-                    employeeRequest.getEmpDetailsList().set(0, employeeService.toDTO(entity));
-                    response = new ApiResponseDTO<>("success", "Employee found for update", null);
-                } else {
-                    response = new ApiResponseDTO<>("error", "Employee ID not found", null);
-                }
-            } else {
-                response = new ApiResponseDTO<>("error", "No employee ID provided", null);
-            }
-        } catch (NoSuchElementException ex) {
-            logger.error("Resource not found: {}", ex.getMessage());
-            response = new ApiResponseDTO<>("error", "Resource not found: " + ex.getMessage(), null);
-        }
-        logger.debug("Update search response: status={}, message={}", response.getStatus(), response.getMessage());
-        model.addAttribute("response", response);
-        model.addAttribute("searchRequest", searchRequest);
-        model.addAttribute("employeeRequest", employeeRequest);
-        model.addAttribute("currentPage", "updateEmployees");
-        return "update-employees";
-    }
-
-    @PostMapping("/updateEmployees")
-    @PreAuthorize("hasRole('ADMIN')")
-    public String updateEmployees(@ModelAttribute("employeeRequest") EmployeeRequestDTO employeeRequest, Model model) {
-        loggingStart();
-        logger.debug("Processing update employee request with input: {}", employeeRequest);
-        ApiResponseDTO<String> response;
-        EmployeeRequestDTO searchRequest = new EmployeeRequestDTO(new ArrayList<>(Collections.singletonList(new EmployeeDTO())));
-        try {
-            if (!employeeRequest.getEmpDetailsList().isEmpty()) {
-                EmployeeDTO dto = employeeRequest.getEmpDetailsList().get(0);
-                logger.debug("EmployeeDTO: {}", dto);
-                EmployeeEntity existingEntity = employeeService.searchData(dto.getEmployeeId());
-                if (existingEntity != null) {
-                    EmployeeEntity updatedEntity = employeeService.toEntity(dto);
-                    updatedEntity.setEmployeeId(existingEntity.getEmployeeId());
-                    employeeService.updateData(updatedEntity);
-                    response = new ApiResponseDTO<>("success", "Employee updated successfully", null);
-                } else {
-                    response = new ApiResponseDTO<>("error", "Employee ID not found", null);
-                }
-            } else {
-                response = new ApiResponseDTO<>("error", "No employee data provided", null);
-            }
-        } catch (NoSuchElementException ex) {
-            logger.error("Resource not found: {}", ex.getMessage());
-            response = new ApiResponseDTO<>("error", "Resource not found: " + ex.getMessage(), null);
-        }
-        logger.debug("Update response: status={}, message={}", response.getStatus(), response.getMessage());
-        model.addAttribute("response", response);
-        model.addAttribute("currentPage", "updateEmployees");
-        model.addAttribute("employeeRequest", employeeRequest);
-        model.addAttribute("searchRequest", searchRequest);
         return "update-employees";
     }
 
