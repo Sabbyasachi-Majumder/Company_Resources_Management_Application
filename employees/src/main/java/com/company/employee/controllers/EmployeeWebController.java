@@ -185,23 +185,36 @@ public class EmployeeWebController {
         return "update-employees";
     }
 
-    @GetMapping("/updateEmployees")
+    @PostMapping("/updateEmployee")
     @PreAuthorize("hasRole('ADMIN')")
-    public String updateEmployeeForm(Model model) {
+    public String updateEmployee(@ModelAttribute("employee") EmployeeDTO employeeDto, Model model) {
         loggingStart();
-        EmployeeEntity employee = (EmployeeEntity) model.getAttribute("employee");
-        logger.debug("Displaying update employee form for employeeId: {}", employee.getEmployeeId());
+        logger.debug("Processing update employee request with employeeDto: {}", employeeDto);
+        ApiResponseDTO<String> response;
+        if (employeeDto == null || employeeDto.getEmployeeId() < 1) {
+            logger.error("Employee DTO is null or missing employeeId");
+            response = new ApiResponseDTO<>("error", "Invalid employee data", null);
+            model.addAttribute("response", response);
+            model.addAttribute("employee", employeeDto != null ? employeeDto : new EmployeeDTO());
+            model.addAttribute("currentPage", "updateEmployees");
+            return "update-employees";
+        }
         try {
+            EmployeeEntity employee = employeeService.toEntity(employeeDto);
             employeeService.updateData(employee);
+            response = new ApiResponseDTO<>("success", "Employee updated successfully", null);
             model.addAttribute("employee", employee);
         } catch (NoSuchElementException ex) {
             logger.error("Employee not found: {}", ex.getMessage());
-            model.addAttribute("response", new ApiResponseDTO<>("error", "Employee ID not found", null));
-            model.addAttribute("employee", new EmployeeDTO());
-            model.addAttribute("currentPage", "updateEmployees");
+            response = new ApiResponseDTO<>("error", "Employee not found: " + ex.getMessage(), null);
+        } catch (Exception ex) {
+            logger.error("Error updating employee: {}", ex.getMessage());
+            response = new ApiResponseDTO<>("error", "Error updating employee: " + ex.getMessage(), null);
         }
-        return showFetchEmployees(model , (Integer) model.getAttribute("page"),
-                (((Integer) model.getAttribute("size")).intValue()));
+        model.addAttribute("response", response);
+        model.addAttribute("employee", employeeDto);
+        model.addAttribute("currentPage", "updateEmployees");
+        return "update-employees";
     }
 
     @GetMapping("/deleteEmployees")
@@ -212,7 +225,6 @@ public class EmployeeWebController {
         return "redirect:/web/employees/fetchEmployees";
     }
 
-    // Add pagination related details like fetchEmployee method has and it will fix the rendering error .
     @PostMapping("/batchDelete")
     @PreAuthorize("hasRole('ADMIN')")
     public String batchDeleteEmployees(@RequestParam(value = "selectedIds", required = false) List<Integer> selectedIds, Model model, @RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int size) {

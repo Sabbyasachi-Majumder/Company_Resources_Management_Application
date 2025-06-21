@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<body>
+<div class="user-profile-box" th:fragment="userProfile">
+    <h3>User Profile</h3>
+    <p><strong>Username:</strong> <span th:text="${#authentication?.name ?: 'Guest'}">Guest</span></p>
+    <p><strong>Role:</strong>
+        <span sec:authorize="hasRole('ADMIN')" class="role-admin">Admin</span>
+        <span sec:authorize="hasRole('USER')" class="role-user">User</span>
+        <span sec:authorize="!isAuthenticated()" class="role-user">None</span>
+    </p>
+</div>
+</body>
+</html>
