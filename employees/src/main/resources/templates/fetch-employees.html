@@ -6,7 +6,6 @@
     <title>Employee List</title>
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
     <link th:href="@{/css/user-profile.css}" rel="stylesheet">
-    <link th:href="@{/css/pagination.css}" rel="stylesheet">
     <style>
         .header-container {
             display: flex;
@@ -18,6 +17,9 @@
             display: flex;
             flex-direction: column;
             align-items: flex-start;
+        }
+        .pagination{
+            width : 500px;
         }
         .employee-list-title {
             margin-bottom: 10px;
@@ -52,7 +54,8 @@
                 Delete Selected
             </button>
         </div>
-        <div th:replace="~{fragments/pagination :: pagination(currentPage=${currentPage}, totalPages=${totalPages}, pageSize=${pageSize})}"></div>
+        <div th:replace="~{fragments/pagination :: pagination(currentPage=${currentPage}, totalPages=${totalPages}, pageSize=${pageSize})}"
+                id="pagination" class="pagination"></div>
     </div>
 
     <div th:if="${response != null}" class="alert"

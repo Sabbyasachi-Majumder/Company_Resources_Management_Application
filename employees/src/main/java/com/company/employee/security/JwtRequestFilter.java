@@ -78,7 +78,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             chain.doFilter(request, response);
         } catch (AuthenticationException | io.jsonwebtoken.JwtException e) {
             logger.error("Authentication error: {} - Path: {}", e.getMessage(), path);
-            throw e; // Propagate to Spring Security's ExceptionTranslationFilter for API requests
+            throw e; // Propagate to Spring security's ExceptionTranslationFilter for API requests
         } catch (Exception e) {
             logger.error("Unexpected error in JWT filter: {} - Path: {}", e.getMessage(), path);
             throw new ServletException("Unexpected error during JWT processing", e);
