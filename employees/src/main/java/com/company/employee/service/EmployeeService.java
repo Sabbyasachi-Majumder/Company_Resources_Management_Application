@@ -14,8 +14,6 @@ public interface EmployeeService {
 
     EmployeeEntity toEntity(EmployeeDTO dto);
 
-    ArrayList<EmployeeDTO> fetchData();
-
     Page<EmployeeDTO> fetchPageData(Pageable pageable);
 
     void addData(EmployeeEntity employee);

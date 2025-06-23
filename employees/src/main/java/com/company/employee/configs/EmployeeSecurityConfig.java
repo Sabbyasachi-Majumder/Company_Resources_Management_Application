@@ -99,6 +99,9 @@ public class EmployeeSecurityConfig {
                                 "/api/v1/employees/testConnection",
                                 "/api/v1/employees/testDataBaseConnection"
                         ).permitAll()
+                        .requestMatchers(
+                                "/fetchEmployees/**"
+                        ).hasAnyRole("USER")
                         .requestMatchers("/api/v1/employees/**").hasAnyRole("USER", "ADMIN")
                         .requestMatchers("/actuator/**").hasRole("ADMIN")
                         .anyRequest().authenticated()

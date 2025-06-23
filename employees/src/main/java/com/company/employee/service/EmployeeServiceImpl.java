@@ -62,14 +62,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         return entity;
     }
 
-    // Fetches all data without pagination . will be phased out and replaced by pagination enabled fetchData
-    public ArrayList<EmployeeDTO> fetchData() {
-        ArrayList<EmployeeDTO> response = new ArrayList<>();
-        for (EmployeeEntity e : employeeRepository.findAll())
-            response.add(toDTO(e));
-        return response;
-    }
-
+    // Fetches all data with pagination
     @Override
     public Page<EmployeeDTO> fetchPageData(Pageable pageable) {
         return employeeRepository.findAll(pageable)
