@@ -12,7 +12,7 @@
     <artifactId>employees</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>Employee_Information_Application</name>
-    <description>Demo project for Spring Boot</description>
+    <description>Spring-boot Application to handle Employee Information Operations</description>
     <url/>
     <licenses>
         <license/>
@@ -119,6 +119,16 @@
             <artifactId>thymeleaf-extras-springsecurity6</artifactId>
             <version>3.1.2.RELEASE</version>
         </dependency>
+<!--        <dependency>-->
+<!--            <groupId>io.projectreactor</groupId>-->
+<!--            <artifactId>reactor-core</artifactId>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.cloud</groupId>-->
+<!--            <artifactId>spring-cloud-gateway-server</artifactId>-->
+<!--            <version>4.3.0</version>-->
+<!--            <scope>compile</scope>-->
+<!--        </dependency>-->
     </dependencies>
 
     <build>
@@ -137,5 +147,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>
