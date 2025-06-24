@@ -2,21 +2,26 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
       <profile name="Maven default annotation processors profile" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="Employee_Details_Operations_Application" />
-        <module name="Employee_Details_Operations_Application (1) (com.java.employee)" />
+        <module name="api-gateway" />
         <module name="projects" />
+        <module name="employees" />
+        <module name="department" />
+        <module name="Employee_Details_Operations_Application (1) (com.java.employee)" />
       </profile>
     </annotationProcessing>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="Employee_Details_Operations_Application" options="-parameters" />
       <module name="Employee_Details_Operations_Application (1) (com.java.employee)" options="-parameters" />
+      <module name="api-gateway" options="-parameters" />
       <module name="company-resource-management" options="-parameters" />
+      <module name="department" options="-parameters" />
+      <module name="employees" options="-parameters" />
       <module name="projects" options="-parameters" />
     </option>
   </component>
