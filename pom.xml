@@ -24,10 +24,10 @@
     </properties>
 
     <modules>
-        <!--        <module>api-gateway</module>-->
+        <module>api-gateway</module>
         <module>employees</module>
         <module>projects</module>
-        <!--        <module>departments</module>-->
+        <module>department</module>
     </modules>
 
     <dependencyManagement>
