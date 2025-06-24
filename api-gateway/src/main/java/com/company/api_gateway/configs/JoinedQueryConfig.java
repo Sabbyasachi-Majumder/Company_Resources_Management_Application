@@ -1,4 +1,4 @@
-package com.company.api_gateway;
+package com.company.api_gateway.configs;
 
 import com.company.api_gateway.beans.JoinedQueryRequestBean;
 import com.company.api_gateway.beans.JoinedQueryResponseBean;
