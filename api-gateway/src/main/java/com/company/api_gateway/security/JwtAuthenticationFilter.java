@@ -22,17 +22,14 @@ public class JwtAuthenticationFilter implements GlobalFilter {
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
-        logger.info("\n\n\t\t********************* New Request Started ********************\n\n");
+        logger.info("Processing request in JwtAuthenticationFilter - Path: {}", exchange.getRequest().getURI().getPath());
         String path = exchange.getRequest().getURI().getPath();
-        logger.debug("Processing request in JwtAuthenticationFilter - Path: {}", path);
 
-        // Skip JWT validation for public endpoints
         if (shouldSkipJwtProcessing(path)) {
             logger.debug("Skipping JWT validation for public endpoint: {}", path);
             return chain.filter(exchange);
         }
 
-        // Extract and validate JWT
         String authHeader = exchange.getRequest().getHeaders().getFirst("Authorization");
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             logger.error("No JWT token provided - Path: {}", path);
@@ -43,10 +40,10 @@ public class JwtAuthenticationFilter implements GlobalFilter {
         String token = authHeader.substring(7);
         try {
             Claims claims = Jwts.parser()
-                    .verifyWith(Keys.hmacShaKeyFor(secretKey.getBytes()))
+                    .setSigningKey(Keys.hmacShaKeyFor(secretKey.getBytes()))
                     .build()
-                    .parseSignedClaims(token)
-                    .getPayload();
+                    .parseClaimsJws(token)
+                    .getBody();
             logger.debug("JWT validated for user: {}", claims.getSubject());
             return chain.filter(exchange);
         } catch (Exception e) {
@@ -69,11 +66,7 @@ public class JwtAuthenticationFilter implements GlobalFilter {
                 normalizedPath.equals("/api/v1/employees/register") ||
                 normalizedPath.equals("/api/v1/employees/testconnection") ||
                 normalizedPath.equals("/api/v1/employees/testdatabaseconnection");
-        if (shouldSkip) {
-            logger.debug("Path {} is configured to skip JWT processing", path);
-        } else {
-            logger.debug("Path {} requires JWT processing", path);
-        }
+        logger.debug("Path {} is configured to {} JWT processing", path, shouldSkip ? "skip" : "require");
         return shouldSkip;
     }
 }
