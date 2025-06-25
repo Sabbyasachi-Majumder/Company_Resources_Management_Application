@@ -20,7 +20,7 @@ public class SecurityConfig {
                 .authorizeExchange(exchanges -> exchanges
                         .pathMatchers("/login", "/swagger-ui/**", "/v3/api-docs/**",
                                 "/api/v1/employees/authenticate", "/api/v1/employees/register",
-                                "/api/v1/employees/testconnection", "/api/v1/employees/testdatabaseconnection")
+                                "/api/v1/employees/testConnection", "/api/v1/employees/testDataBaseConnection")
                         .permitAll()
                         .pathMatchers("/actuator/**").hasRole("ADMIN")
                         .anyExchange().authenticated())

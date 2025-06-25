@@ -84,7 +84,7 @@ public class EmployeeOperationsController {
         Connection connection = DataSourceUtils.getConnection(dataSource);
         if (connection.isValid(1)) {
             logger.debug("Testing successful . Database connection is present.");
-            return ResponseEntity.ok(new ApiResponseDTO<>("success", "Connection to Employee Application is successfully established.", null));
+            return ResponseEntity.ok(new ApiResponseDTO<>("success", "Connection from Employee Application to Employee Database successfully established.", null));
         } else {
             logger.error("Testing failed . Database connection is not present.");
             return ResponseEntity.ok(new ApiResponseDTO<>("error", "Connection to Employee Database failed to be established.", null));
