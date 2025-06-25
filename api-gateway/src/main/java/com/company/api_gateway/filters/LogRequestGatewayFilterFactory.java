@@ -7,18 +7,21 @@ import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFac
 import org.springframework.stereotype.Component;
 
 @Component
-public class LogRequestGatewayFilterFactory extends AbstractGatewayFilterFactory<Object> {
+public class LogRequestGatewayFilterFactory extends AbstractGatewayFilterFactory<LogRequestGatewayFilterFactory.Config> {
     private static final Logger logger = LoggerFactory.getLogger(LogRequestGatewayFilterFactory.class);
 
     public LogRequestGatewayFilterFactory() {
-        super(Object.class);
+        super(Config.class);
     }
 
     @Override
-    public GatewayFilter apply(Object config) {
+    public GatewayFilter apply(Config config) {
         return (exchange, chain) -> {
-            logger.info("Incoming request: {} {}", exchange.getRequest().getMethod(), exchange.getRequest().getURI());
+            logger.info("Request received: {} {}", exchange.getRequest().getMethod(), exchange.getRequest().getURI());
             return chain.filter(exchange);
         };
+    }
+
+    public static class Config {
     }
 }
