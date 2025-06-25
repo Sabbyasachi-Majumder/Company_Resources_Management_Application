@@ -16,6 +16,9 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.datasource.DataSourceUtils;
@@ -25,6 +28,7 @@ import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/employees")
@@ -103,11 +107,16 @@ public class EmployeeOperationsController {
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ApiResponseDTO.class)))
     })
-    public ResponseEntity<ApiResponseDTO<EmployeeResponseDTO>> fetchEmployees() {
+    public ResponseEntity<ApiResponseDTO<List<EmployeeDTO>>> fetchEmployees(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int size) {
         loggingStart();
-        logger.debug("Fetching all records.");
-        EmployeeResponseDTO erBean = new EmployeeResponseDTO(employeeService.fetchData(), null);
-        return ResponseEntity.ok(new ApiResponseDTO<>("success", "Fetching " + erBean.getEmpDetailsList().size() + " employee data records", erBean));
+        logger.debug("Displaying all employees with page: {}, size: {}", page, size);
+        Pageable pageable = PageRequest.of(page - 1, size);
+        Page<EmployeeDTO> pagedData = employeeService.fetchPageData(pageable);
+        List<EmployeeDTO> currentData = pagedData.getContent();
+        if ((long) size * page > pagedData.getTotalElements())
+            return ResponseEntity.ok(new ApiResponseDTO<>("error", "Total number of records is lower than the current page number " + page + " containing " + size + " records each.", null));
+        else
+            return ResponseEntity.ok(new ApiResponseDTO<>("success", "Fetching page " + page + " with " + currentData.size() + " Employee data records", currentData));
     }
 
     //method to add the employee details to the database

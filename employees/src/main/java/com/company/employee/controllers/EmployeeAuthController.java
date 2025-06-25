@@ -36,6 +36,7 @@ public class EmployeeAuthController {
         this.jwtUtil = jwtUtil;
     }
 
+    // Authenticates a user with username and password, returning an access token and refresh token
     @PostMapping("/api/v1/employees/authenticate")
     @Operation(summary = "Authenticate user and generate JWT tokens",
             description = "Authenticates a user with username and password, returning an access token and refresh token.")
