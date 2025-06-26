@@ -107,16 +107,17 @@ public class EmployeeOperationsController {
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ApiResponseDTO.class)))
     })
-    public ResponseEntity<ApiResponseDTO<List<EmployeeDTO>>> fetchEmployees(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int size) {
+    public ResponseEntity<ApiResponseDTO<List<EmployeeDTO>>> fetchEmployees(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "1") int currentPage) {
         loggingStart();
         logger.debug("Displaying all employees with page: {}, size: {}", page, size);
         Pageable pageable = PageRequest.of(page - 1, size);
         Page<EmployeeDTO> pagedData = employeeService.fetchPageData(pageable);
-        List<EmployeeDTO> currentData = pagedData.getContent();
-        if ((long) size * page > pagedData.getTotalElements())
-            return ResponseEntity.ok(new ApiResponseDTO<>("error", "Total number of records is lower than the current page number " + page + " containing " + size + " records each.", null));
-        else
+        if (page <= Math.ceil((float) pagedData.getTotalElements() / size)) {
+            List<EmployeeDTO> currentData = pagedData.getContent();
             return ResponseEntity.ok(new ApiResponseDTO<>("success", "Fetching page " + page + " with " + currentData.size() + " Employee data records", currentData));
+        } else
+            return ResponseEntity.ok(new ApiResponseDTO<>("success", "Total number of records is lower than the current page number " + page + " containing " + size + " Employee data records each page.", null));
+
     }
 
     //method to add the employee details to the database
