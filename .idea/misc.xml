@@ -6,6 +6,9 @@
       <item index="1" class="java.lang.String" itemvalue="org.springframework.context.annotation.Bean" />
       <item index="2" class="java.lang.String" itemvalue="org.springframework.stereotype.Component" />
     </list>
+    <writeAnnotations>
+      <writeAnnotation name="org.springframework.beans.factory.annotation.Value" />
+    </writeAnnotations>
   </component>
   <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="MavenProjectsManager">
