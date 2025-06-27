@@ -26,11 +26,8 @@ public class JwtAuthenticationFilter implements WebFilter {
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
         String path = exchange.getRequest().getPath().toString();
-        if (path.startsWith("/swagger-ui") || path.startsWith("/v3/api-docs") ||
-                path.equals("/api/v1/employees/authenticate") || path.equals("/api/v1/employees/register") ||
-                path.equals("/employee/api/v1/employees/authenticate") || path.equals("/employee/api/v1/employees/register")) {
+        if (publicEndpointCheck(path))
             return chain.filter(exchange);
-        }
         String authHeader = exchange.getRequest().getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             String jwt = authHeader.substring(7);
@@ -51,5 +48,12 @@ public class JwtAuthenticationFilter implements WebFilter {
         }
 
         return chain.filter(exchange);
+    }
+
+    //If the path is meant to be openly accessible , we ignore filtering process
+    public boolean publicEndpointCheck(String path) {
+        return path.startsWith("/swagger-ui") || path.startsWith("/v3/api-docs") ||
+                path.equals("/api/v1/employees/authenticate") || path.equals("/api/v1/employees/register") ||
+                path.equals("/employee/api/v1/employees/authenticate") || path.equals("/employee/api/v1/employees/register") || path.equals("/api/v1/employees/testConnection") || path.equals("/api/v1/employees/testDataBaseConnection");
     }
 }

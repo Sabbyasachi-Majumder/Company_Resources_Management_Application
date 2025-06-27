@@ -12,7 +12,7 @@
     <artifactId>api-gateway</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>api-gateway</name>
-    <description>api gateway for company data operations applications</description>
+    <description>Api Gateway for company data operations applications</description>
     <url/>
     <licenses>
         <license/>
