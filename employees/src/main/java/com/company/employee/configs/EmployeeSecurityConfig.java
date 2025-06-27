@@ -1,10 +1,12 @@
 package com.company.employee.configs;
 
 import com.company.employee.security.CustomAuthenticationEntryPoint;
-import com.company.employee.security.JwtRequestFilter;
+import com.company.employee.security.JwtAuthenticationFilter;
+import jakarta.servlet.Filter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -14,132 +16,53 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-//import org.springframework.security.core.userdetails.User;
-//import org.springframework.security.core.userdetails.UserDetailsService;
-//import org.springframework.security.provisioning.InMemoryUserDetailsManager;
-
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @Configuration
 @EnableWebSecurity
 public class EmployeeSecurityConfig {
 
-    private final JwtRequestFilter jwtRequestFilter;
+    private static final Logger logger = LoggerFactory.getLogger(EmployeeSecurityConfig.class);
+
     private final CustomAuthenticationEntryPoint authenticationEntryPoint;
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
-    public EmployeeSecurityConfig(JwtRequestFilter jwtRequestFilter,
-                                  CustomAuthenticationEntryPoint authenticationEntryPoint) {
-        this.jwtRequestFilter = jwtRequestFilter;
+    public EmployeeSecurityConfig(CustomAuthenticationEntryPoint authenticationEntryPoint, JwtAuthenticationFilter jwtAuthenticationFilter) {
         this.authenticationEntryPoint = authenticationEntryPoint;
+        this.jwtAuthenticationFilter = jwtAuthenticationFilter;
     }
 
-    // Web-specific security filter chain (handles /web/** endpoints with form-based authentication)
     @Bean
-    @Order(1)
-    public SecurityFilterChain webSecurityFilterChain(HttpSecurity http) throws Exception {
-        http.securityMatcher("/web/**")
-                .csrf(csrf -> csrf.disable())
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(
-                                "/web/employees/login",
-                                "/web/employees/logout",
-                                "/error",
-                                "/error/**",
-                                "/web/employees/testConnection",
-                                "/web/employees/testDataBaseConnection",
-                                "/swagger-ui/**",
-                                "/v3/api-docs/**",
-                                "/favicon.ico"
-                        ).permitAll()
-                        .requestMatchers(
-                                "/web/employees/fetchEmployees",
-                                "/web/employees/searchEmployees"
-                        ).hasRole("USER")
-                        .requestMatchers("/web/employees/**").hasRole("ADMIN")
-                        .anyRequest().authenticated()
-                )
-                .formLogin(form -> form
-                        .loginPage("/web/employees/login")
-                        .defaultSuccessUrl("/web/employees/fetchEmployees", true)
-                        .failureUrl("/web/employees/login?error")
-                        .permitAll()
-                )
-                .logout(logout -> logout
-                        .logoutUrl("/web/employees/logout")
-                        .logoutSuccessUrl("/web/employees/login?logout")
-                        .invalidateHttpSession(true)
-                        .deleteCookies("JSESSIONID")
-                        .permitAll()
-                )
-                .sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
-                .exceptionHandling(exception -> exception
-                        .authenticationEntryPoint(authenticationEntryPoint));
-
-        return http.build();
-    }
-
-    // API-specific security filter chain (handles /api/** endpoints with JWT authentication)
-    @Bean
-    @Order(2)
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-                .securityMatcher("/api/**") // Restrict to API endpoints
-                .csrf(csrf -> csrf.disable())
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(
-                                "/swagger-ui/**",
-                                "/v3/api-docs/**",
-                                "/favicon.ico",
-                                "/error",
-                                "/error/**",
-                                "/api/v1/employees/authenticate",
-                                "/api/v1/employees/register"
-                        ).permitAll()
-                        .requestMatchers(
-                                "/api/v1/employees/testConnection",
-                                "/api/v1/employees/testDataBaseConnection"
-                        ).permitAll()
-                        .requestMatchers("/api/v1/employees/**").hasAnyRole("USER", "ADMIN")
-                        .requestMatchers("/actuator/**").hasRole("ADMIN")
-                        .anyRequest().authenticated()
-                )
-                .exceptionHandling(exception -> exception
-                        .authenticationEntryPoint(authenticationEntryPoint))
-                .sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
-
+        logger.debug("JWT Filter Invoked");
+        http.cors(cors -> cors.configurationSource(corsConfigurationSource())) // Add CORS integratio
+                .csrf(csrf -> csrf.disable()).addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class).authorizeHttpRequests(auth -> auth.requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/favicon.ico", "/error", "/error/**", "/api/v1/employees/authenticate", "/api/v1/employees/register", "/api/v1/employees/testConnection", "/api/v1/employees/testDataBaseConnection").permitAll().requestMatchers("/api/v1/employees/**").authenticated().requestMatchers("/actuator/**").authenticated().anyRequest().permitAll()).exceptionHandling(exception -> exception.authenticationEntryPoint(authenticationEntryPoint)).sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         return http.build();
     }
 
-    // Shared password encoder for API and web authentication
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration config = new CorsConfiguration();
+        config.addAllowedOriginPattern("http://localhost:*");
+        config.addAllowedMethod("*");
+        config.addAllowedHeader("*");
+        config.setAllowCredentials(true);
+        config.setMaxAge(3600L);
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", config);
+        return source;
+    }
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-    // Shared authentication manager for API and web authentication
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
         return authConfig.getAuthenticationManager();
     }
-
-    // Used for manually generating user details . Replaced by database driven user profile storage
-    //@Bean
-    // public UserDetailsService userDetailsService() {
-    //     logger.info("Creating access roles to access endpoints");
-    //     InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
-    //     logger.info("user can access fetch and search operations");
-    //     manager.createUser(User.withUsername("user")
-    //             .password(passwordEncoder().encode("pass")) // {noop} for plain text; use BCrypt in Step 3
-    //             .roles("USER")
-    //             .build());
-    //     logger.info("admin can access add , update and delete operations");
-    //     manager.createUser(User.withUsername("admin")
-    //             .password(passwordEncoder().encode("pass"))
-    //             .roles("ADMIN")
-    //             .build());
-    //     logger.info("Access roles are created and enforced");
-    //     return manager;
-    // }
 }

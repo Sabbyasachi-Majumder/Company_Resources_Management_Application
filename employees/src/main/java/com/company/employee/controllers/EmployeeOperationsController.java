@@ -16,6 +16,9 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.datasource.DataSourceUtils;
@@ -25,6 +28,7 @@ import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/employees")
@@ -80,7 +84,7 @@ public class EmployeeOperationsController {
         Connection connection = DataSourceUtils.getConnection(dataSource);
         if (connection.isValid(1)) {
             logger.debug("Testing successful . Database connection is present.");
-            return ResponseEntity.ok(new ApiResponseDTO<>("success", "Connection to Employee Application is successfully established.", null));
+            return ResponseEntity.ok(new ApiResponseDTO<>("success", "Connection from Employee Application to Employee Database successfully established.", null));
         } else {
             logger.error("Testing failed . Database connection is not present.");
             return ResponseEntity.ok(new ApiResponseDTO<>("error", "Connection to Employee Database failed to be established.", null));
@@ -103,11 +107,17 @@ public class EmployeeOperationsController {
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ApiResponseDTO.class)))
     })
-    public ResponseEntity<ApiResponseDTO<EmployeeResponseDTO>> fetchEmployees() {
+    public ResponseEntity<ApiResponseDTO<List<EmployeeDTO>>> fetchEmployees(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int size) {
         loggingStart();
-        logger.debug("Fetching all records.");
-        EmployeeResponseDTO erBean = new EmployeeResponseDTO(employeeService.fetchData(), null);
-        return ResponseEntity.ok(new ApiResponseDTO<>("success", "Fetching " + erBean.getEmpDetailsList().size() + " employee data records", erBean));
+        logger.debug("Displaying all employees with page: {}, size: {}", page, size);
+        Pageable pageable = PageRequest.of(page - 1, size);
+        Page<EmployeeDTO> pagedData = employeeService.fetchPageData(pageable);
+        if (page <= Math.ceil((float) pagedData.getTotalElements() / size)) {
+            List<EmployeeDTO> currentData = pagedData.getContent();
+            return ResponseEntity.ok(new ApiResponseDTO<>("success", "Fetching page " + page + " with " + currentData.size() + " Employee data records", currentData));
+        } else
+            return ResponseEntity.ok(new ApiResponseDTO<>("success", "Total number of records is lower than the current page number " + page + " containing " + size + " Employee data records each page.", null));
+
     }
 
     //method to add the employee details to the database

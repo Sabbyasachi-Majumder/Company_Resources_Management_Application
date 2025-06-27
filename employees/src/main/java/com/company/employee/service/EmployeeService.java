@@ -14,8 +14,6 @@ public interface EmployeeService {
 
     EmployeeEntity toEntity(EmployeeDTO dto);
 
-    ArrayList<EmployeeDTO> fetchData();
-
     Page<EmployeeDTO> fetchPageData(Pageable pageable);
 
     void addData(EmployeeEntity employee);
@@ -23,8 +21,6 @@ public interface EmployeeService {
     void updateData(EmployeeEntity entity);
 
     void deleteAll(ArrayList<EmployeeDTO> empList);
-
-    void deleteWebAll(List<Integer> empList);
 
     EmployeeEntity searchData(int employeeId);
 }
