@@ -17,9 +17,10 @@ public class SecurityConfig {
         return http
                 .csrf(ServerHttpSecurity.CsrfSpec::disable) // Non-deprecated CSRF disable
                 .authorizeExchange(exchanges -> exchanges
-                        .pathMatchers("/api/v1/employees/authenticate", "/api/v1/employees/register",
-                                "/api/v1/employees/testConnection", "/api/v1/employees/testDataBaseConnection",
-                                "/swagger-ui/**", "/v3/api-docs/**", "/actuator/**").permitAll()
+                        .pathMatchers("/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html").permitAll()
+                        .pathMatchers("/api/v1/employees/authenticate", "/api/v1/employees/register").permitAll()
+                        .pathMatchers("/employee/api/v1/employees/authenticate", "/employee/api/v1/employees/register").permitAll()
+                        .pathMatchers("/api/v1/employees/**", "/employee/api/v1/employees/**").authenticated()
                         .anyExchange().authenticated()
                 )
                 .addFilterAt(jwtFilter, SecurityWebFiltersOrder.AUTHENTICATION)
