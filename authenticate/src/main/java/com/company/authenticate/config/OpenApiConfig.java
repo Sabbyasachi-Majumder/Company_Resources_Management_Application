@@ -1,8 +1,8 @@
-package com.company.employee.configs;
+package com.company.authenticate.config;
 
 import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.Contact;
+import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
@@ -25,8 +25,8 @@ public class OpenApiConfig {
                 .addServersItem(new Server().url("http://localhost:8081").description("Local Development Server"))
                 .addServersItem(new Server().url("/employee").description("API Gateway Route for Microservices"))
                 .info(new Info()
-                        .title("Employee Service API")
-                        .description("API for managing employee data in a microservices architecture with JWT-based authentication")
+                        .title("Authenticate Service API")
+                        .description("API for managing authentication of an user and generating JWT tokens on logging into the microservices architecture based Company Resources Management Application")
                         .version("1.0.0")
                         .contact(new Contact().name("Sabbyasachi Majumder").email("sabbyasachi.majumder.offcial@gmail.com"))
                         .license(new License().name("Apache 2.0").url("http://springdoc.org")))
@@ -39,7 +39,8 @@ public class OpenApiConfig {
                                 .bearerFormat("JWT")
                                 .description("JWT token obtained from /login. Use 'Bearer <token>' in Authorization header.")))
                 .addTagsItem(new Tag().name("Actuator").description("Spring Boot Actuator endpoints for monitoring"))
+                .addTagsItem(new Tag().name("Authentication").description("Endpoints for user authentication"))
                 .addTagsItem(new Tag().name("Health Checks").description("Endpoints for testing connections"))
-                .addTagsItem(new Tag().name("Employee Management").description("Endpoints for managing employee data"));
+                .addTagsItem(new Tag().name("Authenticate Management").description("Endpoints for managing employee data"));
     }
 }

@@ -1,4 +1,4 @@
-package com.company.employee.dto;
+package com.company.authenticate.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;

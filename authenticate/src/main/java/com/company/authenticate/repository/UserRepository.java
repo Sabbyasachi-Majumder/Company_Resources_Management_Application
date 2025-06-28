@@ -1,6 +1,6 @@
-package com.company.employee.repository;
+package com.company.authenticate.repository;
 
-import com.company.employee.entity.UserProfileEntity;
+import com.company.authenticate.entity.UserProfileEntity;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.Optional;

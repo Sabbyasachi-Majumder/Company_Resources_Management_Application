@@ -21,6 +21,7 @@ public class SecurityConfig {
                         .pathMatchers("/api/v1/employees/authenticate", "/api/v1/employees/register").permitAll()
                         .pathMatchers("/employee/api/v1/employees/authenticate", "/employee/api/v1/employees/register").permitAll()
                         .pathMatchers("/api/v1/employees/testConnection", "/api/v1/employees/testDataBaseConnection").permitAll()
+                        .pathMatchers("/api/v1/authenticates/**").permitAll()  //authentication endpoints in authenticate service
                         .pathMatchers("/api/v1/employees/**", "/employee/api/v1/employees/**").authenticated()
                         .anyExchange().authenticated()
                 )

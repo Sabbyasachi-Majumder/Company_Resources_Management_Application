@@ -8,18 +8,10 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="projects" />
+        <module name="authenticate" />
         <module name="department" />
         <module name="employees" />
         <module name="Employee_Details_Operations_Application (1) (com.java.employee)" />
-      </profile>
-      <profile name="Annotation profile for authenticate" enabled="true">
-        <sourceOutputDir name="target/generated-sources/annotations" />
-        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
-        <outputRelativeToContentRoot value="true" />
-        <processorPath useClasspath="false">
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.38/lombok-1.18.38.jar" />
-        </processorPath>
-        <module name="authenticate" />
       </profile>
       <profile name="Annotation profile for Company Resource Management" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />

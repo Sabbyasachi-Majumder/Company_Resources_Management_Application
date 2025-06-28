@@ -1,6 +1,6 @@
-package com.company.employee.repository;
+package com.company.authenticate.repository;
 
-import com.company.employee.entity.RoleEntity;
+import com.company.authenticate.entity.RoleEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

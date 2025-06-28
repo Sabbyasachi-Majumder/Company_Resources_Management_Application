@@ -27,7 +27,8 @@ public class CustomAuthenticationEntryPoint implements ServerAuthenticationEntry
                 path.equals("/api/v1/employees/authenticate") ||
                 path.equals("/api/v1/employees/register") ||
                 path.equals("/api/v1/employees/testConnection") ||
-                path.equals("/api/v1/employees/testDataBaseConnection")) {
+                path.equals("/api/v1/employees/testDataBaseConnection") ||
+                path.startsWith("/api/v1/authenticates/")) {
             logger.debug("Skipping authentication entry point for public path: {}", path);
             return Mono.empty();
         }
