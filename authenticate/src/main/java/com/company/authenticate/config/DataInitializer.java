@@ -1,9 +1,9 @@
-package com.company.employee.configs;
+package com.company.authenticate.config;
 
-import com.company.employee.entity.RoleEntity;
-import com.company.employee.entity.UserProfileEntity;
-import com.company.employee.repository.RoleRepository;
-import com.company.employee.repository.UserRepository;
+import com.company.authenticate.entity.RoleEntity;
+import com.company.authenticate.entity.UserProfileEntity;
+import com.company.authenticate.repository.RoleRepository;
+import com.company.authenticate.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -26,7 +26,7 @@ public class DataInitializer implements CommandLineRunner {
     }
 
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args) {
         // Initialize roles
         RoleEntity userRoleEntity = roleRepository.findByName("ROLE_USER")
                 .orElseGet(() -> {

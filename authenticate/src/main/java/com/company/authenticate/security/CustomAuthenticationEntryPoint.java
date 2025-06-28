@@ -1,16 +1,15 @@
-package com.company.employee.security;
+package com.company.authenticate.security;
 
-import com.company.employee.dto.ApiResponseDTO;
+import com.company.authenticate.dto.ApiResponseDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
-
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
@@ -21,7 +20,7 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException {
         String path = request.getRequestURI();
-        if (path.startsWith("/swagger-ui/") || path.equals("/swagger-ui.html") || path.startsWith("/v3/api-docs/") || path.equals("/api/v1/employees/register") || path.equals("/api/v1/employees/testConnection") || path.equals("/api/v1/employees/testDataBaseConnection") || path.equals("/error") || path.startsWith("/error/") || path.equals("/favicon.ico")) {
+        if (path.startsWith("/swagger-ui/") || path.equals("/swagger-ui.html") || path.startsWith("/v3/api-docs/") || path.equals("/api/v1/authenticate/authenticate") || path.equals("/api/v1/authenticate/register") || path.equals("/api/v1/authenticate/testConnection") || path.equals("/api/v1/authenticate/testDataBaseConnection") || path.equals("/error") || path.startsWith("/error/") || path.equals("/favicon.ico")) {
             logger.debug("Skipping authentication entry point for public path: {}", path);
             return;
         }

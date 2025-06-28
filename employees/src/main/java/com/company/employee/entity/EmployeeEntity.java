@@ -63,7 +63,7 @@ public class EmployeeEntity {
     @Size(max = 100, message = "Designation must be at most 100 characters")
     private String designation;
 
-    @Column(name = "ManagerEmployeeID", nullable = true)
+    @Column(name = "ManagerEmployeeID")
     @Positive(message = "Manager Employee ID must be positive")
     private int managerEmployeeId;
 }

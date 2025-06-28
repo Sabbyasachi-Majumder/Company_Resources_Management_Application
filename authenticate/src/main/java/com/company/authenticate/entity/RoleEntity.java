@@ -1,4 +1,4 @@
-package com.company.employee.entity;
+package com.company.authenticate.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

@@ -1,7 +1,7 @@
-package com.company.employee.service;
+package com.company.authenticate.service;
 
-import com.company.employee.entity.UserProfileEntity;
-import com.company.employee.repository.UserRepository;
+import com.company.authenticate.entity.UserProfileEntity;
+import com.company.authenticate.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -13,13 +13,13 @@ import org.springframework.stereotype.Service;
 import java.util.stream.Collectors;
 
 @Service
-public class CustomUserServiceImpl implements UserDetailsService {
+public class UserServiceImpl implements UserDetailsService {
 
-    private static final Logger logger = LoggerFactory.getLogger(CustomUserServiceImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
     private final UserRepository userRepository;
 
-    public CustomUserServiceImpl(UserRepository userRepository) {
+    public UserServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 

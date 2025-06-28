@@ -54,6 +54,6 @@ public class JwtAuthenticationFilter implements WebFilter {
     public boolean publicEndpointCheck(String path) {
         return path.startsWith("/swagger-ui") || path.startsWith("/v3/api-docs") ||
                 path.equals("/api/v1/employees/authenticate") || path.equals("/api/v1/employees/register") ||
-                path.equals("/employee/api/v1/employees/authenticate") || path.equals("/employee/api/v1/employees/register") || path.equals("/api/v1/employees/testConnection") || path.equals("/api/v1/employees/testDataBaseConnection");
+                path.equals("/employee/api/v1/employees/authenticate") || path.equals("/employee/api/v1/employees/register") || path.equals("/api/v1/employees/testConnection") || path.equals("/api/v1/employees/testDataBaseConnection") || path.startsWith("/api/v1/authenticates/");
     }
 }
