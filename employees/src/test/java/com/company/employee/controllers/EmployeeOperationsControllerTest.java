@@ -49,8 +49,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
                                 com.company.employee.security.JwtAuthenticationFilter.class,
                                 com.company.employee.security.JwtUtil.class,
                                 com.company.employee.security.CustomAuthenticationEntryPoint.class,
-                                com.company.employee.configs.EmployeeSecurityConfig.class,
-                                com.company.employee.controllers.EmployeeGlobalExceptionHandler.class
+                                com.company.employee.configs.EmployeeSecurityConfig.class
                         }
                 )
         },
@@ -83,18 +82,13 @@ public class EmployeeOperationsControllerTest {
     @BeforeEach
     void setUp() {
         final EmployeeDTO sampleEmployeeDTO = getEmployeeDTO();
-
         sampleEmployeeList = new ArrayList<>();
         sampleEmployeeList.add(sampleEmployeeDTO);
-
         sampleEmployeeRequestDTO = new EmployeeRequestDTO();
         sampleEmployeeRequestDTO.setEmpDetailsList(sampleEmployeeList);
-
         samplePagedResponse = new ApiResponseDTO<>("success", "Fetching page 1 with 1 Employee data records", sampleEmployeeList);
-
         EmployeeResponseDTO responseDTO = new EmployeeResponseDTO(sampleEmployeeList, null);
         sampleResponseDTO = new ApiResponseDTO<>("success", "Successfully found Employee Id 1 data records", responseDTO);
-
         reset(employeeService);
     }
 
@@ -205,18 +199,34 @@ public class EmployeeOperationsControllerTest {
     @Test
     @WithMockUser(roles = "ADMIN")
     void addEmployees_Success() throws Exception {
+        // Setup mock response with EmployeeDTO
+        ArrayList<EmployeeDTO> responseEmployeeList = new ArrayList<>();
+        responseEmployeeList.add(getEmployeeDTO());
         ArrayList<ApiResponseDTO<EmployeeResponseDTO>> responses = new ArrayList<>();
         responses.add(new ApiResponseDTO<>("success", "Successfully added Employee Id 1 data records", null));
-        EmployeeResponseDTO responseDTO = new EmployeeResponseDTO(null, responses);
+        EmployeeResponseDTO responseDTO = new EmployeeResponseDTO(responseEmployeeList, responses);
         ApiResponseDTO<EmployeeResponseDTO> apiResponse = new ApiResponseDTO<>("success", "Successfully added 1 . Add failed : 0", responseDTO);
         when(employeeService.addDataToDataBase(eq(sampleEmployeeList))).thenReturn(apiResponse);
+
+        // Debug mock response and request serialization
+        System.out.println("Mock Request JSON: " + objectMapper.writeValueAsString(sampleEmployeeRequestDTO));
+        System.out.println("Mock Response JSON: " + objectMapper.writeValueAsString(apiResponse));
+
+        MvcResult result = mockMvc.perform(post("/api/v1/employees/addEmployees")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(sampleEmployeeRequestDTO)))
+                .andExpect(status().isOk())
+                .andReturn();
+        System.out.println("addEmployees_Success Response: " + result.getResponse().getContentAsString());
 
         mockMvc.perform(post("/api/v1/employees/addEmployees")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(sampleEmployeeRequestDTO)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.status").value("success"))
-                .andExpect(jsonPath("$.message").value("Successfully added 1 . Add failed : 0"));
+                .andExpect(jsonPath("$.message").value("Successfully added 1 . Add failed : 0"))
+                .andExpect(jsonPath("$.data.empDetailsList[0].dateOfBirth").value("01-01-1990"))
+                .andExpect(jsonPath("$.data.empDetailsList[0].hireDate").value("01-01-2023"));
 
         verify(employeeService, times(1)).addDataToDataBase(eq(sampleEmployeeList));
     }
