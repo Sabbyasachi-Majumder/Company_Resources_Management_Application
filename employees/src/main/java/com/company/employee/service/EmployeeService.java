@@ -1,6 +1,8 @@
 package com.company.employee.service;
 
+import com.company.employee.dto.ApiResponseDTO;
 import com.company.employee.dto.EmployeeDTO;
+import com.company.employee.dto.EmployeeResponseDTO;
 import com.company.employee.entity.EmployeeEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -10,17 +12,21 @@ import java.util.List;
 
 public interface EmployeeService {
 
-    EmployeeDTO toDTO(EmployeeEntity entity);
+    ApiResponseDTO<String> testDatabaseConnection();
 
+    EmployeeDTO toDTO(EmployeeEntity entity);
     EmployeeEntity toEntity(EmployeeDTO dto);
 
+    ApiResponseDTO<List<EmployeeDTO>> fetchPagedDataList(Pageable pageable);
     Page<EmployeeDTO> fetchPageData(Pageable pageable);
 
+    ApiResponseDTO<EmployeeResponseDTO> addDataToDatBase(ArrayList<EmployeeDTO> empList);
     void addData(EmployeeEntity employee);
 
-    void updateData(EmployeeEntity entity);
-
-    void deleteAll(ArrayList<EmployeeDTO> empList);
-
+    ApiResponseDTO<EmployeeResponseDTO> searchDataBase(int employeeId);
     EmployeeEntity searchData(int employeeId);
+
+    ApiResponseDTO<EmployeeResponseDTO> updateDataToDataBase(ArrayList<EmployeeDTO> empList);
+
+    ApiResponseDTO<EmployeeResponseDTO> deleteDataFromDataBase(ArrayList<EmployeeDTO> empList);
 }
