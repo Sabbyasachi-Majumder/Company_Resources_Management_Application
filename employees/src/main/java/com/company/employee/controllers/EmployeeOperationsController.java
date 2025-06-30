@@ -118,7 +118,7 @@ public class EmployeeOperationsController {
         loggingStart();
         try {
             logger.debug("Adding all records.");
-            return ResponseEntity.ok(employeeService.addDataToDatBase(empBean.getEmpDetailsList()));
+            return ResponseEntity.ok(employeeService.addDataToDataBase(empBean.getEmpDetailsList()));
         } catch (RuntimeException e) {
             logger.error("Adding records failed . Reason {}", e.getMessage());
             return ResponseEntity.ok(new ApiResponseDTO<>("error", e.getMessage(), null));

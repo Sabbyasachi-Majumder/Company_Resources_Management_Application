@@ -103,7 +103,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     // Business logic to add employee data records one by one .
-    public ApiResponseDTO<EmployeeResponseDTO> addDataToDatBase(ArrayList<EmployeeDTO> empList) {
+    public ApiResponseDTO<EmployeeResponseDTO> addDataToDataBase(ArrayList<EmployeeDTO> empList) {
         ArrayList<ApiResponseDTO<EmployeeResponseDTO>> responses = new ArrayList<>();
         int addCounter = 0;
         for (EmployeeDTO e : empList) {

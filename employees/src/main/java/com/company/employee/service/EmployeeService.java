@@ -20,7 +20,7 @@ public interface EmployeeService {
     ApiResponseDTO<List<EmployeeDTO>> fetchPagedDataList(Pageable pageable);
     Page<EmployeeDTO> fetchPageData(Pageable pageable);
 
-    ApiResponseDTO<EmployeeResponseDTO> addDataToDatBase(ArrayList<EmployeeDTO> empList);
+    ApiResponseDTO<EmployeeResponseDTO> addDataToDataBase(ArrayList<EmployeeDTO> empList);
     void addData(EmployeeEntity employee);
 
     ApiResponseDTO<EmployeeResponseDTO> searchDataBase(int employeeId);

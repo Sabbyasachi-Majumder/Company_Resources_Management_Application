@@ -28,7 +28,7 @@ public class EmployeeGlobalExceptionHandler {
 
     private static final Logger logger = LoggerFactory.getLogger(EmployeeGlobalExceptionHandler.class);
 
-    private EmployeeGlobalExceptionHandler() {
+    EmployeeGlobalExceptionHandler() {
         logger.info("GlobalExceptionHandler initialized");
     }
 
