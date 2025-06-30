@@ -1,5 +1,6 @@
 package com.company.employee.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.*;
 import lombok.Getter;
@@ -29,6 +30,7 @@ public class EmployeeDTO {
     @NotNull(message = "Date of birth cannot be null")
     @Past(message = "Date of birth must be in the past")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     @Schema(description = "Date of birth of the employee (yyyy-MM-dd)", example = "1990-01-01", requiredMode = Schema.RequiredMode.REQUIRED)
     private Date dateOfBirth;
 
@@ -44,6 +46,7 @@ public class EmployeeDTO {
     @NotNull(message = "Hire date cannot be null")
     @PastOrPresent(message = "Hire date must be in the past or present")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     @Schema(description = "Hire date of the employee (yyyy-MM-dd)", example = "2023-01-01", requiredMode = Schema.RequiredMode.REQUIRED)
     private Date hireDate;
 
