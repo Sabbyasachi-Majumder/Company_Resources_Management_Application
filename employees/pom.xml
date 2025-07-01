@@ -9,9 +9,9 @@
         <relativePath/> <!-- lookup parent from Repositories -->
     </parent>
     <groupId>com.company.employee</groupId>
-    <artifactId>employee-application</artifactId>
+    <artifactId>employee-service</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>Employee_Information_Application</name>
+    <name>Employee Service</name>
     <description>Spring-boot Application to handle Employee Information Operations</description>
     <url/>
     <licenses>
@@ -139,16 +139,6 @@
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
             <version>2.7.0</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-test-autoconfigure</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-test-autoconfigure</artifactId>
-            <scope>test</scope>
         </dependency>
     </dependencies>
 
