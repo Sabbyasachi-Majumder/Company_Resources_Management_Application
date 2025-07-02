@@ -1,6 +1,6 @@
 <configuration>
     <!-- Define a property for startup timestamp or unique ID -->
-    <timestamp key="startupTime" datePattern="yyyyMMdd-HHmmss" />
+    <timestamp key="startupTime" datePattern="yyyyMMdd-HHmmss"/>
 
     <!-- Console Appender -->
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
@@ -12,10 +12,12 @@
     <!-- Startup-specific Rolling File Appender -->
     <appender name="RUNTIME_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <!-- Log file name includes startup timestamp -->
-        <file>../Company_Resources_Management_Application/api-gateway/logs/api-gateway-service-${startupTime}.log</file>
+        <file>../Company_Resources_Management_Application/logs/api-gateway/api-gateway-service-${startupTime}.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <!-- Roll over based on size, keep startup timestamp in archived files -->
-            <fileNamePattern>../Company_Resources_Management_Application/api-gateway/logs/api-gateway-service-${startupTime}-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <fileNamePattern>
+                ../Company_Resources_Management_Application/logs/api-gateway/api-gateway-service-${startupTime}-%d{yyyy-MM-dd}.%i.log
+            </fileNamePattern>
             <maxFileSize>10MB</maxFileSize>
             <maxHistory>30</maxHistory>
             <totalSizeCap>1GB</totalSizeCap>
@@ -27,7 +29,7 @@
 
     <!-- Root Logger -->
     <root level="info">
-        <appender-ref ref="CONSOLE" />
-        <appender-ref ref="RUNTIME_FILE" />
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="RUNTIME_FILE"/>
     </root>
 </configuration>
