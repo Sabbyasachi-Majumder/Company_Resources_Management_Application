@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/departments")
+@RequestMapping("/api/v1/department")
 public class DepartmentOperationsController {
 
     private static final Logger logger = LoggerFactory.getLogger(DepartmentOperationsController.class);
@@ -50,7 +50,8 @@ public class DepartmentOperationsController {
     })
     public ResponseEntity<ApiResponseDTO<String>> testPostmanToApplicationConnection() {
         loggingStart();
-        logger.debug("Testing DepartmentOperationsController to Postman connection.");
+        logger.info("Testing DepartmentOperationsController to Postman connection.");
+        logger.info("DepartmentOperationsController to Postman connection is successfully connected.");
         return ResponseEntity.ok(new ApiResponseDTO<>("success", "Connection to Department Application is successfully established.", null));
     }
 
@@ -66,7 +67,7 @@ public class DepartmentOperationsController {
     })
     public ResponseEntity<ApiResponseDTO<String>> testDataBaseConnection() {
         loggingStart();
-        logger.debug("Testing DepartmentOperationsController to department database connection.");
+        logger.info("Testing DepartmentOperationsController to department database connection.");
         return ResponseEntity.ok(departmentService.testDatabaseConnection());
     }
 
@@ -88,7 +89,7 @@ public class DepartmentOperationsController {
     })
     public ResponseEntity<ApiResponseDTO<List<DepartmentDTO>>> fetchDepartments(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int size) {
         loggingStart();
-        logger.debug("Displaying all departments with page: {}, size: {}", page, size);
+        logger.info("Displaying all departments with page: {}, size: {}", page, size);
         Pageable pageable = PageRequest.of(page, size);
         return ResponseEntity.ok(departmentService.fetchPagedDataList(pageable));
     }
@@ -115,7 +116,7 @@ public class DepartmentOperationsController {
     public ResponseEntity<ApiResponseDTO<DepartmentResponseDTO>> addDepartments(@Valid @RequestBody DepartmentRequestDTO departmentBean) {
         loggingStart();
         try {
-            logger.debug("Adding all records.");
+            logger.info("Adding all records.");
             return ResponseEntity.ok(departmentService.addDataToDataBase(departmentBean.getDepartmentDetailList()));
         } catch (RuntimeException e) {
             logger.error("Adding records failed . Reason {}", e.getMessage());
@@ -144,7 +145,7 @@ public class DepartmentOperationsController {
     })
     public ResponseEntity<ApiResponseDTO<DepartmentResponseDTO>> searchDepartment(@PathVariable("departmentId") int departmentId) {
         loggingStart();
-        logger.debug("Searching departmentId {} ", departmentId);
+        logger.info("Searching departmentId {} ", departmentId);
         return ResponseEntity.ok(departmentService.searchDataBase(departmentId));
     }
 
@@ -172,7 +173,7 @@ public class DepartmentOperationsController {
     })
     public ResponseEntity<ApiResponseDTO<DepartmentResponseDTO>> updateDepartments(@Valid @RequestBody DepartmentRequestDTO departmentBean) {
         loggingStart();
-        logger.debug("Updating records begins");
+        logger.info("Updating records begins");
         try {
             return ResponseEntity.ok(departmentService.updateDataToDataBase(departmentBean.getDepartmentDetailList()));
         } catch (Exception e) {
@@ -202,7 +203,7 @@ public class DepartmentOperationsController {
     })
     public ResponseEntity<ApiResponseDTO<DepartmentResponseDTO>> deleteDepartments(@RequestBody DepartmentRequestDTO departmentBean) {
         loggingStart();
-        logger.debug("Deleting record begins");
+        logger.info("Deleting record begins");
         try {
             return ResponseEntity.ok(departmentService.deleteDataFromDataBase(departmentBean.getDepartmentDetailList()));
         } catch (Exception e) {

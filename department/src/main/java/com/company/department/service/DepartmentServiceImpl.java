@@ -8,17 +8,15 @@ import com.company.department.repository.DepartmentRepository;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.NoArgsConstructor;
+import org.bson.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.jdbc.datasource.DataSourceUtils;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
 
-import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -30,24 +28,20 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Autowired
     private final DepartmentRepository DepartmentRepository;
     @Autowired
-    private final DataSource dataSource;
+    private MongoTemplate mongoTemplate;
 
     // For detailed logging in the application
     private static final Logger logger = LoggerFactory.getLogger(DepartmentServiceImpl.class);
 
     //Test Database Connection business logic
     public ApiResponseDTO<String> testDatabaseConnection() {
-        Connection connection = DataSourceUtils.getConnection(dataSource);
-        try {
-            if (connection.isValid(1)) {
-                logger.debug("Testing successful . Database connection is present.");
-                return new ApiResponseDTO<>("success", "Connection from department Application to department Database successfully established.", null);
-            } else {
-                logger.error("Testing failed . Database connection is not present.");
-                return new ApiResponseDTO<>("error", "Connection to department Database failed to be established.", null);
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+        Document result = mongoTemplate.getDb().runCommand(new Document("ping", 1));
+        if (result != null && result.containsKey("ok") && result.getDouble("ok") == 1.0) {
+            logger.debug("Testing successful . Database connection is present.");
+            return new ApiResponseDTO<>("success", "Connection from department Application to department Database successfully established.", null);
+        } else {
+            logger.debug("Testing successful . Database connection is present.");
+            return new ApiResponseDTO<>("success", "Connection from department Application to department Database successfully established.", null);
         }
     }
 
@@ -55,15 +49,10 @@ public class DepartmentServiceImpl implements DepartmentService {
     public DepartmentDTO toDTO(DepartmentEntity entity) {
         DepartmentDTO dto = new DepartmentDTO();
         dto.setDepartmentId(entity.getDepartmentId());
-        dto.setFirstName(entity.getFirstName());
-        dto.setLastName(entity.getLastName());
-        dto.setDateOfBirth(entity.getDateOfBirth());
-        dto.setGender(entity.getGender());
-        dto.setSalary(entity.getSalary());
-        dto.setHireDate(entity.getHireDate());
-        dto.setJobStage(entity.getJobStage());
-        dto.setDesignation(entity.getDesignation());
-        dto.setManagerDepartmentId(entity.getManagerDepartmentId());
+        dto.setDepartmentName(entity.getDepartmentName());
+        dto.setLocations(entity.getLocations());
+        dto.setDepartmentHeadId(entity.getDepartmentHeadId());
+        dto.setDepartmentEmployeeIds(entity.getDepartmentEmployeeIds());
         logger.debug("Mapped entity to DTO");
         return dto;
     }
@@ -72,15 +61,10 @@ public class DepartmentServiceImpl implements DepartmentService {
     public DepartmentEntity toEntity(DepartmentDTO dto) {
         DepartmentEntity entity = new DepartmentEntity();
         entity.setDepartmentId(dto.getDepartmentId());
-        entity.setFirstName(dto.getFirstName());
-        entity.setLastName(dto.getLastName());
-        entity.setDateOfBirth(dto.getDateOfBirth());
-        entity.setGender(dto.getGender());
-        entity.setSalary(dto.getSalary());
-        entity.setHireDate(dto.getHireDate());
-        entity.setJobStage(dto.getJobStage());
-        entity.setDesignation(dto.getDesignation());
-        entity.setManagerDepartmentId(dto.getManagerDepartmentId());
+        entity.setDepartmentName(dto.getDepartmentName());
+        entity.setLocations(dto.getLocations());
+        entity.setDepartmentHeadId(dto.getDepartmentHeadId());
+        entity.setDepartmentEmployeeIds(dto.getDepartmentEmployeeIds());
         logger.debug("Mapped DTO to entity");
         return entity;
     }
