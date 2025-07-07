@@ -37,10 +37,10 @@ public class DepartmentServiceImpl implements DepartmentService {
     public ApiResponseDTO<String> testDatabaseConnection() {
         Document result = mongoTemplate.getDb().runCommand(new Document("ping", 1));
         if (result != null && result.containsKey("ok") && result.getDouble("ok") == 1.0) {
-            logger.debug("Testing successful . Database connection is present.");
+            logger.info("Testing successful . Database connection is present.");
             return new ApiResponseDTO<>("success", "Connection from department Application to department Database successfully established.", null);
         } else {
-            logger.debug("Testing successful . Database connection is present.");
+            logger.info("Testing successful . Database connection is present.");
             return new ApiResponseDTO<>("success", "Connection from department Application to department Database successfully established.", null);
         }
     }
@@ -53,7 +53,7 @@ public class DepartmentServiceImpl implements DepartmentService {
         dto.setLocations(entity.getLocations());
         dto.setDepartmentHeadId(entity.getDepartmentHeadId());
         dto.setDepartmentEmployeeIds(entity.getDepartmentEmployeeIds());
-        logger.debug("Mapped entity to DTO");
+        logger.info("Mapped entity to DTO");
         return dto;
     }
 
@@ -65,7 +65,7 @@ public class DepartmentServiceImpl implements DepartmentService {
         entity.setLocations(dto.getLocations());
         entity.setDepartmentHeadId(dto.getDepartmentHeadId());
         entity.setDepartmentEmployeeIds(dto.getDepartmentEmployeeIds());
-        logger.debug("Mapped DTO to entity");
+        logger.info("Mapped DTO to entity");
         return entity;
     }
 
@@ -92,7 +92,7 @@ public class DepartmentServiceImpl implements DepartmentService {
         int addCounter = 0;
         for (DepartmentDTO e : empList) {
             if (!DepartmentRepository.existsById(e.getDepartmentId())) {
-                logger.debug("Adding departmentId {} ", e.getDepartmentId());
+                logger.info("Adding departmentId {} ", e.getDepartmentId());
                 addData(toEntity(e));
                 addCounter++;
                 responses.add(new ApiResponseDTO<>("success", "Successfully added department Id " + e.getDepartmentId() + " data records", null));
@@ -107,10 +107,10 @@ public class DepartmentServiceImpl implements DepartmentService {
     //Adds department details to the department table
     @Override
     public void addData(DepartmentEntity entity) {
-        logger.debug("Attempting to add departmentId {}", entity.getDepartmentId());
+        logger.info("Attempting to add departmentId {}", entity.getDepartmentId());
         assert DepartmentRepository != null;
         DepartmentRepository.save(entity);
-        logger.debug("Added departmentId {} successfully", entity.getDepartmentId());
+        logger.info("Added departmentId {} successfully", entity.getDepartmentId());
     }
 
     // Business logic to search database for a department based on its departmentId
@@ -132,7 +132,7 @@ public class DepartmentServiceImpl implements DepartmentService {
         int updateCounter = 0;
         for (DepartmentDTO e : empList) {
             if (DepartmentRepository.existsById(e.getDepartmentId())) {
-                logger.debug("Updated departmentId {} successfully", e.getDepartmentId());
+                logger.info("Updated departmentId {} successfully", e.getDepartmentId());
                 DepartmentRepository.save(toEntity(e));
                 updateCounter++;
                 responses.add(new ApiResponseDTO<>("success", "Successfully updated department Id " + e.getDepartmentId() + " data records", null));
@@ -150,7 +150,7 @@ public class DepartmentServiceImpl implements DepartmentService {
         for (DepartmentDTO e : empList) {
             ApiResponseDTO<DepartmentResponseDTO> apiResponse;
             if (DepartmentRepository.existsById(e.getDepartmentId())) {
-                logger.debug("Deleted departmentId {} successfully", e.getDepartmentId());
+                logger.info("Deleted departmentId {} successfully", e.getDepartmentId());
                 DepartmentRepository.deleteById(e.getDepartmentId());
                 deleteCounter++;
                 apiResponse = new ApiResponseDTO<>("success", "Successfully deleted department Id " + e.getDepartmentId() + " data records", null);

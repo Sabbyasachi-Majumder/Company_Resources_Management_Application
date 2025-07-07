@@ -11,7 +11,7 @@ import java.util.List;
 
 //Lombok Annotations
 @Data
-@Document(collection = "departments")
+@Document(collection = "department_db")
 public class DepartmentEntity {
     @Id
     // @GeneratedValue(strategy = GenerationType.IDENTITY) Commenting out now to manually create departmentId . will later use this to generate departmentId automatically .

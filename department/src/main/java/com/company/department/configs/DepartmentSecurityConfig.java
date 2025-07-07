@@ -37,7 +37,7 @@ public class DepartmentSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         logger.info("JWT Filter Invoked");
         http.cors(cors -> cors.configurationSource(corsConfigurationSource())) // Add CORS integration
-                .csrf(csrf -> csrf.disable()).addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class).authorizeHttpRequests(auth -> auth.requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/favicon.ico", "/error", "/error/**", "/api/v1/department/register", "/api/v1/department/testConnection", "/api/v1/department/testDataBaseConnection").permitAll().requestMatchers("/api/v1/department/**").authenticated().requestMatchers("/actuator/**").authenticated().anyRequest().permitAll()).exceptionHandling(exception -> exception.authenticationEntryPoint(authenticationEntryPoint)).sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+                .csrf(csrf -> csrf.disable()).addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class).authorizeHttpRequests(auth -> auth.requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/api/v1/department/register", "/api/v1/department/testConnection", "/api/v1/department/testDataBaseConnection").permitAll().requestMatchers("/api/v1/department/**").authenticated().requestMatchers("/actuator/**").authenticated().anyRequest().permitAll()).exceptionHandling(exception -> exception.authenticationEntryPoint(authenticationEntryPoint)).sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         return http.build();
     }
 
