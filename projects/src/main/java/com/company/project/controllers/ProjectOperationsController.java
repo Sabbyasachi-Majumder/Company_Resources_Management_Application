@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("/api/v1/project")
 public class ProjectOperationsController {
 
     private static final Logger logger = LoggerFactory.getLogger(ProjectOperationsController.class);

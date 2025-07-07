@@ -23,12 +23,13 @@ public class CustomAuthenticationEntryPoint implements ServerAuthenticationEntry
         if (path.startsWith("/swagger-ui/") ||
                 path.equals("/swagger-ui.html") ||
                 path.startsWith("/v3/api-docs/") ||
-                path.equals("/login") ||
-                path.equals("/api/v1/employees/authenticate") ||
-                path.equals("/api/v1/employees/register") ||
+                path.startsWith("/api/v1/authenticates/") ||
                 path.equals("/api/v1/employees/testConnection") ||
                 path.equals("/api/v1/employees/testDataBaseConnection") ||
-                path.startsWith("/api/v1/authenticates/")) {
+                path.equals("/api/v1/project/testConnection") ||
+                path.equals("/api/v1/project/testDataBaseConnection") ||
+                path.equals("/api/v1/department/testConnection") ||
+                path.equals("/api/v1/department/testDataBaseConnection")) {
             logger.debug("Skipping authentication entry point for public path: {}", path);
             return Mono.empty();
         }

@@ -17,12 +17,16 @@ public class SecurityConfig {
         return http
                 .csrf(ServerHttpSecurity.CsrfSpec::disable) // Non-deprecated CSRF disable
                 .authorizeExchange(exchanges -> exchanges
+                        //public endpoints , doesn't need authorization check
                         .pathMatchers("/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html").permitAll()
-                        .pathMatchers("/api/v1/employees/authenticate", "/api/v1/employees/register").permitAll()
-                        .pathMatchers("/employee/api/v1/employees/authenticate", "/employee/api/v1/employees/register").permitAll()
+                        .pathMatchers("/api/v1/authenticates/**").permitAll()
                         .pathMatchers("/api/v1/employees/testConnection", "/api/v1/employees/testDataBaseConnection").permitAll()
-                        .pathMatchers("/api/v1/authenticates/**").permitAll()  //authentication endpoints in authenticate service
-                        .pathMatchers("/api/v1/employees/**", "/employee/api/v1/employees/**").authenticated()
+                        .pathMatchers("/api/v1/project/testConnection", "/api/v1/project/testDataBaseConnection").permitAll()
+                        .pathMatchers("/api/v1/department/testConnection", "/api/v1/department/testDataBaseConnection").permitAll()
+                        //restricted authorization endpoints
+                        .pathMatchers("/api/v1/employees/**").authenticated()
+                        .pathMatchers("/api/v1/project/**").authenticated()
+                        .pathMatchers("/api/v1/department/**").authenticated()
                         .anyExchange().authenticated()
                 )
                 .addFilterAt(jwtFilter, SecurityWebFiltersOrder.AUTHENTICATION)
