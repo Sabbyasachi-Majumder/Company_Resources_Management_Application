@@ -29,6 +29,7 @@
         <module>employees</module>
         <module>projects</module>
         <module>department</module>
+        <module>service-registry</module>
     </modules>
 
     <dependencyManagement>
