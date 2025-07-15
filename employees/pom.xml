@@ -9,9 +9,9 @@
         <relativePath/> <!-- lookup parent from Repositories -->
     </parent>
     <groupId>com.company.employee</groupId>
-    <artifactId>employee-application</artifactId>
+    <artifactId>employee-service</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>Employee_Information_Application</name>
+    <name>Employee Service</name>
     <description>Spring-boot Application to handle Employee Information Operations</description>
     <url/>
     <licenses>
@@ -140,15 +140,11 @@
             <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
             <version>2.7.0</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-netflix-eureka-client -->
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-test-autoconfigure</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-test-autoconfigure</artifactId>
-            <scope>test</scope>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+            <version>4.3.0</version>
         </dependency>
     </dependencies>
 

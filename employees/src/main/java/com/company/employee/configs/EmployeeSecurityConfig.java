@@ -2,7 +2,6 @@ package com.company.employee.configs;
 
 import com.company.employee.security.CustomAuthenticationEntryPoint;
 import com.company.employee.security.JwtAuthenticationFilter;
-import jakarta.servlet.Filter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;

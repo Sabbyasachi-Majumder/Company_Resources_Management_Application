@@ -1,6 +1,5 @@
 package com.company.api_gateway.security;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -52,8 +51,7 @@ public class JwtAuthenticationFilter implements WebFilter {
 
     //If the path is meant to be openly accessible , we ignore filtering process
     public boolean publicEndpointCheck(String path) {
-        return path.startsWith("/swagger-ui") || path.startsWith("/v3/api-docs") ||
-                path.equals("/api/v1/employees/authenticate") || path.equals("/api/v1/employees/register") ||
-                path.equals("/employee/api/v1/employees/authenticate") || path.equals("/employee/api/v1/employees/register") || path.equals("/api/v1/employees/testConnection") || path.equals("/api/v1/employees/testDataBaseConnection") || path.startsWith("/api/v1/authenticates/");
+        return path.startsWith("/swagger-ui") || path.startsWith("/v3/api-docs") || path.startsWith("/api/v1/authenticates/") ||
+                path.equals("/api/v1/employees/testConnection") || path.equals("/api/v1/employees/testDataBaseConnection") || path.equals("/api/v1/project/testConnection") || path.equals("/api/v1/project/testDataBaseConnection") || path.equals("/api/v1/department/testConnection") || path.equals("/api/v1/department/testDataBaseConnection");
     }
 }

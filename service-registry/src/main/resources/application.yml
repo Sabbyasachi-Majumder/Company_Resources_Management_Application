@@ -1,0 +1,26 @@
+# application.yml
+spring:
+  application:
+    name: service-registry
+
+server:
+  port: 8761
+
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+    service-url:
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+  server:
+    enable-self-preservation: true # Disable for development
+    renewal-percent-threshold: 0.85
+
+logging:
+  file:
+    path: ${user.home}/Github/Company_Resources_Management_Application/logs/service-registry
+  level:
+    com.netflix.eureka: DEBUG
+    org.springframework.cloud: DEBUG

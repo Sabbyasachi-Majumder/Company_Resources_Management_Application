@@ -20,11 +20,11 @@ public class EmployeeDTO {
 
     @NotBlank(message = "First name cannot be empty")
     @Size(max = 50, message = "First name must be at most 50 characters")
-    @Schema(description = "First name of the employee", example = "John", requiredMode = Schema.RequiredMode.REQUIRED)
+    @Schema(description = "First name of the employee", example = "Sam", requiredMode = Schema.RequiredMode.REQUIRED)
     private String firstName;
 
     @Size(max = 50, message = "Last name must be at most 50 characters")
-    @Schema(description = "Last name of the employee", example = "Doe", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    @Schema(description = "Last name of the employee", example = "White", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     private String lastName;
 
     @NotNull(message = "Date of birth cannot be null")
@@ -41,7 +41,7 @@ public class EmployeeDTO {
 
     @Positive(message = "Salary must be positive")
     @Schema(description = "Salary of the employee", example = "50000.00", requiredMode = Schema.RequiredMode.REQUIRED)
-    private double salary;
+    private double salary;  //should be in employee professional information service
 
     @NotNull(message = "Hire date cannot be null")
     @PastOrPresent(message = "Hire date must be in the past or present")
@@ -52,12 +52,12 @@ public class EmployeeDTO {
 
     @NotBlank(message = "Job stage cannot be empty")
     @Size(max = 4, message = "Job stage must be at most 4 characters")
-    @Schema(description = "Job stage of the employee", example = "L1", requiredMode = Schema.RequiredMode.REQUIRED)
+    @Schema(description = "Job stage of the employee", example = "JS3", requiredMode = Schema.RequiredMode.REQUIRED)
     private String jobStage;
 
     @NotBlank(message = "Designation cannot be empty")
     @Size(max = 100, message = "Designation must be at most 100 characters")
-    @Schema(description = "Designation of the employee", example = "Software Engineer", requiredMode = Schema.RequiredMode.REQUIRED)
+    @Schema(description = "Designation of the employee", example = "Software Developer", requiredMode = Schema.RequiredMode.REQUIRED)
     private String designation;
 
     @Positive(message = "Manager Employee ID must be positive")

@@ -5,8 +5,7 @@ import com.company.employee.dto.EmployeeDTO;
 import com.company.employee.dto.EmployeeResponseDTO;
 import com.company.employee.entity.EmployeeEntity;
 import com.company.employee.repository.EmployeeRepository;
-import lombok.NoArgsConstructor;
-import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,10 +14,13 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+import lombok.NoArgsConstructor;
+import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 
 import javax.sql.DataSource;
@@ -178,5 +180,4 @@ public class EmployeeServiceImpl implements EmployeeService {
         }
         return new ApiResponseDTO<>("success", "Delete Success : " + deleteCounter + ". Delete Failed : " + (empList.size() - deleteCounter), new EmployeeResponseDTO(null, responses));
     }
-
 }

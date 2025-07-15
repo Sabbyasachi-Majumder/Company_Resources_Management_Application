@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<settings xmlns="http://maven.apache.org/SETTINGS/1.2.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.2.0 https://maven.apache.org/xsd/settings-1.2.0.xsd">
+
+    <!-- Define repositories for releases and snapshots -->
+    <mirrors>
+        <mirror>
+            <id>central</id>
+            <name>Maven Central</name>
+            <url>https://repo.maven.apache.org/maven2</url>
+            <mirrorOf>*</mirrorOf>
+        </mirror>
+    </mirrors>
+
+    <!-- Define profiles for the service-registry project -->
+    <profiles>
+        <profile>
+            <id>service-registry</id>
+            <repositories>
+                <repository>
+                    <id>central</id>
+                    <name>Maven Central</name>
+                    <url>https://repo.maven.apache.org/maven2</url>
+                    <releases>
+                        <enabled>true</enabled>
+                        <updatePolicy>never</updatePolicy>
+                        <checksumPolicy>warn</checksumPolicy>
+                    </releases>
+                    <snapshots>
+                        <enabled>false</enabled>
+                        <updatePolicy>never</updatePolicy>
+                        <checksumPolicy>warn</checksumPolicy>
+                    </snapshots>
+                </repository>
+            </repositories>
+            <pluginRepositories>
+                <pluginRepository>
+                    <id>central</id>
+                    <name>Maven Central</name>
+                    <url>https://repo.maven.apache.org/maven2</url>
+                    <releases>
+                        <enabled>true</enabled>
+                        <updatePolicy>never</updatePolicy>
+                        <checksumPolicy>warn</checksumPolicy>
+                    </releases>
+                    <snapshots>
+                        <enabled>false</enabled>
+                        <updatePolicy>never</updatePolicy>
+                        <checksumPolicy>warn</checksumPolicy>
+                    </snapshots>
+                </pluginRepository>
+            </pluginRepositories>
+        </profile>
+    </profiles>
+
+    <!-- Activate the service-registry profile by default -->
+    <activeProfiles>
+        <activeProfile>service-registry</activeProfile>
+    </activeProfiles>
+
+</settings>
