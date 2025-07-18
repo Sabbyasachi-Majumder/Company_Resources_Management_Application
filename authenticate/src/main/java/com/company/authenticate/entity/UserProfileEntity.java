@@ -6,10 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.HashSet;
-import java.util.Set;
-
-
 @Getter
 @Setter
 @NoArgsConstructor
@@ -18,33 +14,19 @@ import java.util.Set;
 @Table(name = "UserProfileTable")
 public class UserProfileEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "UserId", nullable = false)
+    private Long userId;
 
-    @Column(unique = true, nullable = false)
-    private String username;
+    @Column(name = "UserName" , unique = true, nullable = false)
+    private String userName;
 
-    @Column(nullable = false)
+    @Column(name = "Password" , nullable = false)
     private String password;
 
-    @Column(nullable = false)
+    @Column(name = "Enabled" , nullable = false)
     private boolean enabled;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "user_roles",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id")
-    )
-    private Set<RoleEntity> roleEntities = new HashSet<>();
-
-    public UserProfileEntity(String username, String password, boolean enabled) {
-        this.username = username;
-        this.password = password;
-        this.enabled = enabled;
-    }
-
-    public void addRole(RoleEntity userRoleEntity) {
-        this.roleEntities.add(userRoleEntity);
-    }
+    @Column(name = "Role" , nullable = false)
+    private String role;
 }
