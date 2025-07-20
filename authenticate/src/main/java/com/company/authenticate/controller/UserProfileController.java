@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@Tag(name = "User Details", description = "Endpoints for User Registration, Search, Update and Deletion")
 @RequestMapping("/api/v1/authenticates")
 public class UserProfileController {
     private static final Logger logger = LoggerFactory.getLogger(UserProfileController.class);
@@ -49,6 +50,7 @@ public class UserProfileController {
     })
     public ResponseEntity<ApiResponseDTO<String>> testPostmanToApplicationConnection() {
         loggingStart();
+        logger.debug("Called /testConnection endpoint");
         logger.debug("Testing UserOperationsController to Postman connection.");
         return ResponseEntity.ok(new ApiResponseDTO<>("success", "Connection to User Application is successfully established.", null));
     }
@@ -65,6 +67,7 @@ public class UserProfileController {
     })
     public ResponseEntity<ApiResponseDTO<String>> testDataBaseConnection() {
         loggingStart();
+        logger.debug("Called /testDataBaseConnection endpoint");
         logger.debug("Testing UserOperationsController to user database connection.");
         return ResponseEntity.ok(userService.testDatabaseConnection());
     }
@@ -87,8 +90,9 @@ public class UserProfileController {
     })
     public ResponseEntity<ApiResponseDTO<List<UserProfileDTO>>> fetchUsers(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int size) {
         loggingStart();
+        logger.debug("Called /fetchUsers endpoint");
         logger.debug("Displaying all users with page: {}, size: {}", page, size);
-        Pageable pageable = PageRequest.of(page, size);
+        Pageable pageable = PageRequest.of(page-1, size);
         return ResponseEntity.ok(userService.fetchPagedDataList(pageable));
     }
 
@@ -114,6 +118,8 @@ public class UserProfileController {
     public ResponseEntity<ApiResponseDTO<UserProfileResponseDTO>> addUsers(@Valid @RequestBody UserProfileRequestDTO userBean) {
         loggingStart();
         try {
+            loggingStart();
+            logger.debug("Called /addUsers endpoint");
             logger.debug("Adding all records.");
             return ResponseEntity.ok(userService.addDataToDataBase(userBean.getUserProfileList()));
         } catch (RuntimeException e) {
@@ -143,6 +149,7 @@ public class UserProfileController {
     })
     public ResponseEntity<ApiResponseDTO<UserProfileResponseDTO>> searchUser(@PathVariable("userId") int userId) {
         loggingStart();
+        logger.debug("Called /searchUsers endpoint");
         logger.debug("Searching userId {} ", userId);
         return ResponseEntity.ok(userService.searchDataBase(userId));
     }
@@ -171,6 +178,7 @@ public class UserProfileController {
     })
     public ResponseEntity<ApiResponseDTO<UserProfileResponseDTO>> updateUsers(@Valid @RequestBody UserProfileRequestDTO userBean) {
         loggingStart();
+        logger.debug("Called /updateUsers endpoint");
         logger.debug("Updating records begins");
         try {
             return ResponseEntity.ok(userService.updateDataToDataBase(userBean.getUserProfileList()));
@@ -201,6 +209,7 @@ public class UserProfileController {
     })
     public ResponseEntity<ApiResponseDTO<UserProfileResponseDTO>> deleteUsers(@RequestBody UserProfileRequestDTO userBean) {
         loggingStart();
+        logger.debug("Called /deleteUsers endpoint");
         logger.debug("Deleting record begins");
         try {
             return ResponseEntity.ok(userService.deleteDataFromDataBase(userBean.getUserProfileList()));

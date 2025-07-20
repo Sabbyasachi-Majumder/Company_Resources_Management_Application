@@ -6,7 +6,6 @@ import com.company.authenticate.dto.UserProfileResponseDTO;
 import com.company.authenticate.entity.UserProfileEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +33,4 @@ public interface UserProfileService {
     ApiResponseDTO<UserProfileResponseDTO> updateDataToDataBase(ArrayList<UserProfileDTO> userList);
 
     ApiResponseDTO<UserProfileResponseDTO> deleteDataFromDataBase(ArrayList<UserProfileDTO> userList);
-
-    UserDetails loadUserByUserName(String username);
 }

@@ -12,8 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.jdbc.datasource.DataSourceUtils;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,6 +31,8 @@ public class UserProfileServiceImpl implements UserProfileService {
     private final UserRepository userRepository;
     @Autowired
     private final DataSource dataSource;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     // For detailed logging in the application
     private static final Logger logger = LoggerFactory.getLogger(UserProfileServiceImpl.class);
@@ -52,12 +53,11 @@ public class UserProfileServiceImpl implements UserProfileService {
         }
     }
 
-    //Adds User details to the authenticate table
+    //Adds User details from the authenticate table
     public UserProfileDTO toDTO(UserProfileEntity entity) {
         UserProfileDTO dto = new UserProfileDTO();
         dto.setUserId(entity.getUserId());
         dto.setUserName(entity.getUserName());
-        dto.setPassword(entity.getPassword());
         dto.setEnabled(entity.isEnabled());
         dto.setRole(entity.getRole());
         logger.debug("Mapped entity to DTO");
@@ -69,7 +69,7 @@ public class UserProfileServiceImpl implements UserProfileService {
         UserProfileEntity entity = new UserProfileEntity();
         entity.setUserId(dto.getUserId());
         entity.setUserName(dto.getUserName());
-        entity.setPassword(dto.getPassword());
+        entity.setPassword(passwordEncoder.encode(dto.getPassword())); //encoding the user password
         entity.setEnabled(dto.isEnabled());
         entity.setRole(dto.getRole());
         logger.debug("Mapped DTO to entity");
@@ -80,9 +80,9 @@ public class UserProfileServiceImpl implements UserProfileService {
         Page<UserProfileDTO> pagedData = fetchPageData(pageable);
         if (pageable.getPageNumber() <= Math.ceil((float) pagedData.getTotalElements() / pageable.getPageSize())) {
             List<UserProfileDTO> currentData = pagedData.getContent();
-            return new ApiResponseDTO<>("success", "Fetching page " + pageable.getPageNumber() + " with " + currentData.size() + " User data records", currentData);
+            return new ApiResponseDTO<>("success", "Fetching page " + (pageable.getPageNumber()+1) + " with " + currentData.size() + " User data records", currentData);
         } else
-            return new ApiResponseDTO<>("success", "Total number of records is lower than the current page number " + pageable.getPageNumber() + " containing " + pageable.getPageSize() + " User data records each page.", null);
+            return new ApiResponseDTO<>("success", "Total number of records is lower than the current page number " + (pageable.getPageNumber()+1) + " containing " + pageable.getPageSize() + " User data records each page.", null);
 
     }
 
@@ -170,28 +170,5 @@ public class UserProfileServiceImpl implements UserProfileService {
             responses.add(apiResponse);
         }
         return new ApiResponseDTO<>("success", "Delete Success : " + deleteCounter + ". Delete Failed : " + (empList.size() - deleteCounter), new UserProfileResponseDTO(null, responses));
-    }
-
-    @Override
-    public UserDetails loadUserByUserName(String username) throws UsernameNotFoundException {
-        logger.debug("Loading user by username: {}", username);
-        UserProfileEntity user = userRepository.findByUserName(username)
-                .orElseThrow(() -> {
-                    logger.error("User not found with username: {}", username);
-                    return new UsernameNotFoundException("User not found with username: " + username);
-                });
-
-        UserDetails userDetails = org.springframework.security.core.userdetails.User
-                .withUsername(user.getUserName())
-                .password(user.getPassword())
-                .authorities(user.getRole())
-                .accountExpired(false)
-                .accountLocked(false)
-                .credentialsExpired(false)
-                .disabled(!user.isEnabled())
-                .build();
-
-        logger.info("Loaded user: {}, roles: {}", username, userDetails.getAuthorities());
-        return userDetails;
     }
 }
