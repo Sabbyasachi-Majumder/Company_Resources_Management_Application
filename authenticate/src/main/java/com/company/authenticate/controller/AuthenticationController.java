@@ -27,15 +27,17 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "Authentication", description = "Endpoints for user authentication")
 @RequestMapping("/api/v1/authenticates")
 public class AuthenticationController {
-
     private static final Logger logger = LoggerFactory.getLogger(AuthenticationController.class);
-
     private final AuthenticationManager authenticationManager;
     private final JwtUtil jwtUtil;
 
     public AuthenticationController(AuthenticationManager authenticationManager, JwtUtil jwtUtil) {
         this.authenticationManager = authenticationManager;
         this.jwtUtil = jwtUtil;
+    }
+
+    public void loggingStart() {
+        logger.debug("\n\n\t\t********************* New Request Started ********************\n\n");
     }
 
     // Authenticates a user with username and password, returning an access token and refresh token
@@ -51,18 +53,19 @@ public class AuthenticationController {
                             schema = @Schema(implementation = ApiResponseDTO.class)))
     })
     public ResponseEntity<ApiResponseDTO<AuthResponseDTO>> authenticate(@RequestBody AuthRequestDTO authRequest) {
-        logger.info("Authentication attempt for user: {}", authRequest.getUsername());
+        loggingStart();
+        logger.info("Authentication attempt for user: {}", authRequest.getUserName());
         try {
             Authentication authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
+                    new UsernamePasswordAuthenticationToken(authRequest.getUserName(), authRequest.getPassword()));
             UserDetails userDetails = (UserDetails) authentication.getPrincipal();
             String accessToken = jwtUtil.generateToken(userDetails);
             String refreshToken = jwtUtil.generateRefreshToken(userDetails);
-            logger.info("JWT generated for user: {}", authRequest.getUsername());
+            logger.info("JWT generated for user: {}", authRequest.getUserName());
             return ResponseEntity.ok(new ApiResponseDTO<>("success",
-                    "Login successful [AUTH_200_OK]", new AuthResponseDTO(accessToken, refreshToken)));
+                    "Login successful for user "+authRequest.getUserName(), new AuthResponseDTO(accessToken, refreshToken)));
         } catch (AuthenticationException e) {
-            logger.error("Login failed for user: {} - {}", authRequest.getUsername(), e.getMessage());
+            logger.error("Login failed for user: {} - {}", authRequest.getUserName(), e.getMessage());
             throw e;
         }
     }

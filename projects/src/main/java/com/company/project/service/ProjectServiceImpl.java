@@ -80,9 +80,9 @@ public class ProjectServiceImpl implements ProjectService {
         Page<ProjectDTO> pagedData = fetchPageData(pageable);
         if (pageable.getPageNumber() <= Math.ceil((float) pagedData.getTotalElements() / pageable.getPageSize())) {
             List<ProjectDTO> currentData = pagedData.getContent();
-            return new ApiResponseDTO<>("success", "Fetching page " + pageable.getPageNumber() + " with " + currentData.size() + " Project data records", currentData);
+            return new ApiResponseDTO<>("success", "Fetching page " + (pageable.getPageNumber()+1) + " with " + currentData.size() + " Project data records", currentData);
         } else
-            return new ApiResponseDTO<>("success", "Total number of records is lower than the current page number " + pageable.getPageNumber() + " containing " + pageable.getPageSize() + " Project data records each page.", null);
+            return new ApiResponseDTO<>("success", "Total number of records is lower than the current page number " + (pageable.getPageNumber()+1) + " containing " + pageable.getPageSize() + " Project data records each page.", null);
 
     }
 

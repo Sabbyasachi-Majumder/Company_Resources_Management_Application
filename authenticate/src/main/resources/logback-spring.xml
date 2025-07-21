@@ -1,6 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-    <!-- Define a property for startup timestamp or unique ID -->
+    <!-- Define startupTime as a timestamp -->
     <timestamp key="startupTime" datePattern="yyyyMMdd-HHmmss"/>
+
+    <!-- Use Spring property for log directory -->
+    <springProperty scope="context" name="LOG_DIR" source="logging.file.path"
+                    defaultValue="${user.home}/Github/Company_Resources_Management_Application/logs/authenticate-service" />
 
     <!-- Console Appender -->
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
@@ -9,16 +14,11 @@
         </encoder>
     </appender>
 
-    <!-- Startup-specific Rolling File Appender -->
-    <appender name="RUNTIME_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <!-- Log file name includes startup timestamp -->
-        <file>../Company_Resources_Management_Application/logs/authenticate/authenticate-service-${startupTime}.log
-        </file>
-        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-            <!-- Roll over based on size, keep startup timestamp in archived files -->
-            <fileNamePattern>
-                ../Company_Resources_Management_Application/logs/authenticate/authenticate-service-${startupTime}-%d{yyyy-MM-dd}.%i.log
-            </fileNamePattern>
+    <!-- Rolling File Appender -->
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_DIR}/authenticate-service-service-${startupTime}.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_DIR}/authenticate-service-service-${startupTime}-%d{yyyy-MM-dd}.log</fileNamePattern>
             <maxFileSize>10MB</maxFileSize>
             <maxHistory>30</maxHistory>
             <totalSizeCap>1GB</totalSizeCap>
@@ -29,8 +29,8 @@
     </appender>
 
     <!-- Root Logger -->
-    <root level="info">
-        <appender-ref ref="CONSOLE"/>
-        <appender-ref ref="RUNTIME_FILE"/>
+    <root level="DEBUG">
+        <appender-ref ref="CONSOLE" />
+        <appender-ref ref="FILE" />
     </root>
 </configuration>

@@ -36,8 +36,13 @@ public class EmployeeSecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         logger.debug("JWT Filter Invoked");
-        http.cors(cors -> cors.configurationSource(corsConfigurationSource())) // Add CORS integratio
-                .csrf(csrf -> csrf.disable()).addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class).authorizeHttpRequests(auth -> auth.requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/favicon.ico", "/error", "/error/**", "/api/v1/employees/register", "/api/v1/employees/testConnection", "/api/v1/employees/testDataBaseConnection").permitAll().requestMatchers("/api/v1/employees/**").authenticated().requestMatchers("/actuator/**").authenticated().anyRequest().permitAll()).exceptionHandling(exception -> exception.authenticationEntryPoint(authenticationEntryPoint)).sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+        http.cors(cors -> cors.configurationSource(corsConfigurationSource())) // Add CORS integration
+                .csrf(csrf -> csrf.disable())
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class).authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/api/v1/employees/testConnection", "/api/v1/employees/testDataBaseConnection").permitAll()
+                        .requestMatchers("/api/v1/employees/**").authenticated()
+                        .requestMatchers("/actuator/**").authenticated().anyRequest().permitAll())
+                .exceptionHandling(exception -> exception.authenticationEntryPoint(authenticationEntryPoint)).sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         return http.build();
     }
 

@@ -1,10 +1,10 @@
-package com.company.department.controllers;
+package com.company.authenticate.controller;
 
-import com.company.department.dto.ApiResponseDTO;
-import com.company.department.dto.DepartmentDTO;
-import com.company.department.dto.DepartmentRequestDTO;
-import com.company.department.dto.DepartmentResponseDTO;
-import com.company.department.service.DepartmentService;
+import com.company.authenticate.dto.ApiResponseDTO;
+import com.company.authenticate.dto.UserProfileDTO;
+import com.company.authenticate.dto.UserProfileRequestDTO;
+import com.company.authenticate.dto.UserProfileResponseDTO;
+import com.company.authenticate.service.UserProfileService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -23,26 +23,26 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/department")
-public class DepartmentOperationsController {
-
-    private static final Logger logger = LoggerFactory.getLogger(DepartmentOperationsController.class);
-    private final DepartmentService departmentService;
+@Tag(name = "User Details", description = "Endpoints for User Registration, Search, Update and Deletion")
+@RequestMapping("/api/v1/authenticates")
+public class UserProfileController {
+    private static final Logger logger = LoggerFactory.getLogger(UserProfileController.class);
+    private final UserProfileService userService;
 
     // Constructor injection
-    public DepartmentOperationsController(DepartmentService departmentService) {
-        this.departmentService = departmentService;
+    public UserProfileController(UserProfileService userService) {
+        this.userService = userService;
     }
 
     public void loggingStart() {
-        logger.info("\n\n\t\t********************* New Request Started ********************\n\n");
+        logger.debug("\n\n\t\t********************* New Request Started ********************\n\n");
     }
 
     // testing connection
     @GetMapping(value = "/testConnection")
     @Tag(name = "Health Checks")
     @Operation(summary = "Test connection to the application",
-            description = "Tests if the connection between the client (e.g., Postman) and the Department application is established.")
+            description = "Tests if the connection between the client (e.g., Postman) and the Authenticate service is established.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Connection established successfully",
                     content = @Content(mediaType = "application/json",
@@ -50,16 +50,16 @@ public class DepartmentOperationsController {
     })
     public ResponseEntity<ApiResponseDTO<String>> testPostmanToApplicationConnection() {
         loggingStart();
-        logger.info("Testing DepartmentOperationsController to Postman connection.");
-        logger.info("DepartmentOperationsController to Postman connection is successfully connected.");
-        return ResponseEntity.ok(new ApiResponseDTO<>("success", "Connection to Department Application is successfully established.", null));
+        logger.debug("Called /testConnection endpoint");
+        logger.debug("Testing UserOperationsController to Postman connection.");
+        return ResponseEntity.ok(new ApiResponseDTO<>("success", "Connection to User Application is successfully established.", null));
     }
 
     // testing Database connection
     @GetMapping(value = "/testDataBaseConnection")
     @Tag(name = "Health Checks")
     @Operation(summary = "Test database connection",
-            description = "Tests if the connection to the department database is established.")
+            description = "Tests if the connection to the user database is established.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Database connection test result",
                     content = @Content(mediaType = "application/json",
@@ -67,17 +67,18 @@ public class DepartmentOperationsController {
     })
     public ResponseEntity<ApiResponseDTO<String>> testDataBaseConnection() {
         loggingStart();
-        logger.info("Testing DepartmentOperationsController to department database connection.");
-        return ResponseEntity.ok(departmentService.testDatabaseConnection());
+        logger.debug("Called /testDataBaseConnection endpoint");
+        logger.debug("Testing UserOperationsController to user database connection.");
+        return ResponseEntity.ok(userService.testDatabaseConnection());
     }
 
     // Fetching the database table data on request with pagination information from users
-    @GetMapping(value = "/fetchDepartments", produces = {MediaType.APPLICATION_JSON_VALUE})
-    @Tag(name = "Department Management")
-    @Operation(summary = "Fetch all departments",
-            description = "Retrieves all department records from the database. Requires USER or ADMIN role.")
+    @GetMapping(value = "/fetchUsers", produces = {MediaType.APPLICATION_JSON_VALUE})
+    @Tag(name = "User Management")
+    @Operation(summary = "Fetch all users",
+            description = "Retrieves all user records from the database. Requires USER or ADMIN role.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Departments fetched successfully",
+            @ApiResponse(responseCode = "200", description = "Users fetched successfully",
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ApiResponseDTO.class))),
             @ApiResponse(responseCode = "401", description = "Unauthorized: Authentication required",
@@ -87,23 +88,24 @@ public class DepartmentOperationsController {
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ApiResponseDTO.class)))
     })
-    public ResponseEntity<ApiResponseDTO<List<DepartmentDTO>>> fetchDepartments(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int size) {
+    public ResponseEntity<ApiResponseDTO<List<UserProfileDTO>>> fetchUsers(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int size) {
         loggingStart();
-        logger.info("Displaying all departments with page: {}, size: {}", page, size);
+        logger.debug("Called /fetchUsers endpoint");
+        logger.debug("Displaying all users with page: {}, size: {}", page, size);
         Pageable pageable = PageRequest.of(page-1, size);
-        return ResponseEntity.ok(departmentService.fetchPagedDataList(pageable));
+        return ResponseEntity.ok(userService.fetchPagedDataList(pageable));
     }
 
-    //Adding the department details to the database sent by user
-    @PostMapping(value = "/addDepartments", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-    @Tag(name = "Department Management")
-    @Operation(summary = "Add new departments",
-            description = "Adds a list of departments to the database. Requires ADMIN role.")
+    //Adding the user details to the database sent by user
+    @PostMapping(value = "/addUsers", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
+    @Tag(name = "User Management")
+    @Operation(summary = "Add new users",
+            description = "Adds a list of users to the database. Requires ADMIN role.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Departments added successfully",
+            @ApiResponse(responseCode = "200", description = "Users added successfully",
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ApiResponseDTO.class))),
-            @ApiResponse(responseCode = "400", description = "Bad Request: Validation failed or duplicate department ID",
+            @ApiResponse(responseCode = "400", description = "Bad Request: Validation failed or duplicate user ID",
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ApiResponseDTO.class))),
             @ApiResponse(responseCode = "401", description = "Unauthorized: Authentication required",
@@ -113,27 +115,29 @@ public class DepartmentOperationsController {
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ApiResponseDTO.class)))
     })
-    public ResponseEntity<ApiResponseDTO<DepartmentResponseDTO>> addDepartments(@Valid @RequestBody DepartmentRequestDTO departmentBean) {
+    public ResponseEntity<ApiResponseDTO<UserProfileResponseDTO>> addUsers(@Valid @RequestBody UserProfileRequestDTO userBean) {
         loggingStart();
         try {
-            logger.info("Adding all records.");
-            return ResponseEntity.ok(departmentService.addDataToDataBase(departmentBean.getDepartmentDetailList()));
+            loggingStart();
+            logger.debug("Called /addUsers endpoint");
+            logger.debug("Adding all records.");
+            return ResponseEntity.ok(userService.addDataToDataBase(userBean.getUserProfileList()));
         } catch (RuntimeException e) {
             logger.error("Adding records failed . Reason {}", e.getMessage());
             return ResponseEntity.ok(new ApiResponseDTO<>("error", e.getMessage(), null));
         }
     }
 
-    // method to search for a department details based on path variable {department id}
-    @GetMapping(value = "/searchDepartment/{departmentId}", produces = {MediaType.APPLICATION_JSON_VALUE})
-    @Tag(name = "Department Management")
-    @Operation(summary = "Search department by ID",
-            description = "Searches for an department by their ID. Requires USER or ADMIN role.")
+    // method to search for a user details based on path variable {user id}
+    @GetMapping(value = "/searchUser/{userId}", produces = {MediaType.APPLICATION_JSON_VALUE})
+    @Tag(name = "User Management")
+    @Operation(summary = "Search user by ID",
+            description = "Searches for an user by their ID. Requires USER or ADMIN role.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Department found successfully",
+            @ApiResponse(responseCode = "200", description = "User found successfully",
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ApiResponseDTO.class))),
-            @ApiResponse(responseCode = "404", description = "Department not found",
+            @ApiResponse(responseCode = "404", description = "User not found",
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ApiResponseDTO.class))),
             @ApiResponse(responseCode = "401", description = "Unauthorized: Authentication required",
@@ -143,25 +147,26 @@ public class DepartmentOperationsController {
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ApiResponseDTO.class)))
     })
-    public ResponseEntity<ApiResponseDTO<DepartmentResponseDTO>> searchDepartment(@PathVariable("departmentId") int departmentId) {
+    public ResponseEntity<ApiResponseDTO<UserProfileResponseDTO>> searchUser(@PathVariable("userId") int userId) {
         loggingStart();
-        logger.info("Searching departmentId {} ", departmentId);
-        return ResponseEntity.ok(departmentService.searchDataBase(departmentId));
+        logger.debug("Called /searchUsers endpoint");
+        logger.debug("Searching userId {} ", userId);
+        return ResponseEntity.ok(userService.searchDataBase(userId));
     }
 
-    // method to update the department details based on department id
-    @PutMapping(value = "/updateDepartments", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-    @Tag(name = "Department Management")
-    @Operation(summary = "Update department details",
-            description = "Updates a list of departments in the database. Requires ADMIN role.")
+    // method to update the user details based on user id
+    @PutMapping(value = "/updateUsers", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
+    @Tag(name = "User Management")
+    @Operation(summary = "Update user details",
+            description = "Updates a list of users in the database. Requires ADMIN role.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Departments updated successfully",
+            @ApiResponse(responseCode = "200", description = "Users updated successfully",
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ApiResponseDTO.class))),
             @ApiResponse(responseCode = "400", description = "Bad Request: Validation failed",
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ApiResponseDTO.class))),
-            @ApiResponse(responseCode = "404", description = "Department not found",
+            @ApiResponse(responseCode = "404", description = "User not found",
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ApiResponseDTO.class))),
             @ApiResponse(responseCode = "401", description = "Unauthorized: Authentication required",
@@ -171,27 +176,28 @@ public class DepartmentOperationsController {
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ApiResponseDTO.class)))
     })
-    public ResponseEntity<ApiResponseDTO<DepartmentResponseDTO>> updateDepartments(@Valid @RequestBody DepartmentRequestDTO departmentBean) {
+    public ResponseEntity<ApiResponseDTO<UserProfileResponseDTO>> updateUsers(@Valid @RequestBody UserProfileRequestDTO userBean) {
         loggingStart();
-        logger.info("Updating records begins");
+        logger.debug("Called /updateUsers endpoint");
+        logger.debug("Updating records begins");
         try {
-            return ResponseEntity.ok(departmentService.updateDataToDataBase(departmentBean.getDepartmentDetailList()));
+            return ResponseEntity.ok(userService.updateDataToDataBase(userBean.getUserProfileList()));
         } catch (Exception e) {
             logger.error("Updating records failed . Reason : {}", e.getMessage());
             throw e;
         }
     }
 
-    // method to remove the List of department details from the database depending on departmentId
-    @DeleteMapping(value = "/deleteDepartments", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-    @Tag(name = "Department Management")
-    @Operation(summary = "Delete departments",
-            description = "Deletes a list of departments from the database by their IDs. Requires ADMIN role.")
+    // method to remove the List of user details from the database depending on userId
+    @DeleteMapping(value = "/deleteUsers", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
+    @Tag(name = "User Management")
+    @Operation(summary = "Delete users",
+            description = "Deletes a list of users from the database by their IDs. Requires ADMIN role.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Departments deleted successfully",
+            @ApiResponse(responseCode = "200", description = "Users deleted successfully",
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ApiResponseDTO.class))),
-            @ApiResponse(responseCode = "404", description = "Department not found",
+            @ApiResponse(responseCode = "404", description = "User not found",
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ApiResponseDTO.class))),
             @ApiResponse(responseCode = "401", description = "Unauthorized: Authentication required",
@@ -201,11 +207,12 @@ public class DepartmentOperationsController {
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ApiResponseDTO.class)))
     })
-    public ResponseEntity<ApiResponseDTO<DepartmentResponseDTO>> deleteDepartments(@RequestBody DepartmentRequestDTO departmentBean) {
+    public ResponseEntity<ApiResponseDTO<UserProfileResponseDTO>> deleteUsers(@RequestBody UserProfileRequestDTO userBean) {
         loggingStart();
-        logger.info("Deleting record begins");
+        logger.debug("Called /deleteUsers endpoint");
+        logger.debug("Deleting record begins");
         try {
-            return ResponseEntity.ok(departmentService.deleteDataFromDataBase(departmentBean.getDepartmentDetailList()));
+            return ResponseEntity.ok(userService.deleteDataFromDataBase(userBean.getUserProfileList()));
         } catch (Exception e) {
             logger.error("Deleting records failed . Reason : {} ", e.getMessage());
             throw e;
