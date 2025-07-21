@@ -93,7 +93,7 @@ public class ProjectOperationsController {
     public ResponseEntity<ApiResponseDTO<List<ProjectDTO>>> fetchProjects(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int size) {
         loggingStart();
         logger.debug("Displaying all projects with page: {}, size: {}", page, size);
-        Pageable pageable = PageRequest.of(page, size);
+        Pageable pageable = PageRequest.of(page-1, size);
         return ResponseEntity.ok(projectService.fetchPagedDataList(pageable));
     }
 

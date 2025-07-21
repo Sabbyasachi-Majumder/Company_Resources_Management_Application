@@ -71,11 +71,11 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     public ApiResponseDTO<List<DepartmentDTO>> fetchPagedDataList(Pageable pageable) {
         Page<DepartmentDTO> pagedData = fetchPageData(pageable);
-        if (pageable.getPageNumber() <= Math.ceil((float) pagedData.getTotalElements() / pageable.getPageSize())) {
+        if (pageable.getPageNumber()< Math.ceil((float) pagedData.getTotalElements() / pageable.getPageSize())) {
             List<DepartmentDTO> currentData = pagedData.getContent();
-            return new ApiResponseDTO<>("success", "Fetching page " + pageable.getPageNumber() + " with " + currentData.size() + " department data records", currentData);
+            return new ApiResponseDTO<>("success", "Fetching page " + (pageable.getPageNumber()+1) + " with " + currentData.size() + " department data records", currentData);
         } else
-            return new ApiResponseDTO<>("success", "Total number of records is lower than the current page number " + pageable.getPageNumber() + " containing " + pageable.getPageSize() + " department data records each page.", null);
+            return new ApiResponseDTO<>("success", "Total number of records is lower than the current page number " + (pageable.getPageNumber()+1) + " containing " + pageable.getPageSize() + " department data records each page.", null);
 
     }
 

@@ -91,7 +91,7 @@ public class EmployeeOperationsController {
     public ResponseEntity<ApiResponseDTO<List<EmployeeDTO>>> fetchEmployees(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int size) {
         loggingStart();
         logger.debug("Displaying all employees with page: {}, size: {}", page, size);
-        Pageable pageable = PageRequest.of(page, size);
+        Pageable pageable = PageRequest.of(page-1, size);
         return ResponseEntity.ok(employeeService.fetchPagedDataList(pageable));
     }
 

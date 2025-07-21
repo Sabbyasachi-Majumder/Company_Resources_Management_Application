@@ -78,7 +78,7 @@ public class UserProfileServiceImpl implements UserProfileService {
 
     public ApiResponseDTO<List<UserProfileDTO>> fetchPagedDataList(Pageable pageable) {
         Page<UserProfileDTO> pagedData = fetchPageData(pageable);
-        if (pageable.getPageNumber() <= Math.ceil((float) pagedData.getTotalElements() / pageable.getPageSize())) {
+        if (pageable.getPageNumber() < Math.ceil((float) pagedData.getTotalElements() / pageable.getPageSize())) {
             List<UserProfileDTO> currentData = pagedData.getContent();
             return new ApiResponseDTO<>("success", "Fetching page " + (pageable.getPageNumber()+1) + " with " + currentData.size() + " User data records", currentData);
         } else
