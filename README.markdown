@@ -1,29 +1,78 @@
 # Company Resources Management Application
 
-A microservices-based application built with Spring Boot and Maven, designed to manage company resources through independent services, including an API Gateway and microservices for employees, projects, and departments.
+A microservices-based application built with Spring Boot and Maven, designed to manage company resources efficiently
+through independent services. It includes an API Gateway for request routing and security, a Service Registry for
+dynamic service discovery, and microservices for authentication, employee, project, and department management. This
+project showcases a scalable, secure, and modern architecture suitable for enterprise applications.
 
 ## Project Overview
 
-[Placeholder: Detailed description of the project's purpose, architecture, and key features will be added here.]
+The **Company Resources Management Application** is a modular, microservices-based system designed to handle core
+business operations such as employee management, project tracking, and department administration. It leverages Spring
+Boot for rapid development, Spring Cloud for microservices orchestration, and JWT-based authentication for secure
+access. The application is built with scalability, maintainability, and industry-standard practices in mind, making it a
+robust demonstration of modern Java-based enterprise solutions.
+
+Key features include:
+
+- **API Gateway**: Routes requests and enforces authentication/authorization using Spring Cloud Gateway.
+- **Service Registry**: Uses Netflix Eureka for dynamic service discovery.
+- **Authenticate Service**: Manages user authentication and generates JWT tokens.
+- **Employee Service**: Handles CRUD operations for employee data using MySQL.
+- **Project Service**: Manages project-related data with MySQL as the backend.
+- **Department Service**: Performs CRUD operations for department data using MongoDB.
 
 ## Technologies Used
 
-[Placeholder: List of technologies, frameworks, and tools (e.g., Spring Boot, Java 17, Maven, Spring Cloud Gateway) will be added here.]
+- **Java**: Version 17
+- **Spring Boot**: 3.5.0 (3.5.3 for Authenticate Service, 3.3.4 for Service Registry)
+- **Spring Cloud**:
+    - Spring Cloud Gateway (API Gateway)
+    - Netflix Eureka (Service Registry)
+- **Databases**:
+    - MySQL (version 8.0 or higher) for Authenticate, Employee, and Project Services
+    - MongoDB (version 4.0 or higher) for Department Service
+- **Security**:
+    - Spring Security for authentication and authorization
+    - JWT (JSON Web Tokens) via `jjwt` library (version 0.12.6)
+- **API Documentation**: Springdoc OpenAPI (version 2.7.0) for Swagger UI
+- **Build Tool**: Maven (multi-module project)
+- **Dependencies**:
+    - Spring Data JPA (Employee, Project, Authenticate Services)
+    - Spring Data MongoDB (Department Service)
+    - Spring Boot Actuator for monitoring
+    - Lombok (version 1.18.34/1.18.38) for boilerplate reduction
+    - Logback (version 1.5.13) and SLF4J (version 2.0.16) for logging
+    - MySQL Connector (runtime) for MySQL database connectivity
+    - Spring Boot DevTools for development-time enhancements
+    - Testing: JUnit, Mockito, Spring Security Test
 
 ## Prerequisites
 
-[Placeholder: List of required software and tools (e.g., Java 17, Maven, IDE) will be added here.]
+To set up and run the project, ensure you have the following installed:
+
+- **Java**: JDK 17
+- **Maven**: Version 3.6.0 or higher
+- **IDE**: IntelliJ IDEA, Eclipse, or any IDE with Spring Boot support
+- **Databases**:
+    - MySQL (version 8.0 or higher) for Authenticate, Employee, and Project Services
+    - MongoDB (version 4.0 or higher) for Department Service
+- **Git**: For cloning the repository
+- **Optional**: Docker (for future containerization enhancements)
 
 ## Project Structure
 
 The project follows a Maven multi-module structure with the following modules:
 
-- **api-gateway**: Handles routing requests to microservices using Spring Cloud Gateway.
-- **employees-service**: Manages employee-related CRUD operations.
-- **projects-service**: Manages project-related CRUD operations.
-- **departments-service**: Manages department-related CRUD operations.
+- **api-gateway**: Routes requests to microservices using Spring Cloud Gateway and enforces JWT-based
+  authentication/authorization.
+- **service-registry**: Implements Netflix Eureka Server for dynamic service discovery.
+- **authenticate**: Handles user authentication, JWT token generation, and user CRUD operations using MySQL.
+- **employees-service**: Manages employee-related CRUD operations with Spring Data JPA and MySQL.
+- **projects-service**: Manages project-related CRUD operations with Spring Data JPA and MySQL.
+- **departments-service**: Manages department-related CRUD operations with Spring Data MongoDB.
 
-[Placeholder: Additional details about the project structure and module responsibilities will be added here.]
+Each module is independently deployable and communicates via REST APIs, with the API Gateway serving as the entry point.
 
 ## Setup Instructions
 
@@ -37,44 +86,62 @@ The project follows a Maven multi-module structure with the following modules:
    ```
 3. Build the project using Maven with the custom settings file:
    ```bash
-   mvn clean install --settings company_resources_management_application_settings.xml
+   mvn clean install --s"company_resources_management_application_settings.xml"
    ```
 4. Run each module independently:
-   - **API Gateway**:
-     ```bash
-     cd api-gateway
-     mvn spring-boot:run
-     ```
-   - **Employees Service**:
-     ```bash
-     cd employees-service
-     mvn spring-boot:run
-     ```
-   - **Projects Service**:
-     ```bash
-     cd projects-service
-     mvn spring-boot:run
-     ```
-   - **Departments Service**:
-     ```bash
-     cd departments-service
-     mvn spring-boot:run
-     ```
-
-[Placeholder: Additional setup steps, such as database configuration or environment variables, will be added here.]
+    - **API Gateway**:
+      ```bash
+      cd api-gateway
+      mvn spring-boot:run
+      ```
+    - **Employees Service**:
+      ```bash
+      cd employees-service
+      mvn spring-boot:run
+      ```
+    - **Projects Service**:
+      ```bash
+      cd projects-service
+      mvn spring-boot:run
+      ```
+    - **Departments Service**:
+      ```bash
+      cd departments-service
+      mvn spring-boot:run
+      ```
 
 ## Accessing the Application
 
-- **API Gateway**: `http://localhost:8080`
-- **Employees Service**: `http://localhost:8081` (via Gateway: `/employees`)
-- **Projects Service**: `http://localhost:8082` (via Gateway: `/projects`)
-- **Departments Service**: `http://localhost:8083` (via Gateway: `/departments`)
-
-[Placeholder: Detailed instructions for accessing endpoints, including example API calls, will be added here.]
+- Service Registry Dashboard: http://localhost:8761 (Eureka Server)
+  API Gateway: http://localhost:8080
+- Authenticate Service: Accessible via Gateway at /authenticate (e.g., http://localhost:8080/authenticate)
+- Employees Service: Accessible via Gateway at /employees (e.g., http://localhost:8080/employees)
+- Projects Service: Accessible via Gateway at /projects (e.g., http://localhost:8080/projects)
+- Departments Service: Accessible via Gateway at /departments (e.g., http://localhost:8080/departments)
+- Swagger UI (API Documentation):
+    - Authenticate Service: http://localhost:8080/authenticate/swagger-ui.html
+    - Employees Service: http://localhost:8080/employees/swagger-ui.html
+    - Projects Service: http://localhost:8080/projects/swagger-ui.html
+    - Departments Service: http://localhost:8080/departments/swagger-ui.html
+    - Actuator Endpoints (for monitoring):
+    - Health: http://localhost:<service-port>/actuator/health
+    - Metrics: http://localhost:<service-port>/actuator/metrics
+    - Info: http://localhost:<service-port>/actuator/info
 
 ## Unique Features
 
-[Placeholder: Description of unique features, such as API Gateway routing or security implementations, will be added here to showcase project highlights.]
+- **Centralized Routing** : Spring Cloud Gateway provides dynamic routing and load balancing, ensuring a single entry
+  point for all client requests.
+- **Service Discovery** : Netflix Eureka enables dynamic registration and discovery of microservices, improving
+  scalability and fault tolerance.
+- **Secure Authentication** : JWT-based authentication with configurable token expiration (36,000 seconds for access
+  tokens, 604,800 seconds for refresh tokens) ensures secure access.
+- **Heterogeneous Databases** : Supports MySQL (Employee, Project, Authenticate) and MongoDB (Department), showcasing
+  versatility in data management.
+- **API Documentation** : Springdoc OpenAPI provides interactive Swagger UI with sorted operations and tags for each
+  service.
+- **Monitoring** : Spring Boot Actuator exposes health, metrics, and info endpoints for real-time service monitoring.
+- **Dynamic Port Assignment** : Using server.port: 0 with Eureka ensures flexible and conflict-free port allocation.
 
 ## Contribution Guidelines
 
@@ -82,14 +149,18 @@ The project follows a Maven multi-module structure with the following modules:
 
 ## License
 
-[Placeholder: License details (e.g., MIT License) will be added here.]
+This project is licensed under the MIT License. See the LICENSE file for details.
 
 ## Future Enhancements
 
-[Placeholder: Planned features, such as adding a service registry (e.g., Eureka) or containerization with Docker, will be added here.]
+- Containerization: Add Docker and Docker Compose support for easier deployment and orchestration.
+- Centralized Configuration: Implement Spring Cloud Config Server for managing configuration across services.
+- Circuit Breaker: Integrate Resilience4j for fault tolerance in inter-service communication.
+- Distributed Tracing: Add Spring Cloud Sleuth and Zipkin for request tracing across microservices.
+- CI/CD Pipeline: Set up GitHub Actions for automated testing and deployment.
+- Message Queue: Introduce RabbitMQ or Kafka for asynchronous communication.
+  Database Optimization: Add connection pooling (e.g., HikariCP) and indexing for MySQL/MongoDB.
 
 ## Contact
 
-For questions or feedback, please contact [your-email@example.com].
-
-[Placeholder: Contact information or links to additional resources will be updated here.]
+For questions or feedback, please contact sabbyasachi.majumder.official@gmail.com.
