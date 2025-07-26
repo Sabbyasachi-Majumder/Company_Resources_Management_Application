@@ -21,8 +21,8 @@ public class JwtUtil {
 
     private static final Logger logger = LoggerFactory.getLogger(JwtUtil.class);
 
-    // JWT properties are called from application.properties file and populated to create a JWT token
-    // Secure key stored in application.properties
+    // JWT properties are called from application.yml file and populated to create a JWT token
+    // Secure key stored in application.yml
     @Value("${jwt.secret}")
     private String secret;
 
