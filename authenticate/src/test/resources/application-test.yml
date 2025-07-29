@@ -1,0 +1,48 @@
+# src/test/resources/application-test.yml
+spring:
+  config:
+    activate:
+      on-profile: test
+  application:
+    name: authenticate-service
+  datasource:
+    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;CASE_INSENSITIVE_IDENTIFIERS=TRUE
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: none
+    naming:
+      implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
+      physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+  sql:
+    init:
+      mode: always
+      continue-on-error: false
+      schema-locations: classpath:schema.sql
+      data-locations: classpath:data.sql
+  mvc:
+    problemdetails:
+      enabled: false
+jwt:
+  secret: your-very-secure-secret-key-minimum-32-characters-long
+  expiration: 36000000
+  refresh:
+    expiration: 604800000
+wiremock:
+  server:
+    port: 9999
+logging:
+  level:
+    org.springframework: DEBUG
+    org.springframework.jdbc.datasource.init: DEBUG
+    org.hibernate.SQL: DEBUG
+    org.hibernate.orm.jdbc.bind: TRACE
+    com.company.authenticate: DEBUG
+    com.github.tomakehurst.wiremock: DEBUG

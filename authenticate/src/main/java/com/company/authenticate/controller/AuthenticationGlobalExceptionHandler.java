@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.transaction.TransactionSystemException;
 import org.springframework.validation.FieldError;
@@ -65,6 +66,14 @@ public class AuthenticationGlobalExceptionHandler {
                 .body(new ApiResponseDTO<>("error", message, null));
     }
 
+    @ExceptionHandler(DisabledException.class)
+    public ResponseEntity<ApiResponseDTO<String>> handleDisabledException(DisabledException ex, HttpServletRequest request) {
+        String message = "Forbidden: User account is disabled [AUTH_403_DISABLED]";
+        logger.error("403 Forbidden: {} - Path: {}", message, request.getRequestURI());
+        return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                .body(new ApiResponseDTO<>("error", message, null));
+    }
+
     @ExceptionHandler(JwtException.class)
     public ResponseEntity<ApiResponseDTO<String>> handleJwtException(JwtException ex, HttpServletRequest request) {
         String message = "Unauthorized: Invalid or expired JWT token [AUTH_401_INVALID_TOKEN]";
@@ -99,6 +108,8 @@ public class AuthenticationGlobalExceptionHandler {
             return handleAccessDeniedException((AccessDeniedException) ex.getCause(), request);
         } else if (ex.getCause() instanceof JwtException) {
             return handleJwtException((JwtException) ex.getCause(), request);
+        } else if (ex.getCause() instanceof DisabledException) {
+            return handleDisabledException((DisabledException) ex.getCause(), request);
         }
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(new ApiResponseDTO<>("error", "Internal server error: " + ex.getMessage(), null));

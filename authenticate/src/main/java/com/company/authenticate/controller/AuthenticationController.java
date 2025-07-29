@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +19,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,6 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @Tag(name = "Authentication", description = "Endpoints for user authentication")
 @RequestMapping("/api/v1/authenticates")
+@Validated
 public class AuthenticationController {
     private static final Logger logger = LoggerFactory.getLogger(AuthenticationController.class);
     private final AuthenticationManager authenticationManager;
@@ -52,7 +55,7 @@ public class AuthenticationController {
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ApiResponseDTO.class)))
     })
-    public ResponseEntity<ApiResponseDTO<AuthResponseDTO>> authenticate(@RequestBody AuthRequestDTO authRequest) {
+    public ResponseEntity<ApiResponseDTO<AuthResponseDTO>> authenticate(@Valid @RequestBody AuthRequestDTO authRequest) {
         loggingStart();
         logger.info("Authentication attempt for user: {}", authRequest.getUserName());
         try {
@@ -63,7 +66,7 @@ public class AuthenticationController {
             String refreshToken = jwtUtil.generateRefreshToken(userDetails);
             logger.info("JWT generated for user: {}", authRequest.getUserName());
             return ResponseEntity.ok(new ApiResponseDTO<>("success",
-                    "Login successful for user "+authRequest.getUserName(), new AuthResponseDTO(accessToken, refreshToken)));
+                    "Login successful for user " + authRequest.getUserName(), new AuthResponseDTO(accessToken, refreshToken)));
         } catch (AuthenticationException e) {
             logger.error("Login failed for user: {} - {}", authRequest.getUserName(), e.getMessage());
             throw e;

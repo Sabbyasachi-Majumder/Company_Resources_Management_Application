@@ -11,5 +11,4 @@ class AuthenticateApplicationTests {
 	@Test
 	void contextLoads() {
 	}
-
 }
