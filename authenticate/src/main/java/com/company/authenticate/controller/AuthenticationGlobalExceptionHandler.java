@@ -6,6 +6,8 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -25,6 +27,7 @@ import java.util.NoSuchElementException;
 import java.util.Objects;
 
 @RestControllerAdvice
+@Order(Ordered.HIGHEST_PRECEDENCE)
 public class AuthenticationGlobalExceptionHandler {
 
     private static final Logger logger = LoggerFactory.getLogger(AuthenticationGlobalExceptionHandler.class);
@@ -40,7 +43,7 @@ public class AuthenticationGlobalExceptionHandler {
             errorMessage.append(error.getField()).append(": ").append(error.getDefaultMessage()).append("; ");
         }
         logger.error("Validation error: {}", errorMessage);
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+        return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY)
                 .body(new ApiResponseDTO<>("error", errorMessage.toString(), null));
     }
 

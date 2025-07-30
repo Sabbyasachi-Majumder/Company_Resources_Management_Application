@@ -92,7 +92,7 @@ public class UserProfileController {
         loggingStart();
         logger.debug("Called /fetchUsers endpoint");
         logger.debug("Displaying all users with page: {}, size: {}", page, size);
-        Pageable pageable = PageRequest.of(page-1, size);
+        Pageable pageable = PageRequest.of(page - 1, size);
         return ResponseEntity.ok(userService.fetchPagedDataList(pageable));
     }
 

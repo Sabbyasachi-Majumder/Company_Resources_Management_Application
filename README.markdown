@@ -21,6 +21,7 @@ Key features include:
 - **Employee Service**: Handles CRUD operations for employee data using MySQL.
 - **Project Service**: Manages project-related data with MySQL as the backend.
 - **Department Service**: Performs CRUD operations for department data using MongoDB.
+- **Robust Testing Framework**: End-to-end tests in the Authenticate Service use H2 in-memory database with `@DirtiesContext` to ensure consistent and reliable test execution, preventing issues like table creation conflicts during Maven builds.
 
 ## Technologies Used
 
@@ -32,6 +33,7 @@ Key features include:
 - **Databases**:
     - MySQL (version 8.0 or higher) for Authenticate, Employee, and Project Services
     - MongoDB (version 4.0 or higher) for Department Service
+    - **H2 Database** (in-memory) for integration and end-to-end testing in the Authenticate Service
 - **Security**:
     - Spring Security for authentication and authorization
     - JWT (JSON Web Tokens) via `jjwt` library (version 0.12.6)
@@ -45,7 +47,7 @@ Key features include:
     - Logback (version 1.5.13) and SLF4J (version 2.0.16) for logging
     - MySQL Connector (runtime) for MySQL database connectivity
     - Spring Boot DevTools for development-time enhancements
-    - Testing: JUnit, Mockito, Spring Security Test
+  - **Testing**: JUnit, Mockito, Spring Security Test, **Spring Test with `@DirtiesContext` for consistent test context management**, RestAssured for end-to-end API testing, WireMock for mocking external services
 
 ## Prerequisites
 
@@ -160,6 +162,7 @@ This project is licensed under the MIT License. See the LICENSE file for details
 - CI/CD Pipeline: Set up GitHub Actions for automated testing and deployment.
 - Message Queue: Introduce RabbitMQ or Kafka for asynchronous communication.
   Database Optimization: Add connection pooling (e.g., HikariCP) and indexing for MySQL/MongoDB.
+- **Enhanced Testing**: Introduce Test containers for containerized database testing to further isolate and standardize test environments across all services.
 
 ## Contact
 

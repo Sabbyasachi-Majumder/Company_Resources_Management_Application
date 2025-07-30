@@ -65,10 +65,10 @@ public class AuthenticationControllerE2ETest {
                 .when()
                 .post("/api/v1/authenticates/authenticate")
                 .then()
-                .statusCode(400);
-//                .body("status", equalTo("error"))
-//                .body("message", containsString("Validation failed: userName: must not be blank; password: must not be blank"))
-//                .body("data", nullValue());
+                .statusCode(422)
+                .body("status", equalTo("error"))
+                .body("message", containsString("Validation failed: userName: must not be blank; password: must not be blank; "))
+                .body("data", nullValue());
     }
 
     @Test
