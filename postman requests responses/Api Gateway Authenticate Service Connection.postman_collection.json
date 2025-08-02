@@ -274,123 +274,6 @@
 					"body": "{\n    \"status\": \"error\",\n    \"message\": \"Unauthorized: Invalid username or password [AUTH_401_INVALID_CREDENTIALS]\"\n}"
 				},
 				{
-					"name": "testMalformedRequest",
-					"originalRequest": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"userName\": \"\",\r\n    \"password\": \"admin\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8080/api/v1/authenticates/authenticate",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"v1",
-								"authenticates",
-								"authenticate"
-							]
-						}
-					},
-					"status": "Bad Request",
-					"code": 400,
-					"_postman_previewlanguage": "JSON",
-					"header": [
-						{
-							"key": "transfer-encoding",
-							"value": "chunked",
-							"type": "text"
-						},
-						{
-							"key": "Vary",
-							"value": "Origin",
-							"type": "text"
-						},
-						{
-							"key": "Vary",
-							"value": "Access-Control-Request-Method",
-							"type": "text"
-						},
-						{
-							"key": "Vary",
-							"value": "Access-Control-Request-Headers",
-							"type": "text"
-						},
-						{
-							"key": "Vary",
-							"value": "Origin",
-							"type": "text"
-						},
-						{
-							"key": "Vary",
-							"value": "Access-Control-Request-Method",
-							"type": "text"
-						},
-						{
-							"key": "Vary",
-							"value": "Access-Control-Request-Headers",
-							"type": "text"
-						},
-						{
-							"key": "X-Content-Type-Options",
-							"value": "nosniff",
-							"type": "text"
-						},
-						{
-							"key": "X-XSS-Protection",
-							"value": "0",
-							"type": "text"
-						},
-						{
-							"key": "Cache-Control",
-							"value": "no-cache, no-store, max-age=0, must-revalidate",
-							"type": "text"
-						},
-						{
-							"key": "Pragma",
-							"value": "no-cache",
-							"type": "text"
-						},
-						{
-							"key": "Expires",
-							"value": "0",
-							"type": "text"
-						},
-						{
-							"key": "X-Frame-Options",
-							"value": "DENY",
-							"type": "text"
-						},
-						{
-							"key": "Content-Type",
-							"value": "application/problem+json",
-							"type": "text"
-						},
-						{
-							"key": "Date",
-							"value": "Tue, 29 Jul 2025 05:58:47 GMT",
-							"type": "text"
-						},
-						{
-							"key": "Referrer-Policy",
-							"value": "no-referrer",
-							"type": "text"
-						}
-					],
-					"cookie": [],
-					"body": "{\n    \"type\": \"about:blank\",\n    \"title\": \"Bad Request\",\n    \"status\": 400,\n    \"detail\": \"Invalid request content.\",\n    \"instance\": \"/api/v1/authenticates/authenticate\"\n}"
-				},
-				{
 					"name": "testSuccessfulAuthentication",
 					"originalRequest": {
 						"method": "POST",
@@ -506,6 +389,123 @@
 					],
 					"cookie": [],
 					"body": "{\n    \"status\": \"success\",\n    \"message\": \"Login successful for user admin1\",\n    \"data\": {\n        \"token\": \"eyJhbGciOiJIUzM4NCJ9.eyJyb2xlcyI6W3siYXV0aG9yaXR5IjoiYWRtaW4ifV0sInN1YiI6ImFkbWluMSIsImlhdCI6MTc1Mzc2ODg4MCwiZXhwIjoxNzUzODA0ODgwfQ.B0G1NYixFkXA6l-3NFn44Kcfto91lOpdjIcaVezYopqqgBXbXwFPrMpC6czvn4jD\",\n        \"refreshToken\": \"eyJhbGciOiJIUzM4NCJ9.eyJ0eXBlIjoicmVmcmVzaCIsInN1YiI6ImFkbWluMSIsImlhdCI6MTc1Mzc2ODg4MCwiZXhwIjoxNzU0MzczNjgwfQ.I0XHnFgOM6iOO509CZU4DssshdCFLK61O0PLTvsCYNKjQOgfKrH5BjK5U86rOhf4\"\n    }\n}"
+				},
+				{
+					"name": "testMalformedRequest",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userName\": \"\",\r\n    \"password\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/authenticates/authenticate",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"authenticates",
+								"authenticate"
+							]
+						}
+					},
+					"status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+					"code": 422,
+					"_postman_previewlanguage": "JSON",
+					"header": [
+						{
+							"key": "transfer-encoding",
+							"value": "chunked",
+							"type": "text"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin",
+							"type": "text"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method",
+							"type": "text"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers",
+							"type": "text"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin",
+							"type": "text"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method",
+							"type": "text"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers",
+							"type": "text"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff",
+							"type": "text"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "0",
+							"type": "text"
+						},
+						{
+							"key": "Cache-Control",
+							"value": "no-cache, no-store, max-age=0, must-revalidate",
+							"type": "text"
+						},
+						{
+							"key": "Pragma",
+							"value": "no-cache",
+							"type": "text"
+						},
+						{
+							"key": "Expires",
+							"value": "0",
+							"type": "text"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY",
+							"type": "text"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"type": "text"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 30 Jul 2025 11:06:20 GMT",
+							"type": "text"
+						},
+						{
+							"key": "Referrer-Policy",
+							"value": "no-referrer",
+							"type": "text"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": \"error\",\n    \"message\": \"Validation failed: userName: must not be blank; password: must not be blank; \"\n}"
 				}
 			]
 		},

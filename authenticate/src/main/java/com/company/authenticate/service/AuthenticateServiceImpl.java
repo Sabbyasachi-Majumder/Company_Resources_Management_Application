@@ -1,45 +1,40 @@
 package com.company.authenticate.service;
 
-import com.company.authenticate.entity.UserProfileEntity;
+import com.company.authenticate.dto.ApiResponseDTO;
+import com.company.authenticate.dto.AuthResponseDTO;
 import com.company.authenticate.repository.UserRepository;
+import com.company.authenticate.security.JwtUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
-public class AuthenticateServiceImpl implements UserDetailsService {
+public class AuthenticateServiceImpl {
 
     private static final Logger logger = LoggerFactory.getLogger(AuthenticateServiceImpl.class);
 
     private final UserRepository userRepository;
 
-    public AuthenticateServiceImpl(UserRepository userRepository) {
+    private final AuthenticationManager authenticationManager;
+    private final JwtUtil jwtUtil;
+
+    public AuthenticateServiceImpl(UserRepository userRepository, AuthenticationManager authenticationManager, JwtUtil jwtUtil) {
         this.userRepository = userRepository;
+        this.authenticationManager = authenticationManager;
+        this.jwtUtil = jwtUtil;
     }
 
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        logger.debug("Loading user by username: {}", username);
-        UserProfileEntity user = userRepository.findByUserName(username)
-                .orElseThrow(() -> {
-                    logger.error("User not found with username: {}", username);
-                    return new UsernameNotFoundException("User not found with username: " + username);
-                });
-
-        UserDetails userDetails = org.springframework.security.core.userdetails.User
-                .withUsername(user.getUserName())
-                .password(user.getPassword())
-                .authorities(user.getRole())
-                .accountExpired(false)
-                .accountLocked(false)
-                .credentialsExpired(false)
-                .disabled(!user.isEnabled())
-                .build();
-
-        logger.info("Loaded user: {}, roles: {}", username, userDetails.getAuthorities());
-        return userDetails;
+    public ApiResponseDTO<AuthResponseDTO> authenticateUser(String userName, String password) {
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(userName, password));
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        String accessToken = jwtUtil.generateToken(userDetails);
+        String refreshToken = jwtUtil.generateRefreshToken(userDetails);
+        return new ApiResponseDTO<>("success",
+                "Login successful for user " + userName, new AuthResponseDTO(accessToken, refreshToken));
     }
 }

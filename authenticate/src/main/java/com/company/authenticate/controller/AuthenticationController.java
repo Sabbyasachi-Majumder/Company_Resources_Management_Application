@@ -3,7 +3,7 @@ package com.company.authenticate.controller;
 import com.company.authenticate.dto.ApiResponseDTO;
 import com.company.authenticate.dto.AuthRequestDTO;
 import com.company.authenticate.dto.AuthResponseDTO;
-import com.company.authenticate.security.JwtUtil;
+import com.company.authenticate.service.AuthenticateServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -14,11 +14,7 @@ import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -31,12 +27,10 @@ import org.springframework.web.bind.annotation.RestController;
 @Validated
 public class AuthenticationController {
     private static final Logger logger = LoggerFactory.getLogger(AuthenticationController.class);
-    private final AuthenticationManager authenticationManager;
-    private final JwtUtil jwtUtil;
+    private final AuthenticateServiceImpl authenticateUser;
 
-    public AuthenticationController(AuthenticationManager authenticationManager, JwtUtil jwtUtil) {
-        this.authenticationManager = authenticationManager;
-        this.jwtUtil = jwtUtil;
+    public AuthenticationController(AuthenticateServiceImpl authenticateUser) {
+        this.authenticateUser = authenticateUser;
     }
 
     public void loggingStart() {
@@ -59,14 +53,8 @@ public class AuthenticationController {
         loggingStart();
         logger.info("Authentication attempt for user: {}", authRequest.getUserName());
         try {
-            Authentication authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(authRequest.getUserName(), authRequest.getPassword()));
-            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-            String accessToken = jwtUtil.generateToken(userDetails);
-            String refreshToken = jwtUtil.generateRefreshToken(userDetails);
             logger.info("JWT generated for user: {}", authRequest.getUserName());
-            return ResponseEntity.ok(new ApiResponseDTO<>("success",
-                    "Login successful for user " + authRequest.getUserName(), new AuthResponseDTO(accessToken, refreshToken)));
+            return ResponseEntity.ok((authenticateUser.authenticateUser(authRequest.getUserName(), authRequest.getPassword())));
         } catch (AuthenticationException e) {
             logger.error("Login failed for user: {} - {}", authRequest.getUserName(), e.getMessage());
             throw e;

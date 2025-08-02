@@ -1,4 +1,4 @@
-package com.company.authenticate.controller;
+package com.company.authenticate.controller.e2eTest;
 
 import com.company.authenticate.AuthenticateApplication;
 import io.restassured.RestAssured;
@@ -67,7 +67,11 @@ public class AuthenticationControllerE2ETest {
                 .then()
                 .statusCode(422)
                 .body("status", equalTo("error"))
-                .body("message", containsString("Validation failed: userName: must not be blank; password: must not be blank; "))
+                .body("message", allOf(
+                        containsString("Validation failed:"),
+                        containsString("userName: must not be blank; "),
+                        containsString("password: must not be blank; ")
+                ))
                 .body("data", nullValue());
     }
 

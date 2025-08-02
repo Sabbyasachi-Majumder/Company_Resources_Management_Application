@@ -101,7 +101,11 @@ public class EmployeeOperationsControllerTest {
      */
     @Test
     void testPostmanToApplicationConnection_Success() throws Exception {
-        mockMvc.perform(get("/api/v1/employees/testConnection").contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk()).andExpect(jsonPath("$.status").value("success")).andExpect(jsonPath("$.message").value("Connection to Employee Application is successfully established."));
+        mockMvc.perform(get("/api/v1/employees/testConnection")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status").value("success"))
+                .andExpect(jsonPath("$.message").value("Connection to Employee Application is successfully established."));
     }
 
     /**
@@ -114,7 +118,11 @@ public class EmployeeOperationsControllerTest {
         ApiResponseDTO<String> dbResponse = new ApiResponseDTO<>("success", "Connection from Employee Application to Employee Database successfully established.", null);
         when(employeeService.testDatabaseConnection()).thenReturn(dbResponse);
 
-        mockMvc.perform(get("/api/v1/employees/testDataBaseConnection").contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk()).andExpect(jsonPath("$.status").value("success")).andExpect(jsonPath("$.message").value("Connection from Employee Application to Employee Database successfully established."));
+        mockMvc.perform(get("/api/v1/employees/testDataBaseConnection")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status").value("success"))
+                .andExpect(jsonPath("$.message").value("Connection from Employee Application to Employee Database successfully established."));
     }
 
     /**
@@ -140,7 +148,13 @@ public class EmployeeOperationsControllerTest {
         Pageable pageable = PageRequest.of(1, 10);  //Controller uses page=1 as page=0 internally
         when(employeeService.fetchPagedDataList(eq(pageable))).thenReturn(samplePagedResponse);
 
-        MvcResult result = mockMvc.perform(get("/api/v1/employees/fetchEmployees").param("page", "1").param("size", "10").contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk()).andExpect(jsonPath("$.status").value("success")).andExpect(jsonPath("$.message").value("Fetching page 1 with 1 Employee data records")).andExpect(jsonPath("$.data[0].employeeId").value(1)).andExpect(jsonPath("$.data[0].firstName").value("John")).andReturn();
+        MvcResult result = mockMvc.perform(get("/api/v1/employees/fetchEmployees").param("page", "1")
+                        .param("size", "10").contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status").value("success"))
+                .andExpect(jsonPath("$.message").value("Fetching page 1 with 1 Employee data records")).andExpect(jsonPath("$.data[0].employeeId").value(1))
+                .andExpect(jsonPath("$.data[0].firstName").value("John"))
+                .andReturn();
         System.out.println("fetchEmployees_Success Response: " + result.getResponse().getContentAsString());
         verify(employeeService, times(1)).fetchPagedDataList(eq(pageable));
     }
@@ -168,7 +182,12 @@ public class EmployeeOperationsControllerTest {
         ApiResponseDTO<EmployeeResponseDTO> apiResponse = new ApiResponseDTO<>("success", "Successfully added 1 . Add failed : 0", responseDTO);
         when(employeeService.addDataToDataBase(any(ArrayList.class))).thenReturn(apiResponse);
 
-        mockMvc.perform(post("/api/v1/employees/addEmployees").contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(sampleEmployeeRequestDTO))).andExpect(status().isOk()).andExpect(jsonPath("$.status").value("success")).andExpect(jsonPath("$.message").value("Successfully added 1 . Add failed : 0"));
+        mockMvc.perform(post("/api/v1/employees/addEmployees")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(sampleEmployeeRequestDTO)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status").value("success"))
+                .andExpect(jsonPath("$.message").value("Successfully added 1 . Add failed : 0"));
         verify(employeeService, times(1)).addDataToDataBase(any(ArrayList.class));
     }
 
@@ -232,7 +251,11 @@ public class EmployeeOperationsControllerTest {
     void searchEmployee_Success() throws Exception {
         when(employeeService.searchDataBase(eq(1))).thenReturn(sampleResponseDTO);
 
-        mockMvc.perform(get("/api/v1/employees/searchEmployee/1").contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk()).andExpect(jsonPath("$.status").value("success")).andExpect(jsonPath("$.message").value("Successfully found Employee Id 1 data records"));
+        mockMvc.perform(get("/api/v1/employees/searchEmployee/1")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status").value("success"))
+                .andExpect(jsonPath("$.message").value("Successfully found Employee Id 1 data records"));
 
         verify(employeeService, times(1)).searchDataBase(eq(1));
     }
