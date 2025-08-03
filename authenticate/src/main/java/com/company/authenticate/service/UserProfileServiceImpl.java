@@ -30,12 +30,16 @@ import java.util.NoSuchElementException;
 @Service
 public class UserProfileServiceImpl implements UserProfileService, UserDetailsService {
 
-    @Autowired
     private final UserRepository userRepository;
-    @Autowired
     private final DataSource dataSource;
-    @Autowired
     private PasswordEncoder passwordEncoder;
+
+    public UserProfileServiceImpl(UserRepository userRepository, DataSource dataSource, PasswordEncoder passwordEncoder) {
+        this.userRepository = userRepository;
+        this.dataSource = dataSource;
+        this.passwordEncoder = passwordEncoder;
+    }
+
 
     // For detailed logging in the application
     private static final Logger logger = LoggerFactory.getLogger(UserProfileServiceImpl.class);
