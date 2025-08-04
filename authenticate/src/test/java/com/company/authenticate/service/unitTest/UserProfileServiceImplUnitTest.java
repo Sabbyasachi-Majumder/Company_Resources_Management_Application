@@ -634,18 +634,9 @@ public class UserProfileServiceImplUnitTest {
      */
     @Test
     void testLoadUserByUsernameNull() {
-        // Arrange: Mock userRepository to return empty for null username
-        when(userRepository.findByUserName(null)).thenReturn(Optional.empty());
-
         // Act & Assert: Verify that UsernameNotFoundException is thrown
-        UsernameNotFoundException exception = assertThrows(UsernameNotFoundException.class, () -> {
-            userProfileService.loadUserByUsername(null);
-        }, "Should throw UsernameNotFoundException for null username");
+        UsernameNotFoundException exception = assertThrows(UsernameNotFoundException.class, () -> userProfileService.loadUserByUsername(null), "Should throw UsernameNotFoundException for null username");
 
-        assertEquals("User not found with username: null", exception.getMessage(), "Exception message should match");
-
-        // Verify: Ensure userRepository was called
-        verify(userRepository).findByUserName(null);
-        verifyNoInteractions(dataSource, passwordEncoder);
+        assertEquals("Username cannot be null or empty", exception.getMessage(), "Exception message should match");
     }
 }

@@ -16,7 +16,7 @@ import static org.hamcrest.Matchers.*;
 
 @SpringBootTest(classes = AuthenticateApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
-@AutoConfigureWireMock(port = 9999)
+@AutoConfigureWireMock(port = 0)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 public class AuthenticationControllerE2ETest {
 
@@ -47,7 +47,7 @@ public class AuthenticationControllerE2ETest {
     void testInvalidCredentials() {
         given()
                 .contentType(ContentType.JSON)
-                .body("{\"userName\": \"testuser\", \"password\": \"wrongPassword\"}")
+                .body("{\"userName\": \"admin1\", \"password\": \"wrongPassword\"}")
                 .when()
                 .post("/api/v1/authenticates/authenticate")
                 .then()

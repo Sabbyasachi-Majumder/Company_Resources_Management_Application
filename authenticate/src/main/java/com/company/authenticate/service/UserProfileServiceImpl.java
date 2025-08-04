@@ -5,7 +5,6 @@ import com.company.authenticate.dto.UserProfileDTO;
 import com.company.authenticate.dto.UserProfileResponseDTO;
 import com.company.authenticate.entity.UserProfileEntity;
 import com.company.authenticate.repository.UserRepository;
-import lombok.NoArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -24,14 +23,17 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
-@NoArgsConstructor(force = true)
 @Service
 public class UserProfileServiceImpl implements UserProfileService, UserDetailsService {
 
     private final UserRepository userRepository;
     private final DataSource dataSource;
-    private PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
+
+    // For detailed logging in the application
+    private static final Logger logger = LoggerFactory.getLogger(UserProfileServiceImpl.class);
 
     public UserProfileServiceImpl(UserRepository userRepository, DataSource dataSource, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
@@ -39,9 +41,18 @@ public class UserProfileServiceImpl implements UserProfileService, UserDetailsSe
         this.passwordEncoder = passwordEncoder;
     }
 
-
-    // For detailed logging in the application
-    private static final Logger logger = LoggerFactory.getLogger(UserProfileServiceImpl.class);
+    public List<UserProfileDTO> debugFetchAllUsers() {
+        if (userRepository == null) {
+            logger.error("UserRepository is not initialized");
+            throw new IllegalStateException("UserRepository is not initialized");
+        }
+        logger.debug("Fetching all users from UserProfileTable for debugging");
+        List<UserProfileEntity> users = userRepository.findAll();
+        logger.debug("Found {} users in UserProfileTable", users.size());
+        users.forEach(user -> logger.debug("User: {}, enabled: {}, role: {}",
+                user.getUserName(), user.isEnabled(), user.getRole()));
+        return users.stream().map(this::toDTO).collect(Collectors.toList());
+    }
 
     //Test Database Connection business logic
     public ApiResponseDTO<String> testDatabaseConnection() {
@@ -180,13 +191,22 @@ public class UserProfileServiceImpl implements UserProfileService, UserDetailsSe
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        logger.debug("Loading user by username: {}", username);
+        logger.debug("Attempting to load user by username: {}", username);
+        if (username == null || username.trim().isEmpty()) {
+            logger.error("Username is null or empty");
+            throw new UsernameNotFoundException("Username cannot be null or empty");
+        }
+        if (userRepository == null) {
+            logger.error("UserRepository is not initialized");
+            throw new IllegalStateException("UserRepository is not initialized");
+        }
         UserProfileEntity user = userRepository.findByUserName(username)
                 .orElseThrow(() -> {
                     logger.error("User not found with username: {}", username);
                     return new UsernameNotFoundException("User not found with username: " + username);
                 });
 
+        logger.debug("Found user: {}, enabled: {}, role: {}", user.getUserName(), user.isEnabled(), user.getRole());
         UserDetails userDetails = org.springframework.security.core.userdetails.User
                 .withUsername(user.getUserName())
                 .password(user.getPassword())
@@ -197,7 +217,7 @@ public class UserProfileServiceImpl implements UserProfileService, UserDetailsSe
                 .disabled(!user.isEnabled())
                 .build();
 
-        logger.info("Loaded user: {}, roles: {}", username, userDetails.getAuthorities());
+        logger.info("Successfully loaded user: {}, roles: {}", username, userDetails.getAuthorities());
         return userDetails;
     }
 }
