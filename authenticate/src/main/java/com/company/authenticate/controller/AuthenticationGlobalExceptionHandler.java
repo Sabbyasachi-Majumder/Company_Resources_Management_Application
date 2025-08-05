@@ -96,7 +96,7 @@ public class AuthenticationGlobalExceptionHandler {
 
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<ApiResponseDTO<String>> handleDataIntegrityViolationException(DataIntegrityViolationException ex) {
-        String message = "Database constraint violation: " + Objects.requireNonNull(ex.getRootCause()).getMessage();
+        String message = "Bad Request: Duplicate user ID or username";
         logger.error("Database error: {}", message);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(new ApiResponseDTO<>("error", message, null));
@@ -133,5 +133,12 @@ public class AuthenticationGlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(new ApiResponseDTO<>("error", "Internal server error: " + ex.getMessage(), null));
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<ApiResponseDTO<String>> handleIllegalArgumentException(IllegalArgumentException ex) {
+        logger.error("Bad request: {}", ex.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(new ApiResponseDTO<>("error", ex.getMessage(), null));
     }
 }

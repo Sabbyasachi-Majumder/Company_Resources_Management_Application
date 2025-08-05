@@ -15,7 +15,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.slf4j.Logger;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,7 +31,6 @@ import java.util.NoSuchElementException;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -259,7 +257,7 @@ public class UserProfileControllerUnitTest {
         // Assert: Verify the error response
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode(), "Should return 400 Bad Request for duplicate user ID");
         assertEquals("error", response.getBody().getStatus(), "Response status should be 'error'");
-        assertEquals("Database constraint violation: Duplicate entry for userId", response.getBody().getMessage(),
+        assertEquals("Bad Request: Duplicate user ID or username", response.getBody().getMessage(),
                 "Error message should indicate duplicate user ID");
         assertNull(response.getBody().getData(), "Response data should be null for error cases");
         verify(userService, times(0)).addDataToDataBase(any());

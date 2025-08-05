@@ -22,7 +22,7 @@ public class UserRepositoryUnitTest {
     void testUserRepositoryInjectionAndDataLoading() {
         assertNotNull(userRepository, "UserRepository should be injected");
         List<UserProfileEntity> users = userRepository.findAll();
-        assertEquals(2, users.size(), "Should find 2 users from data.sql");
+        assertEquals(4, users.size(), "Should find 4 users from data.sql");
         assertTrue(users.stream().anyMatch(user -> "admin1" .equals(user.getUserName())), "admin1 should be present");
         assertTrue(users.stream().anyMatch(user -> "disabledUser" .equals(user.getUserName())), "disabledUser should be present");
     }

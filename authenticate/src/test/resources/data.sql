@@ -1,5 +1,8 @@
+-- File: src/test/resources/data.sql
 SELECT 'Executing data.sql to insert users' AS debug_message;
 
 INSERT INTO UserProfileTable (UserId, UserName, Password, Role, Enabled) VALUES
-(1, 'admin1', '$2a$10$mY9J0PHtDPG8K3BP2vByde0HaHlkl42hQOHTrHBxGQEkC4grm5T06', 'USER', true),
-(2, 'disabledUser', '$2a$10$PUwjw/Iq3rWW22d9AmaBMeiroMw9DjpQKMf3kestu0HjkZTJcbMUO', 'USER', false);
+(1, 'admin1', '$2a$10$IlN72vcY8enDUJB8vG6mUuVMONntc3axKrjW4mnPaQhvFmcnJbpRq', 'user', true),
+(2, 'disabledUser', '$2a$10$bAG5hubsWC.Fe64bjjmUTO7qCZUMxfrzszXV79FMI17cHDLHhdtGu', 'user', false),
+(3, 'user1', '$2a$10$5Wjg/6gnk1Gjs1wsYyra7eCuDgxQtV1Vzvcnx/b8asDwIzfTtnZ2q', 'user', true),
+(4, 'admin2', '$2a$10$8ISIRdutR2w9YlAO5NnWWenAZ1bP0yZA//V8lbaiwhU/EFqjsk.xK', 'admin', true);

@@ -207,7 +207,7 @@ public class UserProfileController {
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ApiResponseDTO.class)))
     })
-    public ResponseEntity<ApiResponseDTO<UserProfileResponseDTO>> deleteUsers(@RequestBody UserProfileRequestDTO userBean) {
+    public ResponseEntity<ApiResponseDTO<UserProfileResponseDTO>> deleteUsers(@Valid @RequestBody UserProfileRequestDTO userBean) {
         loggingStart();
         logger.debug("Called /deleteUsers endpoint");
         logger.debug("Deleting record begins");
