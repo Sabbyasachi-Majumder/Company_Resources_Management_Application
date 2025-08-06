@@ -2,11 +2,13 @@ package com.company.authenticate.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
 @Setter
 @Getter
+@AllArgsConstructor
 @Schema(description = "Request DTO for user authentication")
 public class AuthRequestDTO {
     @NotBlank(message = "must not be blank")

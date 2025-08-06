@@ -3,6 +3,8 @@ spring:
     name: authenticate-service
   server:
     port: 0
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration
   datasource:
     url: jdbc:mysql://localhost:3306/authenticate_db?createDatabaseIfNotExist=true
     username: root

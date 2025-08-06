@@ -5,13 +5,14 @@ import com.company.authenticate.dto.UserProfileDTO;
 import com.company.authenticate.dto.UserProfileResponseDTO;
 import com.company.authenticate.entity.UserProfileEntity;
 import com.company.authenticate.repository.UserRepository;
-import lombok.NoArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.jdbc.datasource.DataSourceUtils;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,20 +23,36 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
-@NoArgsConstructor(force = true)
 @Service
-public class UserProfileServiceImpl implements UserProfileService {
+public class UserProfileServiceImpl implements UserProfileService, UserDetailsService {
 
-    @Autowired
     private final UserRepository userRepository;
-    @Autowired
     private final DataSource dataSource;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
     // For detailed logging in the application
     private static final Logger logger = LoggerFactory.getLogger(UserProfileServiceImpl.class);
+
+    public UserProfileServiceImpl(UserRepository userRepository, DataSource dataSource, PasswordEncoder passwordEncoder) {
+        this.userRepository = userRepository;
+        this.dataSource = dataSource;
+        this.passwordEncoder = passwordEncoder;
+    }
+
+    public List<UserProfileDTO> debugFetchAllUsers() {
+        if (userRepository == null) {
+            logger.error("UserRepository is not initialized");
+            throw new IllegalStateException("UserRepository is not initialized");
+        }
+        logger.debug("Fetching all users from UserProfileTable for debugging");
+        List<UserProfileEntity> users = userRepository.findAll();
+        logger.debug("Found {} users in UserProfileTable", users.size());
+        users.forEach(user -> logger.debug("User: {}, enabled: {}, role: {}",
+                user.getUserName(), user.isEnabled(), user.getRole()));
+        return users.stream().map(this::toDTO).collect(Collectors.toList());
+    }
 
     //Test Database Connection business logic
     public ApiResponseDTO<String> testDatabaseConnection() {
@@ -80,9 +97,9 @@ public class UserProfileServiceImpl implements UserProfileService {
         Page<UserProfileDTO> pagedData = fetchPageData(pageable);
         if (pageable.getPageNumber() < Math.ceil((float) pagedData.getTotalElements() / pageable.getPageSize())) {
             List<UserProfileDTO> currentData = pagedData.getContent();
-            return new ApiResponseDTO<>("success", "Fetching page " + (pageable.getPageNumber()+1) + " with " + currentData.size() + " User data records", currentData);
+            return new ApiResponseDTO<>("success", "Fetching page " + (pageable.getPageNumber() + 1) + " with " + currentData.size() + " User data records", currentData);
         } else
-            return new ApiResponseDTO<>("success", "Total number of records is lower than the current page number " + (pageable.getPageNumber()+1) + " containing " + pageable.getPageSize() + " User data records each page.", null);
+            return new ApiResponseDTO<>("success", "Total number of records is lower than the current page number " + (pageable.getPageNumber() + 1) + " containing " + pageable.getPageSize() + " User data records each page.", null);
 
     }
 
@@ -170,5 +187,37 @@ public class UserProfileServiceImpl implements UserProfileService {
             responses.add(apiResponse);
         }
         return new ApiResponseDTO<>("success", "Delete Success : " + deleteCounter + ". Delete Failed : " + (empList.size() - deleteCounter), new UserProfileResponseDTO(null, responses));
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        logger.debug("Attempting to load user by username: {}", username);
+        if (username == null || username.trim().isEmpty()) {
+            logger.error("Username is null or empty");
+            throw new UsernameNotFoundException("Username cannot be null or empty");
+        }
+        if (userRepository == null) {
+            logger.error("UserRepository is not initialized");
+            throw new IllegalStateException("UserRepository is not initialized");
+        }
+        UserProfileEntity user = userRepository.findByUserName(username)
+                .orElseThrow(() -> {
+                    logger.error("User not found with username: {}", username);
+                    return new UsernameNotFoundException("User not found with username: " + username);
+                });
+
+        logger.debug("Found user: {}, enabled: {}, role: {}", user.getUserName(), user.isEnabled(), user.getRole());
+        UserDetails userDetails = org.springframework.security.core.userdetails.User
+                .withUsername(user.getUserName())
+                .password(user.getPassword())
+                .authorities(user.getRole())
+                .accountExpired(false)
+                .accountLocked(false)
+                .credentialsExpired(false)
+                .disabled(!user.isEnabled())
+                .build();
+
+        logger.info("Successfully loaded user: {}, roles: {}", username, userDetails.getAuthorities());
+        return userDetails;
     }
 }

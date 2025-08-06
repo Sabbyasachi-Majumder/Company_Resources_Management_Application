@@ -6,6 +6,8 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -25,6 +27,7 @@ import java.util.NoSuchElementException;
 import java.util.Objects;
 
 @RestControllerAdvice
+@Order(Ordered.HIGHEST_PRECEDENCE)
 public class AuthenticationGlobalExceptionHandler {
 
     private static final Logger logger = LoggerFactory.getLogger(AuthenticationGlobalExceptionHandler.class);
@@ -40,7 +43,7 @@ public class AuthenticationGlobalExceptionHandler {
             errorMessage.append(error.getField()).append(": ").append(error.getDefaultMessage()).append("; ");
         }
         logger.error("Validation error: {}", errorMessage);
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+        return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY)
                 .body(new ApiResponseDTO<>("error", errorMessage.toString(), null));
     }
 
@@ -93,7 +96,7 @@ public class AuthenticationGlobalExceptionHandler {
 
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<ApiResponseDTO<String>> handleDataIntegrityViolationException(DataIntegrityViolationException ex) {
-        String message = "Database constraint violation: " + Objects.requireNonNull(ex.getRootCause()).getMessage();
+        String message = "Bad Request: Duplicate user ID or username";
         logger.error("Database error: {}", message);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(new ApiResponseDTO<>("error", message, null));
@@ -130,5 +133,12 @@ public class AuthenticationGlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(new ApiResponseDTO<>("error", "Internal server error: " + ex.getMessage(), null));
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<ApiResponseDTO<String>> handleIllegalArgumentException(IllegalArgumentException ex) {
+        logger.error("Bad request: {}", ex.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(new ApiResponseDTO<>("error", ex.getMessage(), null));
     }
 }

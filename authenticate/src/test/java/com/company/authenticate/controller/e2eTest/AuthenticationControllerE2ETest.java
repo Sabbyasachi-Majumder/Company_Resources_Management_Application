@@ -1,4 +1,4 @@
-package com.company.authenticate.controller;
+package com.company.authenticate.controller.e2eTest;
 
 import com.company.authenticate.AuthenticateApplication;
 import io.restassured.RestAssured;
@@ -16,7 +16,7 @@ import static org.hamcrest.Matchers.*;
 
 @SpringBootTest(classes = AuthenticateApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
-@AutoConfigureWireMock(port = 9999)
+@AutoConfigureWireMock(port = 0)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 public class AuthenticationControllerE2ETest {
 
@@ -47,7 +47,7 @@ public class AuthenticationControllerE2ETest {
     void testInvalidCredentials() {
         given()
                 .contentType(ContentType.JSON)
-                .body("{\"userName\": \"testuser\", \"password\": \"wrongPassword\"}")
+                .body("{\"userName\": \"admin1\", \"password\": \"wrongPassword\"}")
                 .when()
                 .post("/api/v1/authenticates/authenticate")
                 .then()
@@ -65,10 +65,14 @@ public class AuthenticationControllerE2ETest {
                 .when()
                 .post("/api/v1/authenticates/authenticate")
                 .then()
-                .statusCode(400);
-//                .body("status", equalTo("error"))
-//                .body("message", containsString("Validation failed: userName: must not be blank; password: must not be blank"))
-//                .body("data", nullValue());
+                .statusCode(422)
+                .body("status", equalTo("error"))
+                .body("message", allOf(
+                        containsString("Validation failed:"),
+                        containsString("userName: must not be blank; "),
+                        containsString("password: must not be blank; ")
+                ))
+                .body("data", nullValue());
     }
 
     @Test

@@ -1,4 +1,4 @@
-package com.company.authenticate.config;
+package com.company.authenticate.config.e2eTest;
 
 import org.springframework.cloud.contract.wiremock.AutoConfigureWireMock;
 

@@ -28,7 +28,8 @@ public class AuthenticateSecurityConfig {
     private final CustomAuthenticationEntryPoint authenticationEntryPoint;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
-    public AuthenticateSecurityConfig(CustomAuthenticationEntryPoint authenticationEntryPoint, JwtAuthenticationFilter jwtAuthenticationFilter) {
+    public AuthenticateSecurityConfig(CustomAuthenticationEntryPoint authenticationEntryPoint,
+                                      JwtAuthenticationFilter jwtAuthenticationFilter) {
         this.authenticationEntryPoint = authenticationEntryPoint;
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
     }

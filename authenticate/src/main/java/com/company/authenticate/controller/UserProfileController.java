@@ -92,7 +92,7 @@ public class UserProfileController {
         loggingStart();
         logger.debug("Called /fetchUsers endpoint");
         logger.debug("Displaying all users with page: {}, size: {}", page, size);
-        Pageable pageable = PageRequest.of(page-1, size);
+        Pageable pageable = PageRequest.of(page - 1, size);
         return ResponseEntity.ok(userService.fetchPagedDataList(pageable));
     }
 
@@ -207,7 +207,7 @@ public class UserProfileController {
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ApiResponseDTO.class)))
     })
-    public ResponseEntity<ApiResponseDTO<UserProfileResponseDTO>> deleteUsers(@RequestBody UserProfileRequestDTO userBean) {
+    public ResponseEntity<ApiResponseDTO<UserProfileResponseDTO>> deleteUsers(@Valid @RequestBody UserProfileRequestDTO userBean) {
         loggingStart();
         logger.debug("Called /deleteUsers endpoint");
         logger.debug("Deleting record begins");
