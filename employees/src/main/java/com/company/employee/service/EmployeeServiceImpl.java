@@ -8,6 +8,7 @@ import com.company.employee.repository.EmployeeRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.stereotype.Service;
@@ -87,13 +88,13 @@ public class EmployeeServiceImpl implements EmployeeService {
         return entity;
     }
 
-    public ApiResponseDTO<List<EmployeeDTO>> fetchPagedDataList(Pageable pageable) {
+    public ApiResponseDTO<List<EmployeeDTO>> fetchPagedDataList(int page, int size) {
+        Pageable pageable = PageRequest.of(page - 1, size);  //internally the page index starts from 0 instead of 1
         Page<EmployeeDTO> pagedData = fetchPageData(pageable);
-        if (pageable.getPageNumber() < Math.ceil((float) pagedData.getTotalElements() / pageable.getPageSize())) {
-            List<EmployeeDTO> currentData = pagedData.getContent();
-            return new ApiResponseDTO<>("success", "Fetching page " + (pageable.getPageNumber()+1) + " with " + currentData.size() + " Employee data records", currentData);
-        } else
-            return new ApiResponseDTO<>("error", "Total number of records is lower than the current page number " + (pageable.getPageNumber()+1) + " containing " + pageable.getPageSize() + " Employee data records each page.", null);
+        List<EmployeeDTO> currentData = pagedData.getContent();
+        if (pageable.getPageNumber() <0 || pageable.getPageNumber() > Math.ceil((float) pagedData.getTotalElements() / pageable.getPageSize()))
+            throw new IllegalArgumentException();
+        return new ApiResponseDTO<>("success", "Fetching page " + (pageable.getPageNumber() + 1) + " with " + currentData.size() + " Employee data records", currentData);
     }
 
     // Fetches all data with pagination

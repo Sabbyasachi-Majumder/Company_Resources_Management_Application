@@ -43,13 +43,8 @@ public class EmployeeOperationsController {
     // testing connection
     @GetMapping(value = "/testConnection")
     @Tag(name = "Health Checks")
-    @Operation(summary = "Test connection to the application",
-            description = "Tests if the connection between the client (e.g., Postman) and the Employee application is established.")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Connection established successfully",
-                    content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = ApiResponseDTO.class)))
-    })
+    @Operation(summary = "Test connection to the application", description = "Tests if the connection between the client (e.g., Postman) and the Employee application is established.")
+    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Connection established successfully", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResponseDTO.class)))})
     public ResponseEntity<ApiResponseDTO<String>> testPostmanToApplicationConnection() {
         loggingStart();
         logger.debug("Testing EmployeeOperationsController to Postman connection.");
@@ -59,13 +54,8 @@ public class EmployeeOperationsController {
     // testing Database connection
     @GetMapping(value = "/testDataBaseConnection")
     @Tag(name = "Health Checks")
-    @Operation(summary = "Test database connection",
-            description = "Tests if the connection to the employee database is established.")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Database connection test result",
-                    content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = ApiResponseDTO.class)))
-    })
+    @Operation(summary = "Test database connection", description = "Tests if the connection to the employee database is established.")
+    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Database connection test result", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResponseDTO.class)))})
     public ResponseEntity<ApiResponseDTO<String>> testDataBaseConnection() throws SQLException {
         loggingStart();
         logger.debug("Testing EmployeeOperationsController to employee database connection.");
@@ -75,45 +65,19 @@ public class EmployeeOperationsController {
     // Fetching the database table data on request with pagination information from users
     @GetMapping(value = "/fetchEmployees", produces = {MediaType.APPLICATION_JSON_VALUE})
     @Tag(name = "Employee Management")
-    @Operation(summary = "Fetch all employees",
-            description = "Retrieves all employee records from the database. Requires USER or ADMIN role.")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Employees fetched successfully",
-                    content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = ApiResponseDTO.class))),
-            @ApiResponse(responseCode = "401", description = "Unauthorized: Authentication required",
-                    content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = ApiResponseDTO.class))),
-            @ApiResponse(responseCode = "403", description = "Forbidden: Insufficient permissions",
-                    content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = ApiResponseDTO.class)))
-    })
+    @Operation(summary = "Fetch all employees", description = "Retrieves all employee records from the database. Requires USER or ADMIN role.")
+    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Employees fetched successfully", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResponseDTO.class))), @ApiResponse(responseCode = "401", description = "Unauthorized: Authentication required", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResponseDTO.class))), @ApiResponse(responseCode = "403", description = "Forbidden: Insufficient permissions", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResponseDTO.class)))})
     public ResponseEntity<ApiResponseDTO<List<EmployeeDTO>>> fetchEmployees(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int size) {
         loggingStart();
         logger.debug("Displaying all employees with page: {}, size: {}", page, size);
-        Pageable pageable = PageRequest.of(page-1, size);
-        return ResponseEntity.ok(employeeService.fetchPagedDataList(pageable));
+        return ResponseEntity.ok(employeeService.fetchPagedDataList(page, size));
     }
 
     //Adding the employee details to the database sent by user
     @PostMapping(value = "/addEmployees", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     @Tag(name = "Employee Management")
-    @Operation(summary = "Add new employees",
-            description = "Adds a list of employees to the database. Requires ADMIN role.")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Employees added successfully",
-                    content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = ApiResponseDTO.class))),
-            @ApiResponse(responseCode = "400", description = "Bad Request: Validation failed or duplicate employee ID",
-                    content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = ApiResponseDTO.class))),
-            @ApiResponse(responseCode = "401", description = "Unauthorized: Authentication required",
-                    content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = ApiResponseDTO.class))),
-            @ApiResponse(responseCode = "403", description = "Forbidden: Insufficient permissions",
-                    content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = ApiResponseDTO.class)))
-    })
+    @Operation(summary = "Add new employees", description = "Adds a list of employees to the database. Requires ADMIN role.")
+    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Employees added successfully", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResponseDTO.class))), @ApiResponse(responseCode = "400", description = "Bad Request: Validation failed or duplicate employee ID", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResponseDTO.class))), @ApiResponse(responseCode = "401", description = "Unauthorized: Authentication required", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResponseDTO.class))), @ApiResponse(responseCode = "403", description = "Forbidden: Insufficient permissions", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResponseDTO.class)))})
     public ResponseEntity<ApiResponseDTO<EmployeeResponseDTO>> addEmployees(@Valid @RequestBody EmployeeRequestDTO empBean) {
         loggingStart();
         try {
@@ -128,22 +92,8 @@ public class EmployeeOperationsController {
     // method to search for an employee details based on path variable {employee id}
     @GetMapping(value = "/searchEmployee/{employeeId}", produces = {MediaType.APPLICATION_JSON_VALUE})
     @Tag(name = "Employee Management")
-    @Operation(summary = "Search employee by ID",
-            description = "Searches for an employee by their ID. Requires USER or ADMIN role.")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Employee found successfully",
-                    content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = ApiResponseDTO.class))),
-            @ApiResponse(responseCode = "404", description = "Employee not found",
-                    content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = ApiResponseDTO.class))),
-            @ApiResponse(responseCode = "401", description = "Unauthorized: Authentication required",
-                    content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = ApiResponseDTO.class))),
-            @ApiResponse(responseCode = "403", description = "Forbidden: Insufficient permissions",
-                    content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = ApiResponseDTO.class)))
-    })
+    @Operation(summary = "Search employee by ID", description = "Searches for an employee by their ID. Requires USER or ADMIN role.")
+    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Employee found successfully", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResponseDTO.class))), @ApiResponse(responseCode = "404", description = "Employee not found", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResponseDTO.class))), @ApiResponse(responseCode = "401", description = "Unauthorized: Authentication required", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResponseDTO.class))), @ApiResponse(responseCode = "403", description = "Forbidden: Insufficient permissions", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResponseDTO.class)))})
     public ResponseEntity<ApiResponseDTO<EmployeeResponseDTO>> searchEmployee(@PathVariable("employeeId") int employeeId) {
         loggingStart();
         logger.debug("Searching employeeId {} ", employeeId);
@@ -153,25 +103,8 @@ public class EmployeeOperationsController {
     // method to update the employee details based on employee id
     @PutMapping(value = "/updateEmployees", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     @Tag(name = "Employee Management")
-    @Operation(summary = "Update employee details",
-            description = "Updates a list of employees in the database. Requires ADMIN role.")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Employees updated successfully",
-                    content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = ApiResponseDTO.class))),
-            @ApiResponse(responseCode = "400", description = "Bad Request: Validation failed",
-                    content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = ApiResponseDTO.class))),
-            @ApiResponse(responseCode = "404", description = "Employee not found",
-                    content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = ApiResponseDTO.class))),
-            @ApiResponse(responseCode = "401", description = "Unauthorized: Authentication required",
-                    content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = ApiResponseDTO.class))),
-            @ApiResponse(responseCode = "403", description = "Forbidden: Insufficient permissions",
-                    content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = ApiResponseDTO.class)))
-    })
+    @Operation(summary = "Update employee details", description = "Updates a list of employees in the database. Requires ADMIN role.")
+    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Employees updated successfully", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResponseDTO.class))), @ApiResponse(responseCode = "400", description = "Bad Request: Validation failed", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResponseDTO.class))), @ApiResponse(responseCode = "404", description = "Employee not found", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResponseDTO.class))), @ApiResponse(responseCode = "401", description = "Unauthorized: Authentication required", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResponseDTO.class))), @ApiResponse(responseCode = "403", description = "Forbidden: Insufficient permissions", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResponseDTO.class)))})
     public ResponseEntity<ApiResponseDTO<EmployeeResponseDTO>> updateEmployees(@Valid @RequestBody EmployeeRequestDTO empBean) {
         loggingStart();
         logger.debug("Updating records begins");
@@ -186,22 +119,8 @@ public class EmployeeOperationsController {
     // method to remove the List of employee details from the database depending on employeeId
     @DeleteMapping(value = "/deleteEmployees", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     @Tag(name = "Employee Management")
-    @Operation(summary = "Delete employees",
-            description = "Deletes a list of employees from the database by their IDs. Requires ADMIN role.")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Employees deleted successfully",
-                    content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = ApiResponseDTO.class))),
-            @ApiResponse(responseCode = "404", description = "Employee not found",
-                    content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = ApiResponseDTO.class))),
-            @ApiResponse(responseCode = "401", description = "Unauthorized: Authentication required",
-                    content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = ApiResponseDTO.class))),
-            @ApiResponse(responseCode = "403", description = "Forbidden: Insufficient permissions",
-                    content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = ApiResponseDTO.class)))
-    })
+    @Operation(summary = "Delete employees", description = "Deletes a list of employees from the database by their IDs. Requires ADMIN role.")
+    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Employees deleted successfully", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResponseDTO.class))), @ApiResponse(responseCode = "404", description = "Employee not found", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResponseDTO.class))), @ApiResponse(responseCode = "401", description = "Unauthorized: Authentication required", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResponseDTO.class))), @ApiResponse(responseCode = "403", description = "Forbidden: Insufficient permissions", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResponseDTO.class)))})
     public ResponseEntity<ApiResponseDTO<EmployeeResponseDTO>> deleteEmployees(@RequestBody EmployeeRequestDTO empBean) {
         loggingStart();
         logger.debug("Deleting record begins");

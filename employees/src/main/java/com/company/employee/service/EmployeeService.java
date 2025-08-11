@@ -17,7 +17,7 @@ public interface EmployeeService {
     EmployeeDTO toDTO(EmployeeEntity entity);
     EmployeeEntity toEntity(EmployeeDTO dto);
 
-    ApiResponseDTO<List<EmployeeDTO>> fetchPagedDataList(Pageable pageable);
+    ApiResponseDTO<List<EmployeeDTO>> fetchPagedDataList(int page, int size);
     Page<EmployeeDTO> fetchPageData(Pageable pageable);
 
     ApiResponseDTO<EmployeeResponseDTO> addDataToDataBase(ArrayList<EmployeeDTO> empList);
