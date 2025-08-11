@@ -93,8 +93,7 @@ public class EmployeeServiceImpl implements EmployeeService {
             List<EmployeeDTO> currentData = pagedData.getContent();
             return new ApiResponseDTO<>("success", "Fetching page " + (pageable.getPageNumber()+1) + " with " + currentData.size() + " Employee data records", currentData);
         } else
-            return new ApiResponseDTO<>("success", "Total number of records is lower than the current page number " + (pageable.getPageNumber()+1) + " containing " + pageable.getPageSize() + " Employee data records each page.", null);
-
+            return new ApiResponseDTO<>("error", "Total number of records is lower than the current page number " + (pageable.getPageNumber()+1) + " containing " + pageable.getPageSize() + " Employee data records each page.", null);
     }
 
     // Fetches all data with pagination

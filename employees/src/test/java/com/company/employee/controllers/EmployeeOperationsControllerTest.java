@@ -59,7 +59,6 @@ public class EmployeeOperationsControllerTest {
     private EmployeeRequestDTO sampleEmployeeRequestDTO;
     private ApiResponseDTO<List<EmployeeDTO>> samplePagedResponse;
     private ApiResponseDTO<EmployeeResponseDTO> sampleResponseDTO;
-    private ArrayList<EmployeeDTO> sampleEmployeeList;
 
     /**
      * Setup method to initialize test data before each test.
@@ -67,7 +66,7 @@ public class EmployeeOperationsControllerTest {
     @BeforeEach
     void setUp() {
         final EmployeeDTO sampleEmployeeDTO = getEmployeeDTO();
-        sampleEmployeeList = new ArrayList<>();
+        ArrayList<EmployeeDTO> sampleEmployeeList = new ArrayList<>();
         sampleEmployeeList.add(sampleEmployeeDTO);
         sampleEmployeeRequestDTO = new EmployeeRequestDTO();
         sampleEmployeeRequestDTO.setEmpDetailsList(sampleEmployeeList);
