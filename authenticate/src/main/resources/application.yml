@@ -26,11 +26,13 @@ spring:
   mvc:
     problemdetails:
       enabled: true
+
 server:
   port: 0
   error:
     whitelabel:
       enabled: false
+
 eureka:
   client:
     service-url:
@@ -70,8 +72,16 @@ springdoc:
   use-management-port: false
   default-produces-media-type: application/json
   default-consumes-media-type: application/json
+
 jwt:
   secret: your-very-secure-secret-key-minimum-32-characters-long
   expiration: 36000000
   refresh:
     expiration: 604800000
+
+logging:
+  level:
+    root: INFO  # Keep root at INFO
+    org.springframework.security: TRACE  # Enable TRACE for securityFilterChain
+    com.company.authenticate: DEBUG  # Debug for your app
+    org.hibernate: DEBUG  # Keep Hibernate at DEBUG unless TRACE needed

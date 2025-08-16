@@ -76,7 +76,7 @@ public class UserProfileServiceImpl implements UserProfileService, UserDetailsSe
         dto.setUserId(entity.getUserId());
         dto.setUserName(entity.getUserName());
         dto.setEnabled(entity.isEnabled());
-        dto.setRole(entity.getRole());
+        dto.setRole(entity.getRole().equals("ROLE_ADMIN") ? "ADMIN" : "USER");
         logger.debug("Mapped entity to DTO");
         return dto;
     }
@@ -88,7 +88,7 @@ public class UserProfileServiceImpl implements UserProfileService, UserDetailsSe
         entity.setUserName(dto.getUserName());
         entity.setPassword(passwordEncoder.encode(dto.getPassword())); //encoding the user password
         entity.setEnabled(dto.isEnabled());
-        entity.setRole(dto.getRole());
+        entity.setRole(dto.getRole().equals("admin") ? "ROLE_ADMIN" : "ROLE_USER");
         logger.debug("Mapped DTO to entity");
         return entity;
     }
@@ -207,10 +207,17 @@ public class UserProfileServiceImpl implements UserProfileService, UserDetailsSe
                 });
 
         logger.debug("Found user: {}, enabled: {}, role: {}", user.getUserName(), user.isEnabled(), user.getRole());
+        // Split role string if multiple roles are comma-separated
+        List<String> roles = user.getRole().contains(",") ? List.of(user.getRole().split(",")) : List.of(user.getRole());
+        List<org.springframework.security.core.authority.SimpleGrantedAuthority> authorities = roles.stream()
+                .map(String::trim)
+                .map(org.springframework.security.core.authority.SimpleGrantedAuthority::new)
+                .collect(Collectors.toList());
+
         UserDetails userDetails = org.springframework.security.core.userdetails.User
                 .withUsername(user.getUserName())
                 .password(user.getPassword())
-                .authorities(user.getRole())
+                .authorities(authorities)
                 .accountExpired(false)
                 .accountLocked(false)
                 .credentialsExpired(false)

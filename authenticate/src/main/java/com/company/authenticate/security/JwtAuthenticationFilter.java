@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,6 +18,8 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Component
@@ -57,16 +60,21 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             }
 
             // Extract authorities (roles) from token claims
-            List<?> rawAuthorities = jwtUtil.extractClaim(token, claims -> claims.get("roles", List.class));
-            Collection<SimpleGrantedAuthority> authorities = rawAuthorities.stream().map(String::valueOf).map(SimpleGrantedAuthority::new).collect(Collectors.toList());
 
-            // Set authentication into context
-            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(username, null, authorities);
+            List<String> roles = jwtUtil.extractClaim(token, claims -> claims.get("roles", List.class));
+            Collection<SimpleGrantedAuthority> authorities = roles.stream()
+                    .map(SimpleGrantedAuthority::new)
+                    .collect(Collectors.toList());
+
+            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+                    username, null, authorities);
             authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
             SecurityContextHolder.getContext().setAuthentication(authentication);
+            logger.debug("Set authentication for user: {}, authorities: {}", username, authorities);
         } catch (Exception e) {
             logger.warn("Could not set user authentication in security context: {}", e.getMessage());
+            throw new AccessDeniedException("403 error due to mismatching of authorizes");
         }
 
         filterChain.doFilter(request, response);

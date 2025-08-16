@@ -35,16 +35,20 @@ public class EmployeeSecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        logger.info("Creating rules to access endpoints");
         logger.debug("JWT Filter Invoked");
         http.cors(cors -> cors.configurationSource(corsConfigurationSource())) // Add CORS integration
                 .csrf(csrf -> csrf.disable())
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class).authorizeHttpRequests(auth -> auth
                         .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/api/v1/employees/testConnection", "/api/v1/employees/testDataBaseConnection").permitAll()
-                        .requestMatchers("/api/v1/employees/fetchEmployees", "/api/v1/employees/searchEmployees/**").authenticated()
-                        .requestMatchers("/api/v1/employees/addEmployees", "/api/v1/employees/updateEmployees", "/api/v1/employees/deleteEmployees").hasRole("ADMIN")
-                        .requestMatchers("/actuator/**").authenticated().anyRequest().permitAll())
+                        .requestMatchers("/testConnection", "/testDataBaseConnection").permitAll()
+                        .requestMatchers("/fetchEmployees", "/searchEmployee/**").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers("/addEmployees", "/updateEmployees", "/deleteEmployees").hasRole("ADMIN")
+                        .requestMatchers("/actuator/**").authenticated()
+                        .anyRequest().permitAll())
                 .exceptionHandling(exception -> exception.authenticationEntryPoint(authenticationEntryPoint))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+        logger.info("Rules to access endpoints created and enforced");
         return http.build();
     }
 

@@ -20,7 +20,7 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException {
         String path = request.getRequestURI();
-        if (path.startsWith("/swagger-ui/") || path.equals("/swagger-ui.html") || path.startsWith("/v3/api-docs/") || path.equals("/api/v1/department/register") || path.equals("/api/v1/department/testConnection") || path.equals("/api/v1/department/testDataBaseConnection")) {
+        if (path.startsWith("/swagger-ui/") || path.equals("/swagger-ui.html") || path.startsWith("/v3/api-docs/") || path.equals("/api/v1/department/testConnection") || path.equals("/api/v1/department/testDataBaseConnection")) {
             logger.info("Skipping authentication entry point for public path: {}", path);
             return;
         }

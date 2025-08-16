@@ -42,9 +42,10 @@ public class AuthenticateSecurityConfig {
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/api/v1/authenticates/authenticate", "/api/v1/authenticates/testConnection", "/api/v1/authenticates/testDataBaseConnection").permitAll()
-                        .requestMatchers("/api/v1/authenticates/addUsers").permitAll()
-                        .requestMatchers("/api/v1/authenticates/**").authenticated()
-                        .requestMatchers("/actuator/**").authenticated().anyRequest().authenticated())
+                        .requestMatchers("/api/v1/authenticates/fetchUsers", "/api/v1/authenticates/searchUser/**").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers("/api/v1/authenticates/addUsers", "/api/v1/authenticates/updateUsers", "/api/v1/authenticates/deleteUsers").hasRole("ADMIN")
+                        .requestMatchers("/actuator/**").authenticated()
+                        .anyRequest().authenticated())
                 .exceptionHandling(exception -> exception.authenticationEntryPoint(authenticationEntryPoint)).sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         return http.build();
     }

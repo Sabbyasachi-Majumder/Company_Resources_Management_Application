@@ -34,13 +34,13 @@ public class UserProfileControllerE2ETest {
     @BeforeEach
     public void setup() {
         RestAssured.baseURI = "http://localhost:" + port;
-        jwtToken = authenticateAndGetToken("admin2", "admin2"); // Use admin2 with ROLE_admin
+        jwtToken = authenticateAndGetToken("admin2", "admin2"); // Use admin2 with ADMIN
     }
 
-    private String authenticateAndGetToken(String username, String password) {
+    private String authenticateAndGetToken(String userName, String password) {
         Response response = given()
                 .contentType(ContentType.JSON)
-                .body("{\"userName\": \"" + username + "\", \"password\": \"" + password + "\"}")
+                .body("{\"userName\": \"" + userName + "\", \"password\": \"" + password + "\"}")
                 .when()
                 .post("/api/v1/authenticates/authenticate")
                 .then()
@@ -134,7 +134,7 @@ public class UserProfileControllerE2ETest {
         newUser.setUserId(5);
         newUser.setUserName("newUser");
         newUser.setPassword("newPassword");
-        newUser.setRole("user");
+        newUser.setRole("USER");
         newUser.setEnabled(true);
 
         UserProfileRequestDTO request = new UserProfileRequestDTO();
@@ -161,7 +161,7 @@ public class UserProfileControllerE2ETest {
 //    newUser.setUserId(5); // Avoid conflicts with existing IDs
 //    newUser.setUserName("newUser");
 //    newUser.setPassword("newPassword");
-//    newUser.setRole("ROLE_user");
+//    newUser.setRole("USER");
 //    newUser.setEnabled(true);
 //
 //    UserProfileRequestDTO request = new UserProfileRequestDTO();
@@ -181,12 +181,12 @@ public class UserProfileControllerE2ETest {
 
 //    @Test
 //    void addUsers_Forbidden_InsufficientPermissions() {
-//        // Assuming admin1 has user role, not admin, as per data.sql
+//        // Assuming admin1 has USER role, not ADMIN, as per data.sql
 //        UserProfileDTO newUser = new UserProfileDTO();
 //        newUser.setUserId(3);
 //        newUser.setUserName("newUser");
 //        newUser.setPassword("newPassword");
-//        newUser.setRole("user");
+//        newUser.setRole("USER");
 //        newUser.setEnabled(true);
 //
 //        UserProfileRequestDTO request = new UserProfileRequestDTO();
@@ -209,7 +209,7 @@ public class UserProfileControllerE2ETest {
     void addUsers_ValidationFailure() {
         UserProfileDTO invalidUser = new UserProfileDTO();
         invalidUser.setUserId(6);
-        invalidUser.setUserName(""); // Blank username
+        invalidUser.setUserName(""); // Blank userName
         invalidUser.setPassword(""); // Blank password
         invalidUser.setRole(""); // Invalid role
         invalidUser.setEnabled(true);
@@ -227,14 +227,14 @@ public class UserProfileControllerE2ETest {
                 .statusCode(422)
                 .body("status", equalTo("error"))
                 .body("message", allOf(
-                        containsString("userProfileList[0].userName: User Name cannot be empty"),
-                        containsString("userProfileList[0].password: Password must be at most 8 characters"),
-                        containsString("userProfileList[0].role: Role must be admin or user")
+                        containsString("USERProfileList[0].userName: User Name cannot be empty"),
+                        containsString("USERProfileList[0].password: Password must be at most 8 characters"),
+                        containsString("USERProfileList[0].role: Role must be ADMIN or USER")
                 ))
                 .body("data", nullValue());
     }
 
-    // Tests for GET /searchUser/{userId}
+    // Tests for GET /searchUser/{USERId}
     @Test
     void searchUser_Success_WithValidTokenAndExistingUser() {
         given()
@@ -247,7 +247,7 @@ public class UserProfileControllerE2ETest {
                 .body("status", equalTo("success"))
                 .body("message", notNullValue())
                 .body("data", notNullValue())
-                .body("data.userProfileList[0].userName", equalTo("admin1"));
+                .body("data.USERProfileList[0].userName", equalTo("admin1"));
     }
 
     @Test
@@ -284,7 +284,7 @@ public class UserProfileControllerE2ETest {
         updatedUser.setUserId(1);
         updatedUser.setUserName("admin1_updated");
         updatedUser.setPassword("admin12345678");
-        updatedUser.setRole("user");
+        updatedUser.setRole("USER");
         updatedUser.setEnabled(true);
 
         UserProfileRequestDTO request = new UserProfileRequestDTO();
@@ -308,10 +308,10 @@ public class UserProfileControllerE2ETest {
     @Test
     void updateUsers_NotFound() {
         UserProfileDTO updatedUser = new UserProfileDTO();
-        updatedUser.setUserId(999); // Non-existent user
+        updatedUser.setUserId(999); // Non-existent USER
         updatedUser.setUserName("nonexistent");
         updatedUser.setPassword("newPassword");
-        updatedUser.setRole("user");
+        updatedUser.setRole("USER");
         updatedUser.setEnabled(true);
 
         UserProfileRequestDTO request = new UserProfileRequestDTO();
@@ -338,7 +338,7 @@ public class UserProfileControllerE2ETest {
         updatedUser.setUserId(4); // Use admin2 ID
         updatedUser.setUserName("admin2_updated");
         updatedUser.setPassword("newPassword");
-        updatedUser.setRole("ROLE_user");
+        updatedUser.setRole("USER");
         updatedUser.setEnabled(true);
 
         UserProfileRequestDTO request = new UserProfileRequestDTO();
@@ -360,7 +360,7 @@ public class UserProfileControllerE2ETest {
     void updateUsers_ValidationFailure() {
         UserProfileDTO invalidUser = new UserProfileDTO();
         invalidUser.setUserId(1);
-        invalidUser.setUserName(""); // Blank username
+        invalidUser.setUserName(""); // Blank userName
         invalidUser.setPassword(""); // Blank password
         invalidUser.setRole("INVALID_ROLE");
         invalidUser.setEnabled(true);
@@ -378,28 +378,28 @@ public class UserProfileControllerE2ETest {
                 .statusCode(422)
                 .body("status", equalTo("error"))
                 .body("message", allOf(
-                        containsString("userProfileList[0].userName: User Name cannot be empty"),
-                        containsString("userProfileList[0].password: Password must be at most 8 characters"),
-                        containsString("userProfileList[0].role: Role must be admin or user")
+                        containsString("USERProfileList[0].userName: User Name cannot be empty"),
+                        containsString("USERProfileList[0].password: Password must be at most 8 characters"),
+                        containsString("USERProfileList[0].role: Role must be ADMIN or USER")
                 ))
                 .body("data", nullValue());
     }
 
-    // Tests for DELETE /deleteUsers
+    // Tests for DELETE /deleteUsers for ADMIN with valid credentials and ADMIN role privilege
     @Test
     void deleteUsers_Success_WithValidTokenAndAdminRole() {
-        // Note: This assumes admin1 has admin role; adjust if admin1 is user
-        UserProfileDTO userToDelete = new UserProfileDTO();
-        userToDelete.setUserId(1);
-        userToDelete.setUserName("testingUser");
-        userToDelete.setPassword("testingUser");
-        userToDelete.setRole("user");
-        userToDelete.setEnabled(true);
+        // Note: This assumes admin1 has ADMIN role; adjust if admin1 is USER
+        UserProfileDTO USERToDelete = new UserProfileDTO();
+        USERToDelete.setUserId(1);
+        USERToDelete.setUserName("testingAdmin");
+        USERToDelete.setPassword("testingAdmin");
+        USERToDelete.setRole("ADMIN");
+        USERToDelete.setEnabled(true);
 
         int deleteCounter = 1;
 
         UserProfileRequestDTO request = new UserProfileRequestDTO();
-        request.setUserProfileList(new ArrayList<>(List.of(userToDelete)));
+        request.setUserProfileList(new ArrayList<>(List.of(USERToDelete)));
 
         given()
                 .contentType(ContentType.JSON)
@@ -413,20 +413,51 @@ public class UserProfileControllerE2ETest {
                 .body("message", equalTo("Delete Success : " + deleteCounter + ". Delete Failed : " + (request.getUserProfileList().size() - deleteCounter)))
                 .body("data", notNullValue())
                 .body("data.apiResponse[0].status", equalTo("success"))
-                .body("data.apiResponse[0].message", equalTo("Successfully deleted User Id " + userToDelete.getUserId() + " data records"));
+                .body("data.apiResponse[0].message", equalTo("Successfully deleted User Id " + USERToDelete.getUserId() + " data records"));
+    }
+
+    // Tests for DELETE /deleteUsers for USER with invalid credentials and USER role privilege
+    @Test
+    void deleteUsers_Error_WithInvalidTokenAndUserRole() {
+        // Note: This assumes admin1 has ADMIN role; adjust if admin1 is USER
+        UserProfileDTO USERToDelete = new UserProfileDTO();
+        USERToDelete.setUserId(2);
+        USERToDelete.setUserName("testingUser");
+        USERToDelete.setPassword("testingUser");
+        USERToDelete.setRole("USER");
+        USERToDelete.setEnabled(true);
+
+        int deleteCounter = 1;
+
+        UserProfileRequestDTO request = new UserProfileRequestDTO();
+        request.setUserProfileList(new ArrayList<>(List.of(USERToDelete)));
+
+        given()
+                .contentType(ContentType.JSON)
+                .header("Authorization", "Bearer " + jwtToken)
+                .body(request)
+                .when()
+                .delete("/api/v1/authenticates/deleteUsers")
+                .then()
+                .statusCode(200)
+                .body("status", equalTo("error"))
+                .body("message", equalTo("Delete Success : " + deleteCounter + ". Delete Failed : " + (request.getUserProfileList().size() - deleteCounter)))
+                .body("data", notNullValue())
+                .body("data.apiResponse[0].status", equalTo("success"))
+                .body("data.apiResponse[0].message", equalTo("Successfully deleted User Id " + USERToDelete.getUserId() + " data records"));
     }
 
     @Test
     void deleteUsers_NotFound() {
-        UserProfileDTO userToDelete = new UserProfileDTO();
-        userToDelete.setUserId(999); // Non-existent user
-        userToDelete.setUserName("testingUser");
-        userToDelete.setPassword("testingUser");
-        userToDelete.setRole("user");
-        userToDelete.setEnabled(true);
+        UserProfileDTO USERToDelete = new UserProfileDTO();
+        USERToDelete.setUserId(999); // Non-existent USER
+        USERToDelete.setUserName("testingUser");
+        USERToDelete.setPassword("testingUser");
+        USERToDelete.setRole("USER");
+        USERToDelete.setEnabled(true);
 
         UserProfileRequestDTO request = new UserProfileRequestDTO();
-        request.setUserProfileList(new ArrayList<>(List.of(userToDelete)));
+        request.setUserProfileList(new ArrayList<>(List.of(USERToDelete)));
 
         int deleteCounter = 0;
 
@@ -441,16 +472,16 @@ public class UserProfileControllerE2ETest {
                 .body("status", equalTo("success"))
                 .body("message", containsString("Delete Success : " + deleteCounter + ". Delete Failed : " + (request.getUserProfileList().size() - deleteCounter)))
                 .body("data.apiResponse[0].status", equalTo("error"))
-                .body("data.apiResponse[0].message", equalTo("User Id " + userToDelete.getUserId() + " doesn't exist"));
+                .body("data.apiResponse[0].message", equalTo("User Id " + USERToDelete.getUserId() + " doesn't exist"));
     }
 
     @Test
     void deleteUsers_Unauthorized_WithoutToken() {
-        UserProfileDTO userToDelete = new UserProfileDTO();
-        userToDelete.setUserId(2);
+        UserProfileDTO USERToDelete = new UserProfileDTO();
+        USERToDelete.setUserId(2);
 
         UserProfileRequestDTO request = new UserProfileRequestDTO();
-        request.setUserProfileList(new ArrayList<>(List.of(userToDelete)));
+        request.setUserProfileList(new ArrayList<>(List.of(USERToDelete)));
 
         given()
                 .contentType(ContentType.JSON)

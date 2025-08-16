@@ -16,9 +16,9 @@
 
     <!-- Rolling File Appender -->
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${LOG_DIR}/authenticate-service-service-${startupTime}.log</file>
+        <file>${LOG_DIR}/authenticate-service-${startupTime}.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${LOG_DIR}/authenticate-service-service-${startupTime}-%d{yyyy-MM-dd}.log</fileNamePattern>
+            <fileNamePattern>${LOG_DIR}/authenticate-service-${startupTime}-%d{yyyy-MM-dd}.log</fileNamePattern>
             <maxFileSize>10MB</maxFileSize>
             <maxHistory>30</maxHistory>
             <totalSizeCap>1GB</totalSizeCap>
@@ -29,8 +29,16 @@
     </appender>
 
     <!-- Root Logger -->
-    <root level="DEBUG">
+    <root level="INFO">
         <appender-ref ref="CONSOLE" />
-        <appender-ref ref="FILE" />
+        <appender-ref ref="FILE" />  <!-- Log to both console and file -->
     </root>
+
+    <!-- Specific Logger for Spring Security TRACE -->
+    <logger name="org.springframework.security" level="TRACE">
+        <appender-ref ref="FILE" />  <!-- Log TRACE to file for detailed analysis -->
+    </logger>
+
+    <!-- Logger for your application -->
+    <logger name="com.company.authenticate" level="DEBUG" />
 </configuration>
