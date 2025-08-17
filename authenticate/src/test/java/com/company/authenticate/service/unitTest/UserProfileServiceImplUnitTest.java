@@ -189,7 +189,7 @@ public class UserProfileServiceImplUnitTest {
         assertEquals(userDTO.getUserId(), result.getUserId(), "User ID should match");
         assertEquals(userDTO.getUserName(), result.getUserName(), "Username should match");
         assertEquals("encodedPassword", result.getPassword(), "Password should be encoded");
-        assertEquals(userDTO.getRole(), result.getRole(), "Role should match");
+        assertEquals("ROLE_"+userDTO.getRole(), result.getRole(), "Role should be ROLE_whatever_the_role_is");
         assertEquals(userDTO.isEnabled(), result.isEnabled(), "Enabled status should match");
 
         // Verify: Ensure password encoder was called

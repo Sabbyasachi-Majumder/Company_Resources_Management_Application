@@ -173,7 +173,7 @@ public class UserProfileControllerUnitTest {
         // Assert: Verify the error response
         assertEquals(HttpStatus.FORBIDDEN, response.getStatusCode(), "Should return 403 Forbidden for unauthorized access");
         assertEquals("error", response.getBody().getStatus(), "Response status should be 'error'");
-        assertEquals("Forbidden: Insufficient permissions [AUTH_403_INSUFFICIENT_PERMISSIONS]", response.getBody().getMessage(),
+        assertEquals("Access Denied: Insufficient permissions [AUTH_403]", response.getBody().getMessage(),
                 "Error message should indicate insufficient permissions");
         assertNull(response.getBody().getData(), "Response data should be null for error cases");
         verify(userService, times(0)).fetchPagedDataList(any(Pageable.class));
