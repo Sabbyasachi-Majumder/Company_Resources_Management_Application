@@ -29,12 +29,9 @@ public class UserProfileControllerE2ETest {
     @LocalServerPort
     private int port;
 
-    private String jwtToken;
-
     @BeforeEach
     public void setup() {
         RestAssured.baseURI = "http://localhost:" + port;
-        jwtToken = authenticateAndGetToken("admin1", "admin1"); // Use admin1 with ADMIN
     }
 
     private String authenticateAndGetToken(String userName, String password) {
@@ -80,10 +77,28 @@ public class UserProfileControllerE2ETest {
 
     // Tests for GET /fetchUsers
     @Test
-    void fetchUsers_Success_WithValidToken() {
+    void fetchUsers_Success_WithValidToken_Admin_Role() {
         given()
                 .contentType(ContentType.JSON)
-                .header("Authorization", "Bearer " + jwtToken)
+                .header("Authorization", "Bearer " + authenticateAndGetToken("admin1", "admin1"))
+                .queryParam("page", 1)
+                .queryParam("size", 10)
+                .when()
+                .get("/api/v1/authenticates/fetchUsers")
+                .then()
+                .statusCode(200)
+                .body("status", equalTo("success"))
+                .body("message", notNullValue())
+                .body("data", notNullValue())
+                .body("data.size()", greaterThanOrEqualTo(1)) // At least admin1 and disabledUser from data.sql
+                .body("data[0].userName", anyOf(equalTo("admin1"), equalTo("disabledUser")));
+    }
+
+    @Test
+    void fetchUsers_Success_WithValidToken_User_Role() {
+        given()
+                .contentType(ContentType.JSON)
+                .header("Authorization", "Bearer " + authenticateAndGetToken("user1", "user1"))
                 .queryParam("page", 1)
                 .queryParam("size", 10)
                 .when()
@@ -115,7 +130,7 @@ public class UserProfileControllerE2ETest {
     void fetchUsers_InvalidPaginationParameters() {
         given()
                 .contentType(ContentType.JSON)
-                .header("Authorization", "Bearer " + jwtToken)
+                .header("Authorization", "Bearer " + authenticateAndGetToken("admin1", "admin1"))
                 .queryParam("page", 0) // Invalid page number
                 .queryParam("size", 0) // Invalid size
                 .when()
@@ -142,7 +157,7 @@ public class UserProfileControllerE2ETest {
 
         given()
                 .contentType(ContentType.JSON)
-                .header("Authorization", "Bearer " + jwtToken)
+                .header("Authorization", "Bearer " + authenticateAndGetToken("admin1", "admin1"))
                 .body(request)
                 .when()
                 .post("/api/v1/authenticates/addUsers")
@@ -219,7 +234,7 @@ public class UserProfileControllerE2ETest {
 
         given()
                 .contentType(ContentType.JSON)
-                .header("Authorization", "Bearer " + jwtToken)
+                .header("Authorization", "Bearer " + authenticateAndGetToken("admin1", "admin1"))
                 .body(request)
                 .when()
                 .post("/api/v1/authenticates/addUsers")
@@ -236,10 +251,26 @@ public class UserProfileControllerE2ETest {
 
     // Tests for GET /searchUser/{USERId}
     @Test
-    void searchUser_Success_WithValidTokenAndExistingUser() {
+    void searchUser_Success_WithValidToken_Admin_Role() {
         given()
                 .contentType(ContentType.JSON)
-                .header("Authorization", "Bearer " + jwtToken)
+                .header("Authorization", "Bearer " + authenticateAndGetToken("admin1", "admin1"))
+                .when()
+                .get("/api/v1/authenticates/searchUser/1")
+                .then()
+                .statusCode(200)
+                .body("status", equalTo("success"))
+                .body("message", notNullValue())
+                .body("data", notNullValue())
+                .body("data.userProfileList[0].userName", equalTo("admin1"));
+    }
+
+    // Tests for GET /searchUser/{USERId}
+    @Test
+    void searchUser_Success_WithValidToken_User_Role() {
+        given()
+                .contentType(ContentType.JSON)
+                .header("Authorization", "Bearer " + authenticateAndGetToken("user1", "user1"))
                 .when()
                 .get("/api/v1/authenticates/searchUser/1")
                 .then()
@@ -254,7 +285,7 @@ public class UserProfileControllerE2ETest {
     void searchUser_NotFound() {
         given()
                 .contentType(ContentType.JSON)
-                .header("Authorization", "Bearer " + jwtToken)
+                .header("Authorization", "Bearer " + authenticateAndGetToken("admin1", "admin1"))
                 .when()
                 .get("/api/v1/authenticates/searchUser/999")
                 .then()
@@ -292,7 +323,7 @@ public class UserProfileControllerE2ETest {
 
         given()
                 .contentType(ContentType.JSON)
-                .header("Authorization", "Bearer " + jwtToken)
+                .header("Authorization", "Bearer " + authenticateAndGetToken("admin1", "admin1"))
                 .body(request)
                 .when()
                 .put("/api/v1/authenticates/updateUsers")
@@ -319,7 +350,7 @@ public class UserProfileControllerE2ETest {
 
         given()
                 .contentType(ContentType.JSON)
-                .header("Authorization", "Bearer " + jwtToken)
+                .header("Authorization", "Bearer " + authenticateAndGetToken("admin1", "admin1"))
                 .body(request)
                 .when()
                 .put("/api/v1/authenticates/updateUsers")
@@ -396,7 +427,7 @@ public class UserProfileControllerE2ETest {
 
         given()
                 .contentType(ContentType.JSON)
-                .header("Authorization", "Bearer " + jwtToken)
+                .header("Authorization", "Bearer " + authenticateAndGetToken("admin1", "admin1"))
                 .body(request)
                 .when()
                 .put("/api/v1/authenticates/updateUsers")
@@ -429,7 +460,7 @@ public class UserProfileControllerE2ETest {
 
         given()
                 .contentType(ContentType.JSON)
-                .header("Authorization", "Bearer " + jwtToken)
+                .header("Authorization", "Bearer " + authenticateAndGetToken("admin1", "admin1"))
                 .body(request)
                 .when()
                 .delete("/api/v1/authenticates/deleteUsers")
@@ -458,7 +489,7 @@ public class UserProfileControllerE2ETest {
 
         given()
                 .contentType(ContentType.JSON)
-                .header("Authorization", "Bearer " + jwtToken)
+                .header("Authorization", "Bearer " + authenticateAndGetToken("admin1", "admin1"))
                 .body(request)
                 .when()
                 .delete("/api/v1/authenticates/deleteUsers")
