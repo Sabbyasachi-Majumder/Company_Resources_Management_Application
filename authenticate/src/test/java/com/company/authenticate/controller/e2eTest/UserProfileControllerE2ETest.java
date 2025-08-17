@@ -34,7 +34,7 @@ public class UserProfileControllerE2ETest {
     @BeforeEach
     public void setup() {
         RestAssured.baseURI = "http://localhost:" + port;
-        jwtToken = authenticateAndGetToken("admin2", "admin2"); // Use admin2 with ADMIN
+        jwtToken = authenticateAndGetToken("admin1", "admin1"); // Use admin1 with ADMIN
     }
 
     private String authenticateAndGetToken(String userName, String password) {
@@ -134,7 +134,7 @@ public class UserProfileControllerE2ETest {
         newUser.setUserId(5);
         newUser.setUserName("newUser");
         newUser.setPassword("newPassword");
-        newUser.setRole("USER");
+        newUser.setRole("user");
         newUser.setEnabled(true);
 
         UserProfileRequestDTO request = new UserProfileRequestDTO();
@@ -155,60 +155,60 @@ public class UserProfileControllerE2ETest {
                 .body("data.apiResponse[0].message", equalTo("Successfully added User Id " + newUser.getUserId() + " data records"));
     }
 
-//    @Test
-//    void addUsers_Unauthorized_WithoutToken() {
-//        UserProfileDTO newUser = new UserProfileDTO();
-//    newUser.setUserId(5); // Avoid conflicts with existing IDs
-//    newUser.setUserName("newUser");
-//    newUser.setPassword("newPassword");
-//    newUser.setRole("USER");
-//    newUser.setEnabled(true);
-//
-//    UserProfileRequestDTO request = new UserProfileRequestDTO();
-//    request.setUserProfileList(new ArrayList<>(List.of(newUser)));
-//
-//    given()
-//            .contentType(ContentType.JSON)
-//            .body(request)
-//            .when()
-//            .post("/api/v1/authenticates/addUsers")
-//            .then()
-//            .statusCode(401)
-//            .body("status", equalTo("error"))
-//            .body("message", equalTo("Unauthorized: Authentication required [AUTH_401_NO_TOKEN]"))
-//            .body("data", nullValue());
-//    }
+    @Test
+    void addUsers_Unauthorized_WithoutToken() {
+        UserProfileDTO newUser = new UserProfileDTO();
+        newUser.setUserId(5); // Avoid conflicts with existing IDs
+        newUser.setUserName("newUser");
+        newUser.setPassword("newPassword");
+        newUser.setRole("user");
+        newUser.setEnabled(true);
 
-//    @Test
-//    void addUsers_Forbidden_InsufficientPermissions() {
-//        // Assuming admin1 has USER role, not ADMIN, as per data.sql
-//        UserProfileDTO newUser = new UserProfileDTO();
-//        newUser.setUserId(3);
-//        newUser.setUserName("newUser");
-//        newUser.setPassword("newPassword");
-//        newUser.setRole("USER");
-//        newUser.setEnabled(true);
-//
-//        UserProfileRequestDTO request = new UserProfileRequestDTO();
-//        request.setUserProfileList(new ArrayList<>(List.of(newUser)));
-//
-//        given()
-//                .contentType(ContentType.JSON)
-//                .header("Authorization", "Bearer " + jwtToken)
-//                .body(request)
-//                .when()
-//                .post("/api/v1/authenticates/addUsers")
-//                .then()
-//                .statusCode(403)
-//                .body("status", equalTo("error"))
-//                .body("message", equalTo("Forbidden: Insufficient permissions [AUTH_403_INSUFFICIENT_PERMISSIONS]"))
-//                .body("data", nullValue());
-//    }
+        UserProfileRequestDTO request = new UserProfileRequestDTO();
+        request.setUserProfileList(new ArrayList<>(List.of(newUser)));
+
+        given()
+                .contentType(ContentType.JSON)
+                .body(request)
+                .when()
+                .post("/api/v1/authenticates/addUsers")
+                .then()
+                .statusCode(401)
+                .body("status", equalTo("error"))
+                .body("message", equalTo("Unauthorized: Authentication required [AUTH_401_NO_TOKEN]"))
+                .body("data", nullValue());
+    }
+
+    @Test
+    void addUsers_Forbidden_InsufficientPermissions() {
+        // Assuming admin1 has USER role, not ADMIN, as per data.sql
+        UserProfileDTO newUser = new UserProfileDTO();
+        newUser.setUserId(5);
+        newUser.setUserName("newUser");
+        newUser.setPassword("newPassword");
+        newUser.setRole("user");
+        newUser.setEnabled(true);
+
+        UserProfileRequestDTO request = new UserProfileRequestDTO();
+        request.setUserProfileList(new ArrayList<>(List.of(newUser)));
+
+        given()
+                .contentType(ContentType.JSON)
+                .header("Authorization", "Bearer " + authenticateAndGetToken("user1", "user1"))
+                .body(request)
+                .when()
+                .post("/api/v1/authenticates/addUsers")
+                .then()
+                .statusCode(403)
+                .body("status", equalTo("error"))
+                .body("message", equalTo("Access Denied: Insufficient permissions [AUTH_403]"))
+                .body("data", nullValue());
+    }
 
     @Test
     void addUsers_ValidationFailure() {
         UserProfileDTO invalidUser = new UserProfileDTO();
-        invalidUser.setUserId(6);
+        invalidUser.setUserId(5);
         invalidUser.setUserName(""); // Blank userName
         invalidUser.setPassword(""); // Blank password
         invalidUser.setRole(""); // Invalid role
@@ -227,9 +227,9 @@ public class UserProfileControllerE2ETest {
                 .statusCode(422)
                 .body("status", equalTo("error"))
                 .body("message", allOf(
-                        containsString("USERProfileList[0].userName: User Name cannot be empty"),
-                        containsString("USERProfileList[0].password: Password must be at most 8 characters"),
-                        containsString("USERProfileList[0].role: Role must be ADMIN or USER")
+                        containsString("userProfileList[0].userName: User Name must be at most 50 characters"),
+                        containsString("userProfileList[0].password: Password must be at most 8 characters"),
+                        containsString("userProfileList[0].role: Role must be admin or user")
                 ))
                 .body("data", nullValue());
     }
@@ -247,7 +247,7 @@ public class UserProfileControllerE2ETest {
                 .body("status", equalTo("success"))
                 .body("message", notNullValue())
                 .body("data", notNullValue())
-                .body("data.USERProfileList[0].userName", equalTo("admin1"));
+                .body("data.userProfileList[0].userName", equalTo("admin1"));
     }
 
     @Test
@@ -281,10 +281,10 @@ public class UserProfileControllerE2ETest {
     @Test
     void updateUsers_Success_WithValidTokenAndAdminRole() {
         UserProfileDTO updatedUser = new UserProfileDTO();
-        updatedUser.setUserId(1);
+        updatedUser.setUserId(4);
         updatedUser.setUserName("admin1_updated");
         updatedUser.setPassword("admin12345678");
-        updatedUser.setRole("USER");
+        updatedUser.setRole("admin");
         updatedUser.setEnabled(true);
 
         UserProfileRequestDTO request = new UserProfileRequestDTO();
@@ -311,7 +311,7 @@ public class UserProfileControllerE2ETest {
         updatedUser.setUserId(999); // Non-existent USER
         updatedUser.setUserName("nonexistent");
         updatedUser.setPassword("newPassword");
-        updatedUser.setRole("USER");
+        updatedUser.setRole("user");
         updatedUser.setEnabled(true);
 
         UserProfileRequestDTO request = new UserProfileRequestDTO();
@@ -338,7 +338,7 @@ public class UserProfileControllerE2ETest {
         updatedUser.setUserId(4); // Use admin2 ID
         updatedUser.setUserName("admin2_updated");
         updatedUser.setPassword("newPassword");
-        updatedUser.setRole("USER");
+        updatedUser.setRole("user");
         updatedUser.setEnabled(true);
 
         UserProfileRequestDTO request = new UserProfileRequestDTO();
@@ -353,6 +353,32 @@ public class UserProfileControllerE2ETest {
                 .statusCode(401)
                 .body("status", equalTo("error"))
                 .body("message", equalTo("Unauthorized: Authentication required [AUTH_401_NO_TOKEN]"))
+                .body("data", nullValue());
+    }
+
+    @Test
+    void updateUsers_Forbidden_InsufficientPermissions() {
+        // Assuming admin1 has USER role, not ADMIN, as per data.sql
+        UserProfileDTO newUser = new UserProfileDTO();
+        newUser.setUserId(4);
+        newUser.setUserName("updated_user_name");
+        newUser.setPassword("updated_user_password");
+        newUser.setRole("user");
+        newUser.setEnabled(true);
+
+        UserProfileRequestDTO request = new UserProfileRequestDTO();
+        request.setUserProfileList(new ArrayList<>(List.of(newUser)));
+
+        given()
+                .contentType(ContentType.JSON)
+                .header("Authorization", "Bearer " + authenticateAndGetToken("user1", "user1"))
+                .body(request)
+                .when()
+                .post("/api/v1/authenticates/updateUsers")
+                .then()
+                .statusCode(403)
+                .body("status", equalTo("error"))
+                .body("message", equalTo("Access Denied: Insufficient permissions [AUTH_403]"))
                 .body("data", nullValue());
     }
 
@@ -378,9 +404,9 @@ public class UserProfileControllerE2ETest {
                 .statusCode(422)
                 .body("status", equalTo("error"))
                 .body("message", allOf(
-                        containsString("USERProfileList[0].userName: User Name cannot be empty"),
-                        containsString("USERProfileList[0].password: Password must be at most 8 characters"),
-                        containsString("USERProfileList[0].role: Role must be ADMIN or USER")
+                        containsString("userProfileList[0].userName: User Name must be at most 50 characters"),
+                        containsString("userProfileList[0].password: Password must be at most 8 characters"),
+                        containsString("userProfileList[0].role: Role must be admin or user")
                 ))
                 .body("data", nullValue());
     }
@@ -393,7 +419,7 @@ public class UserProfileControllerE2ETest {
         USERToDelete.setUserId(1);
         USERToDelete.setUserName("testingAdmin");
         USERToDelete.setPassword("testingAdmin");
-        USERToDelete.setRole("ADMIN");
+        USERToDelete.setRole("admin");
         USERToDelete.setEnabled(true);
 
         int deleteCounter = 1;
@@ -416,44 +442,13 @@ public class UserProfileControllerE2ETest {
                 .body("data.apiResponse[0].message", equalTo("Successfully deleted User Id " + USERToDelete.getUserId() + " data records"));
     }
 
-    // Tests for DELETE /deleteUsers for USER with invalid credentials and USER role privilege
-    @Test
-    void deleteUsers_Error_WithInvalidTokenAndUserRole() {
-        // Note: This assumes admin1 has ADMIN role; adjust if admin1 is USER
-        UserProfileDTO USERToDelete = new UserProfileDTO();
-        USERToDelete.setUserId(2);
-        USERToDelete.setUserName("testingUser");
-        USERToDelete.setPassword("testingUser");
-        USERToDelete.setRole("USER");
-        USERToDelete.setEnabled(true);
-
-        int deleteCounter = 1;
-
-        UserProfileRequestDTO request = new UserProfileRequestDTO();
-        request.setUserProfileList(new ArrayList<>(List.of(USERToDelete)));
-
-        given()
-                .contentType(ContentType.JSON)
-                .header("Authorization", "Bearer " + jwtToken)
-                .body(request)
-                .when()
-                .delete("/api/v1/authenticates/deleteUsers")
-                .then()
-                .statusCode(200)
-                .body("status", equalTo("error"))
-                .body("message", equalTo("Delete Success : " + deleteCounter + ". Delete Failed : " + (request.getUserProfileList().size() - deleteCounter)))
-                .body("data", notNullValue())
-                .body("data.apiResponse[0].status", equalTo("success"))
-                .body("data.apiResponse[0].message", equalTo("Successfully deleted User Id " + USERToDelete.getUserId() + " data records"));
-    }
-
     @Test
     void deleteUsers_NotFound() {
         UserProfileDTO USERToDelete = new UserProfileDTO();
         USERToDelete.setUserId(999); // Non-existent USER
         USERToDelete.setUserName("testingUser");
         USERToDelete.setPassword("testingUser");
-        USERToDelete.setRole("USER");
+        USERToDelete.setRole("user");
         USERToDelete.setEnabled(true);
 
         UserProfileRequestDTO request = new UserProfileRequestDTO();
@@ -492,6 +487,32 @@ public class UserProfileControllerE2ETest {
                 .statusCode(401)
                 .body("status", equalTo("error"))
                 .body("message", equalTo("Unauthorized: Authentication required [AUTH_401_NO_TOKEN]"))
+                .body("data", nullValue());
+    }
+
+    @Test
+    void deleteUsers_Forbidden_InsufficientPermissions() {
+        // Assuming admin1 has USER role, not ADMIN, as per data.sql
+        UserProfileDTO newUser = new UserProfileDTO();
+        newUser.setUserId(4);
+        newUser.setUserName("delete_user_name");
+        newUser.setPassword("delete_user_password");
+        newUser.setRole("user");
+        newUser.setEnabled(true);
+
+        UserProfileRequestDTO request = new UserProfileRequestDTO();
+        request.setUserProfileList(new ArrayList<>(List.of(newUser)));
+
+        given()
+                .contentType(ContentType.JSON)
+                .header("Authorization", "Bearer " + authenticateAndGetToken("user1", "user1"))
+                .body(request)
+                .when()
+                .post("/api/v1/authenticates/deleteUsers")
+                .then()
+                .statusCode(403)
+                .body("status", equalTo("error"))
+                .body("message", equalTo("Access Denied: Insufficient permissions [AUTH_403]"))
                 .body("data", nullValue());
     }
 }

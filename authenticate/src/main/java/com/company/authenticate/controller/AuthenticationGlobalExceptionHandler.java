@@ -21,10 +21,11 @@ import org.springframework.transaction.TransactionSystemException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.NoSuchElementException;
-import java.util.Objects;
 
 @RestControllerAdvice
 @Order(Ordered.HIGHEST_PRECEDENCE)
@@ -86,12 +87,14 @@ public class AuthenticationGlobalExceptionHandler {
     }
 
     @ExceptionHandler(AccessDeniedException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    @ResponseBody
     public ResponseEntity<ApiResponseDTO<String>> handleAccessDeniedException(AccessDeniedException ex, HttpServletRequest request) {
-        String username = request.getUserPrincipal() != null ? request.getUserPrincipal().getName() : "anonymous";
-        String message = "Forbidden: Insufficient permissions [AUTH_403_INSUFFICIENT_PERMISSIONS]";
-        logger.error("403 Forbidden: {} - Path: {} - User: {}", message, request.getRequestURI(), username);
+        String path = request.getRequestURI();
+        logger.error("Access denied for path: {}, reason: {}", path, ex.getMessage());
         return ResponseEntity.status(HttpStatus.FORBIDDEN)
-                .body(new ApiResponseDTO<>("error", message, null));
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(new ApiResponseDTO<>("error", "Access Denied: Insufficient permissions [AUTH_403]", null));
     }
 
     @ExceptionHandler(DataIntegrityViolationException.class)
@@ -107,8 +110,6 @@ public class AuthenticationGlobalExceptionHandler {
         logger.error("Servlet error: {} - Path: {}", ex.getMessage(), request.getRequestURI());
         if (ex.getCause() instanceof AuthenticationException) {
             return handleAuthenticationException((AuthenticationException) ex.getCause(), request);
-        } else if (ex.getCause() instanceof AccessDeniedException) {
-            return handleAccessDeniedException((AccessDeniedException) ex.getCause(), request);
         } else if (ex.getCause() instanceof JwtException) {
             return handleJwtException((JwtException) ex.getCause(), request);
         } else if (ex.getCause() instanceof DisabledException) {
