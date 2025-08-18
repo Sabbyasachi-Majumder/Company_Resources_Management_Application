@@ -6,8 +6,6 @@ import com.company.employee.dto.EmployeeResponseDTO;
 import com.company.employee.entity.EmployeeEntity;
 import com.company.employee.repository.EmployeeRepository;
 
-import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -89,8 +87,6 @@ public class EmployeeServiceImpl implements EmployeeService {
         logger.debug("Mapped DTO to entity");
         return entity;
     }
-
-
 
     public ApiResponseDTO<List<EmployeeDTO>> fetchPagedDataList(int page, int size) {
         Pageable pageable = PageRequest.of(page - 1, size);  //internally the page index starts from 0 instead of 1
