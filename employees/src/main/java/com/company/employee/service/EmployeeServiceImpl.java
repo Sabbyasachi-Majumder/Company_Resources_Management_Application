@@ -6,6 +6,7 @@ import com.company.employee.dto.EmployeeResponseDTO;
 import com.company.employee.entity.EmployeeEntity;
 import com.company.employee.repository.EmployeeRepository;
 
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -20,23 +21,24 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-import lombok.NoArgsConstructor;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 
 import javax.sql.DataSource;
 
-@NoArgsConstructor(force = true)
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
 
-    @Autowired
     private final EmployeeRepository employeeRepository;
-    @Autowired
     private final DataSource dataSource;
 
     // For detailed logging in the application
     private static final Logger logger = LoggerFactory.getLogger(EmployeeServiceImpl.class);
+
+    public EmployeeServiceImpl(EmployeeRepository employeeRepository, DataSource dataSource) {
+        this.employeeRepository = employeeRepository;
+        this.dataSource = dataSource;
+    }
 
     //Test Database Connection business logic
     public ApiResponseDTO<String> testDatabaseConnection() {
@@ -88,11 +90,13 @@ public class EmployeeServiceImpl implements EmployeeService {
         return entity;
     }
 
+
+
     public ApiResponseDTO<List<EmployeeDTO>> fetchPagedDataList(int page, int size) {
         Pageable pageable = PageRequest.of(page - 1, size);  //internally the page index starts from 0 instead of 1
         Page<EmployeeDTO> pagedData = fetchPageData(pageable);
         List<EmployeeDTO> currentData = pagedData.getContent();
-        if (pageable.getPageNumber() <0 || pageable.getPageNumber() > Math.ceil((float) pagedData.getTotalElements() / pageable.getPageSize()))
+        if (pageable.getPageNumber() < 0 || pageable.getPageNumber() > Math.ceil((float) pagedData.getTotalElements() / pageable.getPageSize()))
             throw new IllegalArgumentException();
         return new ApiResponseDTO<>("success", "Fetching page " + (pageable.getPageNumber() + 1) + " with " + currentData.size() + " Employee data records", currentData);
     }

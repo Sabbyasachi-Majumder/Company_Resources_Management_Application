@@ -1,0 +1,59 @@
+spring:
+  config:
+    activate:
+      on-profile: test
+  application:
+    name: employee-service
+  datasource:
+    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;CASE_INSENSITIVE_IDENTIFIERS=TRUE;MODE=PostgreSQL;INIT=RUNSCRIPT FROM 'classpath:schema.sql'\;RUNSCRIPT FROM 'classpath:data.sql'
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: none
+    naming:
+      implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
+      physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        connection:
+          autocommit: true
+    defer-datasource-initialization: false
+  sql:
+    init:
+      mode: always
+      continue-on-error: false
+      schema-locations: classpath:schema.sql
+      data-locations: classpath:data.sql
+  mvc:
+    problemdetails:
+      enabled: false
+jwt:
+  secret: your-very-secure-secret-key-minimum-32-characters-long
+  expiration: 36000000
+  refresh:
+    expiration: 604800000
+wiremock:
+  server:
+    port: 0 # Use random port to avoid WireMock warning
+eureka:
+  client:
+    enabled: false
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+logging:
+  level:
+    root: INFO
+    org.springframework: DEBUG
+    org.springframework.security: DEBUG
+    org.springframework.security.authentication: TRACE
+    org.springframework.jdbc.datasource.init: TRACE
+    org.springframework.boot.autoconfigure: DEBUG
+    org.hibernate.SQL: DEBUG
+    org.hibernate.orm.jdbc.bind: TRACE
+    com.company.authenticate: TRACE
+    com.github.tomakehurst.wiremock: DEBUG
