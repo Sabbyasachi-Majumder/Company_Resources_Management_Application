@@ -15,18 +15,25 @@ public interface EmployeeService {
     ApiResponseDTO<String> testDatabaseConnection();
 
     EmployeeDTO toDTO(EmployeeEntity entity);
+
     EmployeeEntity toEntity(EmployeeDTO dto);
 
     ApiResponseDTO<List<EmployeeDTO>> fetchPagedDataList(int page, int size);
+
     Page<EmployeeDTO> fetchPageData(Pageable pageable);
 
     ApiResponseDTO<EmployeeResponseDTO> addDataToDataBase(ArrayList<EmployeeDTO> empList);
+
     void addData(EmployeeEntity employee);
 
     ApiResponseDTO<EmployeeResponseDTO> searchDataBase(int employeeId);
+
     EmployeeEntity searchData(int employeeId);
 
     ApiResponseDTO<EmployeeResponseDTO> updateDataToDataBase(ArrayList<EmployeeDTO> empList);
 
     ApiResponseDTO<EmployeeResponseDTO> deleteDataFromDataBase(ArrayList<EmployeeDTO> empList);
+
+    ApiResponseDTO<List<EmployeeResponseDTO>> findByFirstName(String FirstName);
+
 }

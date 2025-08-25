@@ -6,8 +6,9 @@ import com.company.project.dto.ProjectResponseDTO;
 import com.company.project.entity.ProjectEntity;
 import com.company.project.repository.ProjectRepository;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.jdbc.datasource.DataSourceUtils;
 
@@ -17,20 +18,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-import lombok.NoArgsConstructor;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 import org.springframework.stereotype.Service;
 
 import javax.sql.DataSource;
 
-@NoArgsConstructor(force = true)
+@AllArgsConstructor
 @Service
 public class ProjectServiceImpl implements ProjectService {
 
-    @Autowired
     private final ProjectRepository projectRepository;
-    @Autowired
     private final DataSource dataSource;
 
     // For detailed logging in the application
@@ -76,14 +74,13 @@ public class ProjectServiceImpl implements ProjectService {
         return entity;
     }
 
-    public ApiResponseDTO<List<ProjectDTO>> fetchPagedDataList(Pageable pageable) {
+    public ApiResponseDTO<List<ProjectDTO>> fetchPagedDataList(int page,int size) {
+        Pageable pageable = PageRequest.of(page - 1, size);  //internally the page index starts from 0 instead of 1
         Page<ProjectDTO> pagedData = fetchPageData(pageable);
-        if (pageable.getPageNumber() <= Math.ceil((float) pagedData.getTotalElements() / pageable.getPageSize())) {
-            List<ProjectDTO> currentData = pagedData.getContent();
-            return new ApiResponseDTO<>("success", "Fetching page " + (pageable.getPageNumber()+1) + " with " + currentData.size() + " Project data records", currentData);
-        } else
-            return new ApiResponseDTO<>("success", "Total number of records is lower than the current page number " + (pageable.getPageNumber()+1) + " containing " + pageable.getPageSize() + " Project data records each page.", null);
-
+        List<ProjectDTO> currentData = pagedData.getContent();
+        if (pageable.getPageNumber() < 0 || pageable.getPageNumber() > Math.ceil((float) pagedData.getTotalElements() / pageable.getPageSize()))
+            throw new IllegalArgumentException();
+        return new ApiResponseDTO<>("success", "Fetching page " + (pageable.getPageNumber() + 1) + " with " + currentData.size() + " Project data records", currentData);
     }
 
     // Fetches all data with pagination

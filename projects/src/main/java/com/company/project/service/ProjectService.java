@@ -17,7 +17,7 @@ public interface ProjectService {
     ProjectDTO toDTO(ProjectEntity entity);
     ProjectEntity toEntity(ProjectDTO dto);
 
-    ApiResponseDTO<List<ProjectDTO>> fetchPagedDataList(Pageable pageable);
+    ApiResponseDTO<List<ProjectDTO>> fetchPagedDataList(int page,int size);
     Page<ProjectDTO> fetchPageData(Pageable pageable);
 
     ApiResponseDTO<ProjectResponseDTO> addDataToDataBase(ArrayList<ProjectDTO> empList);

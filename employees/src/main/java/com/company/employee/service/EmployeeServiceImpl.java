@@ -180,4 +180,9 @@ public class EmployeeServiceImpl implements EmployeeService {
         }
         return new ApiResponseDTO<>("success", "Delete Success : " + deleteCounter + ". Delete Failed : " + (empList.size() - deleteCounter), new EmployeeResponseDTO(null, responses));
     }
+
+    public ApiResponseDTO<List<EmployeeResponseDTO>> findByFirstName(String FirstName){
+        List<EmployeeResponseDTO> emp = employeeRepository.findByFirstName(FirstName);
+        return new ApiResponseDTO<>();
+    }
 }
