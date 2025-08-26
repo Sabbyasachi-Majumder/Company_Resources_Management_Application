@@ -90,8 +90,7 @@ public class DepartmentOperationsController {
     public ResponseEntity<ApiResponseDTO<List<DepartmentDTO>>> fetchDepartments(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int size) {
         loggingStart();
         logger.info("Displaying all departments with page: {}, size: {}", page, size);
-        Pageable pageable = PageRequest.of(page-1, size);
-        return ResponseEntity.ok(departmentService.fetchPagedDataList(pageable));
+        return ResponseEntity.ok(departmentService.fetchPagedDataList(page-1, size));
     }
 
     //Adding the department details to the database sent by user

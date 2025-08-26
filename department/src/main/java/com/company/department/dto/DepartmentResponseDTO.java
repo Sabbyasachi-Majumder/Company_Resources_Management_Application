@@ -18,12 +18,12 @@ import java.util.ArrayList;
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(Include.NON_NULL)
-@Schema(description = "Response DTO for employee operations, containing a list of employees or operation responses")
+@Schema(description = "Response DTO for department operations, containing a list of departments or operation responses")
 public class DepartmentResponseDTO {
 
-    @JsonProperty("empDetailsList")
-    @Schema(description = "List of employee details returned in the response", example = "null", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-    ArrayList<DepartmentDTO> empDetailsList;
+    @JsonProperty("departmentDetailsList")
+    @Schema(description = "List of department details returned in the response", example = "null", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    ArrayList<DepartmentDTO> departmentDetailsList;
 
     @JsonProperty("apiResponse")
     @Schema(description = "List of API responses for individual operations (e.g., add, update, delete)", example = "null", requiredMode = Schema.RequiredMode.NOT_REQUIRED)

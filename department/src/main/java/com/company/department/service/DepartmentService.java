@@ -20,7 +20,7 @@ public interface DepartmentService {
 
     DepartmentEntity toEntity(DepartmentDTO dto);
 
-    ApiResponseDTO<List<DepartmentDTO>> fetchPagedDataList(Pageable pageable);
+    ApiResponseDTO<List<DepartmentDTO>> fetchPagedDataList(int page , int size);
 
     Page<DepartmentDTO> fetchPageData(Pageable pageable);
 

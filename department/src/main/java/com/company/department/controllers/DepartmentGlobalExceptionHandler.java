@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -119,5 +120,16 @@ public class DepartmentGlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(new ApiResponseDTO<>("error", "Internal server error: " + ex.getMessage(), null));
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<ApiResponseDTO<String>> handleIllegalArgumentException(IllegalArgumentException ex, Pageable pageable, HttpServletRequest request) {
+        logger.error("IllegalArgumentException : {} - Path: {} - StackTrace: ", ex.getMessage(), request.getRequestURI(), ex);
+        if (pageable.getPageNumber() <= 0)
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponseDTO<>("error", "Total number of records is lower than 1.", null));
+        else
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body(new ApiResponseDTO<>("error", "Current page " + (pageable.getPageNumber()) + " is bigger than total number of pages available.", null));
     }
 }

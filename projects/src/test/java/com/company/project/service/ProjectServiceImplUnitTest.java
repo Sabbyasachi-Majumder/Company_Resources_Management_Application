@@ -1,12 +1,11 @@
-package com.company.project.controller.service;
+package com.company.project.service;
 
-import com.company.project.controller.testUtils.TestUtils;
+import com.company.project.testUtils.TestUtils;
 import com.company.project.dto.ApiResponseDTO;
 import com.company.project.dto.ProjectDTO;
 import com.company.project.dto.ProjectResponseDTO;
 import com.company.project.entity.ProjectEntity;
 import com.company.project.repository.ProjectRepository;
-import com.company.project.service.ProjectServiceImpl;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

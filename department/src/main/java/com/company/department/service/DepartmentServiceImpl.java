@@ -7,12 +7,12 @@ import com.company.department.entity.DepartmentEntity;
 import com.company.department.repository.DepartmentRepository;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
-import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 import org.bson.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
@@ -21,13 +21,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-@NoArgsConstructor(force = true)
+@AllArgsConstructor
 @Service
 public class DepartmentServiceImpl implements DepartmentService {
 
-    @Autowired
     private final DepartmentRepository DepartmentRepository;
-    @Autowired
     private MongoTemplate mongoTemplate;
 
     // For detailed logging in the application
@@ -36,13 +34,12 @@ public class DepartmentServiceImpl implements DepartmentService {
     //Test Database Connection business logic
     public ApiResponseDTO<String> testDatabaseConnection() {
         Document result = mongoTemplate.getDb().runCommand(new Document("ping", 1));
-        if (result != null && result.containsKey("ok") && result.getDouble("ok") == 1.0) {
+        if (result.containsKey("ok") && result.getDouble("ok") == 1.0) {
             logger.info("Testing successful . Database connection is present.");
-            return new ApiResponseDTO<>("success", "Connection from department Application to department Database successfully established.", null);
         } else {
-            logger.info("Testing successful . Database connection is present.");
-            return new ApiResponseDTO<>("success", "Connection from department Application to department Database successfully established.", null);
+            logger.info("Testing successful . Database connection is not present.");
         }
+        return new ApiResponseDTO<>("success", "Connection from department Application to department Database successfully established.", null);
     }
 
     //Adds department details to the department table
@@ -69,14 +66,12 @@ public class DepartmentServiceImpl implements DepartmentService {
         return entity;
     }
 
-    public ApiResponseDTO<List<DepartmentDTO>> fetchPagedDataList(Pageable pageable) {
+    public ApiResponseDTO<List<DepartmentDTO>> fetchPagedDataList(int page , int size) {
+        Pageable pageable = PageRequest.of(page - 1, size);  //internally the page index starts from 0 instead of 1
         Page<DepartmentDTO> pagedData = fetchPageData(pageable);
-        if (pageable.getPageNumber()< Math.ceil((float) pagedData.getTotalElements() / pageable.getPageSize())) {
-            List<DepartmentDTO> currentData = pagedData.getContent();
-            return new ApiResponseDTO<>("success", "Fetching page " + (pageable.getPageNumber()+1) + " with " + currentData.size() + " department data records", currentData);
-        } else
-            return new ApiResponseDTO<>("success", "Total number of records is lower than the current page number " + (pageable.getPageNumber()+1) + " containing " + pageable.getPageSize() + " department data records each page.", null);
-
+        if (pageable.getPageNumber() < 0 || pageable.getPageNumber() > Math.ceil((float) pagedData.getTotalElements() / pageable.getPageSize()))
+            throw new IllegalArgumentException();
+        return new ApiResponseDTO<>("success", "Fetching page " + (pageable.getPageNumber() + 1) + " with " + pagedData.getContent().size() + " Department data records", pagedData.getContent());
     }
 
     // Fetches all data with pagination
@@ -117,7 +112,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     public ApiResponseDTO<DepartmentResponseDTO> searchDataBase(int departmentId) {
         ArrayList<DepartmentDTO> entityArrayList = new ArrayList<>();
         entityArrayList.add(toDTO(searchData(departmentId)));
-        return new ApiResponseDTO<>("success", "Successfully found department Id " + departmentId + " data records", new DepartmentResponseDTO(entityArrayList, null));
+        return new ApiResponseDTO<>("success", "Successfully found Department Id " + departmentId + " data records", new DepartmentResponseDTO(entityArrayList, null));
     }
 
     // Calling findById to search the table for a department based on departmentId

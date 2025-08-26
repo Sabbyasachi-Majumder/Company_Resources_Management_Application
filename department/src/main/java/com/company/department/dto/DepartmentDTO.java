@@ -1,6 +1,10 @@
 package com.company.department.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
@@ -16,16 +20,16 @@ public class DepartmentDTO {
     // @GeneratedValue(strategy = GenerationType.IDENTITY) Commenting out now to manually create departmentId . will later use this to generate departmentId automatically .
     private int departmentId;
 
-    //    @NotBlank(message = "Department Name cannot be empty")
-//    @Size(max = 50, message = "Department name must be at most 50 characters")
+    @NotBlank(message = "Department name must be at most 50 characters")
+    @Size(max = 50, message = "Department name must be at most 50 characters")
     private String departmentName;
 
-    //    @Size(max = 50, message = "At least one Location should be there")
+    @Size(max = 50, message = "At least one Location should be there")
     private List<String> locations;
 
-    //    @Positive(message = "Department Head Id must be positive")
+    @Positive(message = "Department Head Id must be positive")
     private int departmentHeadId;
 
-    //    @NotNull(message = "There should be at least one employee in each department")
+    @NotNull(message = "There should be at least one employee in each department")
     private List<Integer> departmentEmployeeIds;
 }

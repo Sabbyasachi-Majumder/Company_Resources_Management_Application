@@ -1,4 +1,4 @@
-package com.company.project.controller.testUtils;
+package com.company.project.testUtils;
 
 import com.company.project.dto.ProjectDTO;
 import com.company.project.dto.ProjectRequestDTO;
