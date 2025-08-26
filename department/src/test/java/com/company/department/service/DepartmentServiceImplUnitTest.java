@@ -6,6 +6,7 @@ import com.company.department.dto.DepartmentDTO;
 import com.company.department.dto.DepartmentResponseDTO;
 import com.company.department.entity.DepartmentEntity;
 import com.company.department.repository.DepartmentRepository;
+import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,9 +21,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.MongoTemplate;
 
-import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -45,6 +43,8 @@ public class DepartmentServiceImplUnitTest {
     private DepartmentRepository departmentRepository;
     @Mock
     private MongoTemplate mongoTemplate;
+    @Mock
+    private MongoDatabase mongoDatabase;
 
     List<String> locations;
     List<Integer> departmentEmployeeIds;
@@ -89,67 +89,74 @@ public class DepartmentServiceImplUnitTest {
      * Tests successful database connection check.
      * Verifies that a valid connection returns a success response.
      */
-//    @Test
-//    void testTestDatabaseConnectionSuccess() throws SQLException {
-//        // Arrange: Mock DataSource and Connection behavior
-//        when(mongoTemplate.getDb().runCommand(new Document("ping", 1))).thenReturn(connection);
-//        when(connection.isValid(1)).thenReturn(true);
-//
-//        // Act: Call testDatabaseConnection
-//        ApiResponseDTO<String> response = departmentService.testDatabaseConnection();
-//
-//        // Assert: Verify response
-//        assertNotNull(response, "Response should not be null");
-//        assertEquals("success", response.getStatus(), "Status should be success");
-//        assertEquals("Connection from Department Application to Department Database successfully established.", response.getMessage(), "Message should indicate success");
-//        assertNull(response.getData(), "Data should be null");
-//
-//        // Verify: Ensure connection was checked
-//        verify(mongoTemplate).getConnection();
-//        verify(connection).isValid(1);
-//        verifyNoInteractions(departmentRepository);
-//    }
-//
-//    /**
-//     * Tests failed database connection check.
-//     * Verifies that an invalid connection returns an error response.
-//     */
-//    @Test
-//    void testTestDatabaseConnectionFailure() throws SQLException {
-//        // Arrange: Mock connection to be invalid
-//        when(mongoTemplate.getConnection()).thenReturn(connection);
-//        when(connection.isValid(1)).thenReturn(false);
-//        // Act: Call testDatabaseConnection
-//        ApiResponseDTO<String> response = departmentService.testDatabaseConnection();
-//
-//        // Assert: Verify response
-//        assertNotNull(response, "Response should not be null");
-//        assertEquals("error", response.getStatus(), "Status should be error");
-//        assertEquals("Connection to Department Database failed to be established.", response.getMessage(), "Message should indicate failure");
-//        assertNull(response.getData(), "Data should be null");
-//
-//        // Verify: Ensure connection was checked
-//        verify(connection).isValid(1);
-//    }
-//
-//    /**
-//     * Tests database connection check with SQLException.
-//     * Verifies that an SQLException is propagated as a RuntimeException.
-//     */
-//    @Test
-//    void testTestDatabaseConnectionSQLException() throws SQLException {
-//        // Arrange: Mock connection to throw SQLException
-//        when(mongoTemplate.getConnection()).thenReturn(connection);
-//        when(connection.isValid(1)).thenThrow(new SQLException("Database error"));
-//
-//        // Act & Assert: Verify that RuntimeException is thrown
-//        RuntimeException exception = assertThrows(RuntimeException.class, () -> departmentService.testDatabaseConnection(), "Should throw RuntimeException for SQLException");
-//
-//        assertEquals("Database error", exception.getCause().getMessage(), "Exception cause should match");
-//
-//        // Verify: Ensure connection was checked
-//        verify(connection).isValid(1);
-//    }
+    @Test
+    void testDatabaseConnection_Success() {
+        // Arrange
+        Document successResult = new Document("ok", 1.0);
+        when(mongoTemplate.getDb()).thenReturn(mongoDatabase); // Mock getDb() to return mocked MongoDatabase
+        when(mongoDatabase.runCommand(new Document("ping", 1))).thenReturn(successResult); // Mock runCommand
+
+        // Act
+        ApiResponseDTO<String> response = departmentService.testDatabaseConnection();
+
+        // Assert
+        assertNotNull(response);
+        assertEquals("success", response.getStatus());
+        assertEquals("Connection from department Application to department Database successfully established.", response.getMessage());
+        assertNull(response.getData());
+        verify(mongoTemplate, times(1)).getDb();
+        verify(mongoDatabase, times(1)).runCommand(new Document("ping", 1));
+    }
+
+    @Test
+    void testDatabaseConnection_Failure() {
+        // Arrange
+        Document failureResult = new Document("ok", 0.0);
+        when(mongoTemplate.getDb()).thenReturn(mongoDatabase);
+        when(mongoDatabase.runCommand(new Document("ping", 1))).thenReturn(failureResult);
+
+        // Act
+        ApiResponseDTO<String> response = departmentService.testDatabaseConnection();
+
+        // Assert
+        assertNotNull(response);
+        assertEquals("success", response.getStatus());
+        assertEquals("Connection from department Application to department Database successfully established.", response.getMessage());
+        assertNull(response.getData());
+        verify(mongoTemplate, times(1)).getDb();
+        verify(mongoDatabase, times(1)).runCommand(new Document("ping", 1));
+    }
+
+    @Test
+    void testDatabaseConnection_EmptyResult() {
+        // Arrange
+        Document emptyResult = new Document();
+        when(mongoTemplate.getDb()).thenReturn(mongoDatabase);
+        when(mongoDatabase.runCommand(new Document("ping", 1))).thenReturn(emptyResult);
+
+        // Act
+        ApiResponseDTO<String> response = departmentService.testDatabaseConnection();
+
+        // Assert
+        assertNotNull(response);
+        assertEquals("success", response.getStatus());
+        assertEquals("Connection from department Application to department Database successfully established.", response.getMessage());
+        assertNull(response.getData());
+        verify(mongoTemplate, times(1)).getDb();
+        verify(mongoDatabase, times(1)).runCommand(new Document("ping", 1));
+    }
+
+    @Test
+    void testDatabaseConnection_Exception() {
+        // Arrange
+        when(mongoTemplate.getDb()).thenReturn(mongoDatabase);
+        when(mongoDatabase.runCommand(new Document("ping", 1))).thenThrow(new RuntimeException("Database connection failed"));
+
+        // Act & Assert
+        assertThrows(RuntimeException.class, () -> departmentService.testDatabaseConnection());
+        verify(mongoTemplate, times(1)).getDb();
+        verify(mongoDatabase, times(1)).runCommand(new Document("ping", 1));
+    }
 
     /**
      * Tests mapping DepartmentEntity to DepartmentDTO.
