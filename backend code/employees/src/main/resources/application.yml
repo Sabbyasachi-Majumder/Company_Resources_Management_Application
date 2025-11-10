@@ -1,0 +1,72 @@
+spring:
+  application:
+    name: employee-service
+  server:
+    port: 0
+  datasource:
+    url: jdbc:mysql://localhost:3306/employees_db?createDatabaseIfNotExist=true
+    username: root
+    password: Argentina14*11
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+      naming:
+        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+  mvc:
+    problemdetails:
+      enabled: true
+server:
+  port: 0
+  error:
+    whitelabel:
+      enabled: false
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+    register-with-eureka: true
+    fetch-registry: true
+    enabled: true
+  instance:
+    prefer-ip-address: true
+    hostname: localhost
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,metrics,info,loggers
+  endpoint:
+    health:
+      show-details: always
+  info:
+    env:
+      enabled: true
+info:
+  app:
+    name: Employee Service
+    description: Microservice for managing employee data
+    version: 1.0.0
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    display-request-duration: true
+    operations-sorter: method
+    tags-sorter: alpha
+  api-docs:
+    path: /v3/api-docs
+  show-actuator: true
+  use-management-port: false
+  default-produces-media-type: application/json
+  default-consumes-media-type: application/json
+jwt:
+  secret: your-very-secure-secret-key-minimum-32-characters-long
+  expiration: 36000000
+  refresh:
+    expiration: 604800000

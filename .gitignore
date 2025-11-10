@@ -1,4 +1,4 @@
-.idea/
+backend code/.idea/
 *.iml
 target/
 *.log
@@ -32,7 +32,7 @@ HELP.md
 .sts4-cache
 
 ### IntelliJ IDEA ###
-.idea
+backend code/.idea
 *.iws
 *.ipr
 
