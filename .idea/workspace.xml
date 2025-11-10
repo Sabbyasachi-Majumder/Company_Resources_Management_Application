@@ -1,0 +1,415 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="7aaa96d8-0fd1-41c7-aeaf-ca1aa80672f4" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/backend code/README.markdown" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend code/api-gateway/.gitattributes" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend code/api-gateway/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend code/api-gateway/src/main/java/com/company/api_gateway/ApiGatewayApplication.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend code/api-gateway/src/main/java/com/company/api_gateway/configs/CorsConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend code/api-gateway/src/main/java/com/company/api_gateway/security/JwtUtil.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend code/api-gateway/src/main/resources/application.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend code/api-gateway/src/test/java/com/company/api_gateway/ApiGatewayApplicationTests.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend code/api-gateway/src/test/resources/application_test.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend code/authenticate/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend code/authenticate/authenticate_service_settings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend code/authenticate/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend code/authenticate/src/main/java/com/company/authenticate/config/AuthenticateConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend code/authenticate/src/main/java/com/company/authenticate/config/AuthenticateSecurityConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend code/authenticate/src/main/java/com/company/authenticate/dto/UserProfileDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend code/authenticate/src/main/java/com/company/authenticate/dto/UserProfileRequestDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend code/authenticate/src/main/java/com/company/authenticate/dto/UserProfileResponseDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend code/authenticate/src/main/java/com/company/authenticate/entity/UserProfileEntity.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend code/authenticate/src/main/java/com/company/authenticate/repository/UserRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend code/authenticate/src/main/java/com/company/authenticate/security/CustomAuthenticationEntryPoint.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend code/authenticate/src/main/java/com/company/authenticate/security/JwtAuthenticationFilter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend code/authenticate/src/main/java/com/company/authenticate/security/JwtUtil.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend code/authenticate/src/main/java/com/company/authenticate/service/UserProfileService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend code/authenticate/src/main/java/com/company/authenticate/service/UserProfileServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend code/authenticate/src/main/resources/application.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend code/authenticate/src/main/resources/logback-spring.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend code/authenticate/src/test/java/com/company/authenticate/AuthenticateApplicationTests.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend code/authenticate/src/test/java/com/company/authenticate/controller/e2eTest/AuthenticationControllerE2ETest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend code/authenticate/src/test/java/com/company/authenticate/controller/unitTest/UserProfileControllerUnitTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend code/authenticate/src/test/java/com/company/authenticate/repository/unitTest/UserRepositoryUnitTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend code/authenticate/src/test/java/com/company/authenticate/service/unitTest/AuthenticateServiceImplUnitTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend code/authenticate/src/test/java/com/company/authenticate/service/unitTest/UserProfileServiceImplUnitTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend code/authenticate/src/test/java/com/company/authenticate/testUtils/PasswordHashGenerator.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend code/authenticate/src/test/resources/application-test.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend code/authenticate/src/test/resources/data.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend code/authenticate/src/test/resources/logback-spring.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend code/authenticate/src/test/resources/schema.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend code/company_resources_management_application_settings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend code/department/.gitattributes" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend code/department/src/main/java/com/company/department/configs/DepartmentConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend code/department/src/main/java/com/company/department/configs/DepartmentSecurityConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend code/department/src/main/java/com/company/department/controllers/DepartmentGlobalExceptionHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend code/department/src/main/java/com/company/department/dto/DepartmentDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend code/department/src/main/java/com/company/department/repository/DepartmentRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend code/department/src/main/java/com/company/department/security/CustomAuthenticationEntryPoint.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend code/department/src/main/java/com/company/department/security/JwtAuthenticationFilter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend code/department/src/main/java/com/company/department/security/JwtUtil.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend code/department/src/main/java/com/company/department/service/DepartmentService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend code/department/src/main/resources/logback-spring.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend code/department/src/test/java/com/company/department/controllers/DepartmentOperationsControllerTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend code/department/src/test/java/com/company/department/service/DepartmentServiceImplUnitTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend code/department/src/test/java/com/company/department/testUtils/TestUtils.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend code/employee-yearly-job-details/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend code/employee-yearly-job-details/src/main/java/com/java/employee_yearly_job_details/repository/EmployeeYrJobDetailsRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend code/employee-yearly-job-details/src/main/java/com/java/employee_yearly_job_details/service/EmployeeYrJobDetailsService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend code/employee-yearly-job-details/src/main/resources/application.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend code/employees/.gitattributes" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend code/employees/Errors and trouble shooting in employee application.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend code/employees/settings-employee-project.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend code/employees/src/main/java/com/company/employee/EmployeeApplication.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend code/employees/src/main/java/com/company/employee/controllers/EmployeeGlobalExceptionHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend code/employees/src/main/java/com/company/employee/dto/ApiResponseDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend code/employees/src/main/java/com/company/employee/dto/EmployeeDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend code/employees/src/main/java/com/company/employee/dto/EmployeeResponseDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend code/employees/src/main/java/com/company/employee/repository/EmployeeRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend code/employees/src/main/java/com/company/employee/security/CustomAuthenticationEntryPoint.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend code/employees/src/main/java/com/company/employee/service/EmployeeService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend code/employees/src/main/resources/application.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend code/employees/src/test/resources/application-test.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend code/mySql database/departments_departments.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend code/mySql database/employee_yearly_job_details_employee_yearly_job_details.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend code/mySql database/employee_yearly_job_details_employee_yearly_records.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend code/mySql database/employees_user_roles.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend code/mySql database/projects_projects.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend code/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend code/projects/.gitattributes" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend code/projects/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend code/projects/src/main/java/com/company/project/config/OpenApiConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend code/projects/src/main/java/com/company/project/dto/ProjectResponseDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend code/projects/src/main/java/com/company/project/entity/ProjectEntity.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend code/projects/src/main/java/com/company/project/repository/ProjectRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend code/projects/src/main/java/com/company/project/security/CustomAuthenticationEntryPoint.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend code/projects/src/main/java/com/company/project/security/JwtUtil.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend code/projects/src/main/java/com/company/project/service/ProjectService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend code/projects/src/main/resources/logback-spring.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend code/projects/src/test/resources/application.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend code/service-registry/service_registry_settings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend code/service-registry/src/main/resources/application.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend code/service-registry/src/main/resources/logback-spring.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Company Records Application.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.markdown" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/api-gateway/.gitattributes" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/api-gateway/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/api-gateway/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/api-gateway/api_gateway_settings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/api-gateway/mvnw" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/api-gateway/mvnw.cmd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/api-gateway/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/api-gateway/src/main/java/com/company/api_gateway/ApiGatewayApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/api-gateway/src/main/java/com/company/api_gateway/configs/CorsConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/api-gateway/src/main/java/com/company/api_gateway/configs/SecurityConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/api-gateway/src/main/java/com/company/api_gateway/dto/ApiResponseDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/api-gateway/src/main/java/com/company/api_gateway/filters/LogRequestGatewayFilterFactory.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/api-gateway/src/main/java/com/company/api_gateway/security/CustomAuthenticationEntryPoint.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/api-gateway/src/main/java/com/company/api_gateway/security/JwtAuthenticationFilter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/api-gateway/src/main/java/com/company/api_gateway/security/JwtUtil.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/api-gateway/src/main/resources/application.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/api-gateway/src/main/resources/logback-spring.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/api-gateway/src/test/java/com/company/api_gateway/ApiGatewayApplicationTests.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/api-gateway/src/test/resources/application_test.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/authenticate/.gitattributes" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/authenticate/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/authenticate/authenticate_service_settings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/authenticate/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/authenticate/src/main/java/com/company/authenticate/AuthenticateApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/authenticate/src/main/java/com/company/authenticate/config/AuthenticateConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/authenticate/src/main/java/com/company/authenticate/config/AuthenticateSecurityConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/authenticate/src/main/java/com/company/authenticate/config/OpenApiConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/authenticate/src/main/java/com/company/authenticate/controller/AuthenticationController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/authenticate/src/main/java/com/company/authenticate/controller/AuthenticationGlobalExceptionHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/authenticate/src/main/java/com/company/authenticate/controller/UserProfileController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/authenticate/src/main/java/com/company/authenticate/dto/ApiResponseDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/authenticate/src/main/java/com/company/authenticate/dto/AuthRequestDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/authenticate/src/main/java/com/company/authenticate/dto/AuthResponseDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/authenticate/src/main/java/com/company/authenticate/dto/RefreshRequestDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/authenticate/src/main/java/com/company/authenticate/dto/UserProfileDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/authenticate/src/main/java/com/company/authenticate/dto/UserProfileRequestDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/authenticate/src/main/java/com/company/authenticate/dto/UserProfileResponseDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/authenticate/src/main/java/com/company/authenticate/entity/UserProfileEntity.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/authenticate/src/main/java/com/company/authenticate/repository/UserRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/authenticate/src/main/java/com/company/authenticate/security/CustomAuthenticationEntryPoint.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/authenticate/src/main/java/com/company/authenticate/security/JwtAuthenticationFilter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/authenticate/src/main/java/com/company/authenticate/security/JwtUtil.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/authenticate/src/main/java/com/company/authenticate/service/AuthenticateServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/authenticate/src/main/java/com/company/authenticate/service/UserProfileService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/authenticate/src/main/java/com/company/authenticate/service/UserProfileServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/authenticate/src/main/resources/application.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/authenticate/src/main/resources/logback-spring.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/authenticate/src/test/java/com/company/authenticate/AuthenticateApplicationTests.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/authenticate/src/test/java/com/company/authenticate/config/e2eTest/WireMockConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/authenticate/src/test/java/com/company/authenticate/controller/e2eTest/AuthenticationControllerE2ETest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/authenticate/src/test/java/com/company/authenticate/controller/e2eTest/UserProfileControllerE2ETest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/authenticate/src/test/java/com/company/authenticate/controller/unitTest/AuthenticationControllerUnitTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/authenticate/src/test/java/com/company/authenticate/controller/unitTest/UserProfileControllerUnitTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/authenticate/src/test/java/com/company/authenticate/repository/unitTest/UserRepositoryUnitTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/authenticate/src/test/java/com/company/authenticate/service/unitTest/AuthenticateServiceImplUnitTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/authenticate/src/test/java/com/company/authenticate/service/unitTest/UserProfileServiceImplUnitTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/authenticate/src/test/java/com/company/authenticate/testUtils/PasswordHashGenerator.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/authenticate/src/test/resources/application-test.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/authenticate/src/test/resources/data.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/authenticate/src/test/resources/logback-spring.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/authenticate/src/test/resources/schema.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/company_resources_management_application_settings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/department/.gitattributes" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/department/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/department/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/department/department_service_settings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/department/mvnw" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/department/mvnw.cmd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/department/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/department/src/main/java/com/company/department/DepartmentApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/department/src/main/java/com/company/department/configs/DepartmentConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/department/src/main/java/com/company/department/configs/DepartmentSecurityConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/department/src/main/java/com/company/department/configs/OpenApiConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/department/src/main/java/com/company/department/controllers/DepartmentGlobalExceptionHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/department/src/main/java/com/company/department/controllers/DepartmentOperationsController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/department/src/main/java/com/company/department/dto/ApiResponseDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/department/src/main/java/com/company/department/dto/DepartmentDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/department/src/main/java/com/company/department/dto/DepartmentRequestDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/department/src/main/java/com/company/department/dto/DepartmentResponseDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/department/src/main/java/com/company/department/entity/DepartmentEntity.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/department/src/main/java/com/company/department/repository/DepartmentRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/department/src/main/java/com/company/department/security/CustomAuthenticationEntryPoint.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/department/src/main/java/com/company/department/security/JwtAuthenticationFilter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/department/src/main/java/com/company/department/security/JwtUtil.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/department/src/main/java/com/company/department/service/DepartmentService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/department/src/main/java/com/company/department/service/DepartmentServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/department/src/main/resources/application.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/department/src/main/resources/logback-spring.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/department/src/test/java/com/company/department/configs/TestConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/department/src/test/java/com/company/department/configs/TestSecurityConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/department/src/test/java/com/company/department/controllers/DepartmentOperationsControllerTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/department/src/test/java/com/company/department/service/DepartmentServiceImplUnitTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/department/src/test/java/com/company/department/testUtils/TestUtils.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/department/src/test/resources/application.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/employee-yearly-job-details/.gitattributes" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/employee-yearly-job-details/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/employee-yearly-job-details/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/employee-yearly-job-details/mvnw" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/employee-yearly-job-details/mvnw.cmd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/employee-yearly-job-details/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/employee-yearly-job-details/src/main/java/com/java/employee_yearly_job_details/EmployeeYearDetailsConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/employee-yearly-job-details/src/main/java/com/java/employee_yearly_job_details/EmployeeYearlyJobDetailsApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/employee-yearly-job-details/src/main/java/com/java/employee_yearly_job_details/beans/EmployeeYrJobDetailsDetailBean.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/employee-yearly-job-details/src/main/java/com/java/employee_yearly_job_details/beans/EmployeeYrJobDetailsResponseBean.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/employee-yearly-job-details/src/main/java/com/java/employee_yearly_job_details/controllers/EmployeeYrJobDetailsOperationsController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/employee-yearly-job-details/src/main/java/com/java/employee_yearly_job_details/repository/EmployeeYrJobDetailsRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/employee-yearly-job-details/src/main/java/com/java/employee_yearly_job_details/repository/EmployeeYrRecordId.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/employee-yearly-job-details/src/main/java/com/java/employee_yearly_job_details/repository/EmployeesYrJobDetails.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/employee-yearly-job-details/src/main/java/com/java/employee_yearly_job_details/service/EmployeeYrJobDetailsService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/employee-yearly-job-details/src/main/java/com/java/employee_yearly_job_details/service/EmployeeYrJobDetailsServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/employee-yearly-job-details/src/main/resources/application.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/employee-yearly-job-details/src/test/java/com/java/employee_yearly_job_details/EmployeeYearlyJobDetailsApplicationTests.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/employees/.gitattributes" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/employees/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/employees/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/employees/Errors and trouble shooting in employee application.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/employees/Postman collection/Emplolyee Requests.postman_collection.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/employees/mvnw" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/employees/mvnw.cmd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/employees/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/employees/settings-employee-project.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/employees/src/main/java/com/company/employee/EmployeeApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/employees/src/main/java/com/company/employee/configs/EmployeeConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/employees/src/main/java/com/company/employee/configs/EmployeeSecurityConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/employees/src/main/java/com/company/employee/configs/OpenApiConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/employees/src/main/java/com/company/employee/controllers/EmployeeGlobalExceptionHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/employees/src/main/java/com/company/employee/controllers/EmployeeOperationsController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/employees/src/main/java/com/company/employee/dto/ApiResponseDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/employees/src/main/java/com/company/employee/dto/EmployeeDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/employees/src/main/java/com/company/employee/dto/EmployeeRequestDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/employees/src/main/java/com/company/employee/dto/EmployeeResponseDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/employees/src/main/java/com/company/employee/entity/EmployeeEntity.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/employees/src/main/java/com/company/employee/repository/EmployeeRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/employees/src/main/java/com/company/employee/security/CustomAuthenticationEntryPoint.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/employees/src/main/java/com/company/employee/security/JwtAuthenticationFilter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/employees/src/main/java/com/company/employee/security/JwtUtil.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/employees/src/main/java/com/company/employee/service/EmployeeService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/employees/src/main/java/com/company/employee/service/EmployeeServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/employees/src/main/resources/application.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/employees/src/main/resources/data.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/employees/src/main/resources/logback-spring.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/employees/src/test/java/com/company/employee/configs/TestConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/employees/src/test/java/com/company/employee/configs/TestSecurityConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/employees/src/test/java/com/company/employee/configs/e2eTest/WireMockConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/employees/src/test/java/com/company/employee/controllers/EmployeeOperationsControllerTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/employees/src/test/java/com/company/employee/controllers/e2eTest/EmployeeOperationsControllerE2ETest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/employees/src/test/java/com/company/employee/service/EmployeeServiceImplUnitTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/employees/src/test/java/com/company/employee/testUtils/TestUtils.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/employees/src/test/resources/application-test.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/employee-service/employee-service.log.2025-06-27.0.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mySql database/departments_departments.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mySql database/employee_yearly_job_details_employee_yearly_job_details.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mySql database/employee_yearly_job_details_employee_yearly_records.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mySql database/employees_employees.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mySql database/employees_roles.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mySql database/employees_user_roles.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mySql database/employees_userprofiletable.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mySql database/projects_projects.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/postman requests responses/Api Gateway Authenticate Service Connection.postman_collection.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/projects/.gitattributes" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/projects/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/projects/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/projects/mvnw" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/projects/mvnw.cmd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/projects/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/projects/project_service_settings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/projects/src/main/java/com/company/project/ProjectsApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/projects/src/main/java/com/company/project/config/OpenApiConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/projects/src/main/java/com/company/project/config/ProjectConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/projects/src/main/java/com/company/project/config/ProjectSecurityConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/projects/src/main/java/com/company/project/controllers/ProjectGlobalExceptionHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/projects/src/main/java/com/company/project/controllers/ProjectOperationsController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/projects/src/main/java/com/company/project/dto/ApiResponseDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/projects/src/main/java/com/company/project/dto/ProjectDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/projects/src/main/java/com/company/project/dto/ProjectRequestDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/projects/src/main/java/com/company/project/dto/ProjectResponseDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/projects/src/main/java/com/company/project/entity/ProjectEntity.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/projects/src/main/java/com/company/project/repository/ProjectRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/projects/src/main/java/com/company/project/security/CustomAuthenticationEntryPoint.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/projects/src/main/java/com/company/project/security/JwtAuthenticationFilter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/projects/src/main/java/com/company/project/security/JwtUtil.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/projects/src/main/java/com/company/project/service/ProjectService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/projects/src/main/java/com/company/project/service/ProjectServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/projects/src/main/resources/application.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/projects/src/main/resources/logback-spring.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/projects/src/test/java/com/company/project/controller/ProjectOperationsControllerTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/projects/src/test/java/com/company/project/service/ProjectServiceImplUnitTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/projects/src/test/java/com/company/project/testUtils/TestUtils.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/projects/src/test/resources/application.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-registry/.gitattributes" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-registry/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-registry/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-registry/service_registry_settings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-registry/src/main/java/com/company/service_registry/ServiceRegistryApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-registry/src/main/resources/application.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-registry/src/main/resources/logback-spring.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/service-registry/src/test/java/com/company/service_registry/ServiceRegistryApplicationTests.java" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;Sabbyasachi-Majumder&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/Sabbyasachi-Majumder/Company_Resources_Management_Application.git&quot;,
+    &quot;accountId&quot;: &quot;46f00b7c-1dca-427e-8b35-779c15096ab8&quot;
+  }
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 3
+}</component>
+  <component name="ProjectId" id="34cSbP83gWeg6I1iRVnzvHJCGSl" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.Api_Gateway_Service.executor&quot;: &quot;Run&quot;,
+    &quot;Application.Authenticate_Service.executor&quot;: &quot;Run&quot;,
+    &quot;Application.Employee_Service.executor&quot;: &quot;Run&quot;,
+    &quot;Application.Service_Registry_Service.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/smaju/Personal Projects/Java Projects/Company_Resources_Management_Application&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Artifacts&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\smaju\Personal Projects\Java Projects\Company_Resources_Management_Application\backend code" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="configurationTypes">
+      <set>
+        <option value="Application" />
+        <option value="CompoundRunConfigurationType" />
+      </set>
+    </option>
+    <option name="configurationStatuses">
+      <map>
+        <entry key="Application">
+          <value>
+            <map>
+              <entry key="Api_Gateway_Service" value="STOPPED" />
+              <entry key="Authenticate_Service" value="STOPPED" />
+              <entry key="Service_Registry_Service" value="STOPPED" />
+            </map>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="RunManager" selected="Application.Project_Service">
+    <configuration name="company_resources_management_application" type="CompoundRunConfigurationType">
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Application.Api_Gateway_Service" />
+      <item itemvalue="Application.Service_Registry_Service" />
+      <item itemvalue="Application.Authenticate_Service" />
+      <item itemvalue="Application.Employee_Service" />
+      <item itemvalue="Application.Department_Service" />
+      <item itemvalue="Application.Project_Service" />
+      <item itemvalue="Compound.company_resources_management_application" />
+    </list>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="7aaa96d8-0fd1-41c7-aeaf-ca1aa80672f4" name="Changes" comment="" />
+      <created>1761511438551</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1761511438551</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>
