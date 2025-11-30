@@ -5,6 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7aaa96d8-0fd1-41c7-aeaf-ca1aa80672f4" name="Changes" comment="moved the backend code to backend code directory and created a new frontend code directory where react js code will be implemented for the frontend">
+      <change afterPath="$PROJECT_DIR$/backend code/authenticate/src/main/java/com/company/authenticate/cheat sheet.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend code/authenticate/src/main/java/com/company/authenticate/dto/cheay seat.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend code/authenticate/src/main/java/com/company/authenticate/entity/cheat sheet.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend code/authenticate/src/main/java/com/company/authenticate/repository/cheat sheet.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend code/authenticate/src/main/java/com/company/authenticate/security/cheat sheet.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend code/authenticate/src/main/java/com/company/authenticate/service/cheat sheet.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend code/authenticate/src/main/resources/cheat sheet.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -38,25 +45,25 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.Api_Gateway_Service.executor": "Run",
-    "Application.Authenticate_Service.executor": "Run",
-    "Application.Employee_Service.executor": "Run",
-    "Application.Service_Registry_Service.executor": "Run",
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "main",
-    "ignore.virus.scanning.warn.message": "true",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/smaju/Personal Projects/Java Projects/Company_Resources_Management_Application",
-    "project.structure.last.edited": "Artifacts",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.2"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.Api_Gateway_Service.executor&quot;: &quot;Run&quot;,
+    &quot;Application.Authenticate_Service.executor&quot;: &quot;Run&quot;,
+    &quot;Application.Employee_Service.executor&quot;: &quot;Run&quot;,
+    &quot;Application.Service_Registry_Service.executor&quot;: &quot;Run&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;#21 on react-js-based--front-end-implementation&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/smaju/Personal Projects/Java Projects/Company_Resources_Management_Application&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Artifacts&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\smaju\Personal Projects\Java Projects\Company_Resources_Management_Application\backend code" />
@@ -88,13 +95,13 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Compound.company_resources_management_application" />
       <item itemvalue="Application.Employee_Service" />
       <item itemvalue="Application.Service_Registry_Service" />
       <item itemvalue="Application.Api_Gateway_Service" />
       <item itemvalue="Application.Project_Service" />
       <item itemvalue="Application.Department_Service" />
       <item itemvalue="Application.Authenticate_Service" />
+      <item itemvalue="Compound.company_resources_management_application" />
     </list>
   </component>
   <component name="TaskManager">
