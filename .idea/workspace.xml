@@ -4,14 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7aaa96d8-0fd1-41c7-aeaf-ca1aa80672f4" name="Changes" comment="moved the backend code to backend code directory and created a new frontend code directory where react js code will be implemented for the frontend">
-      <change afterPath="$PROJECT_DIR$/backend code/authenticate/src/main/java/com/company/authenticate/cheat sheet.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend code/authenticate/src/main/java/com/company/authenticate/dto/cheay seat.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend code/authenticate/src/main/java/com/company/authenticate/entity/cheat sheet.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend code/authenticate/src/main/java/com/company/authenticate/repository/cheat sheet.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend code/authenticate/src/main/java/com/company/authenticate/security/cheat sheet.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend code/authenticate/src/main/java/com/company/authenticate/service/cheat sheet.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend code/authenticate/src/main/resources/cheat sheet.md" afterDir="false" />
+    <list default="true" id="7aaa96d8-0fd1-41c7-aeaf-ca1aa80672f4" name="Changes" comment="created cheat sheets for all the authenticate service code files to have a centralized document to understand the reason behind each package and its files">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -95,13 +88,13 @@
       <method v="2" />
     </configuration>
     <list>
+      <item itemvalue="Compound.company_resources_management_application" />
       <item itemvalue="Application.Employee_Service" />
       <item itemvalue="Application.Service_Registry_Service" />
       <item itemvalue="Application.Api_Gateway_Service" />
       <item itemvalue="Application.Project_Service" />
       <item itemvalue="Application.Department_Service" />
       <item itemvalue="Application.Authenticate_Service" />
-      <item itemvalue="Compound.company_resources_management_application" />
     </list>
   </component>
   <component name="TaskManager">
@@ -128,7 +121,15 @@
       <option name="project" value="LOCAL" />
       <updated>1762809901323</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="created cheat sheets for all the authenticate service code files to have a centralized document to understand the reason behind each package and its files">
+      <option name="closed" value="true" />
+      <created>1764543020056</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1764543020056</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -144,6 +145,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="moved the backend code to backend code directory and created a new frontend code directory where react js code will be implemented for the frontend" />
-    <option name="LAST_COMMIT_MESSAGE" value="moved the backend code to backend code directory and created a new frontend code directory where react js code will be implemented for the frontend" />
+    <MESSAGE value="created cheat sheets for all the authenticate service code files to have a centralized document to understand the reason behind each package and its files" />
+    <option name="LAST_COMMIT_MESSAGE" value="created cheat sheets for all the authenticate service code files to have a centralized document to understand the reason behind each package and its files" />
   </component>
 </project>
