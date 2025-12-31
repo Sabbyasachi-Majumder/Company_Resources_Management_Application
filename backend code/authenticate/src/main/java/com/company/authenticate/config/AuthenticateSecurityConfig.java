@@ -44,13 +44,12 @@ public class AuthenticateSecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         logger.debug("JWT Filter Invoked");
-        http.cors(cors -> cors.configurationSource(corsConfigurationSource()))
-                .csrf(csrf -> csrf.disable())
+        http.csrf(csrf -> csrf.disable())
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/api/v1/authenticates/authenticate", "/api/v1/authenticates/testConnection", "/api/v1/authenticates/testDataBaseConnection").permitAll()
+                        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/api/v1/authenticates/addUsers", "/api/v1/authenticates/authenticate", "/api/v1/authenticates/testConnection", "/api/v1/authenticates/testDataBaseConnection").permitAll()
                         .requestMatchers("/api/v1/authenticates/fetchUsers", "/api/v1/authenticates/searchUser/**").hasAnyRole("USER", "ADMIN")
-                        .requestMatchers("/api/v1/authenticates/addUsers", "/api/v1/authenticates/updateUsers", "/api/v1/authenticates/deleteUsers").hasRole("ADMIN")
+                        .requestMatchers("/api/v1/authenticates/updateUsers", "/api/v1/authenticates/deleteUsers").hasRole("ADMIN")
                         .requestMatchers("/actuator/**").authenticated()
                         .anyRequest().authenticated())
                 .exceptionHandling(exceptionHandling ->
@@ -66,20 +65,6 @@ public class AuthenticateSecurityConfig {
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         return http.build();
-    }
-
-    @Bean
-    public CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration config = new CorsConfiguration();
-        config.addAllowedOriginPattern("http://localhost:*");
-        config.addAllowedMethod("*");
-        config.addAllowedHeader("*");
-        config.setAllowCredentials(true);
-        config.setMaxAge(3600L);
-
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", config);
-        return source;
     }
 
     @Bean

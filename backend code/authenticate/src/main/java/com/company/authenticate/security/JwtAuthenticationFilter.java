@@ -36,7 +36,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         // Skip authentication endpoint
-        if (request.getRequestURI().equals("/api/v1/authenticates/authenticate")) {
+        if (request.getRequestURI().equals("/api/v1/authenticates/authenticate") || request.getRequestURI().contains("addUsers")) {
             logger.debug("Skipping JWT authentication for /api/v1/authenticates/authenticate");
             filterChain.doFilter(request, response);
             return;
