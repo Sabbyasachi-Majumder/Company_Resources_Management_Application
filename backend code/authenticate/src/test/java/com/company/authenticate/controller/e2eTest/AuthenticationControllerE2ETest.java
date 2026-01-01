@@ -32,13 +32,13 @@ public class AuthenticationControllerE2ETest {
     void testSuccessfulAuthentication() {
         given()
                 .contentType(ContentType.JSON)
-                .body("{\"userName\": \"admin1\", \"password\": \"admin1\"}")
+                .body("{\"userName\": \"admin0001\", \"password\": \"admin0001\"}")
                 .when()
                 .post("/api/v1/authenticates/authenticate")
                 .then()
                 .statusCode(200)
                 .body("status", equalTo("success"))
-                .body("message", containsString("Login successful for user admin1"))
+                .body("message", containsString("Login successful for user admin0001"))
                 .body("data.token", notNullValue())
                 .body("data.refreshToken", notNullValue());
     }
@@ -47,7 +47,7 @@ public class AuthenticationControllerE2ETest {
     void testInvalidCredentials() {
         given()
                 .contentType(ContentType.JSON)
-                .body("{\"userName\": \"admin1\", \"password\": \"wrongPassword\"}")
+                .body("{\"userName\": \"admin0001\", \"password\": \"wrongPassword\"}")
                 .when()
                 .post("/api/v1/authenticates/authenticate")
                 .then()

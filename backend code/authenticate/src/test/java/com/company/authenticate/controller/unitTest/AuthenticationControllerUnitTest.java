@@ -59,13 +59,13 @@ public class AuthenticationControllerUnitTest {
      */
     @BeforeEach
     void setUp() {
-        authRequestDTO = new AuthRequestDTO("admin1", "admin1");
+        authRequestDTO = new AuthRequestDTO("admin0001", "admin0001");
 
         authResponseDTO = new AuthResponseDTO();
         authResponseDTO.setToken("eyJhbGciOiJIUzM4NCJ9...");
         authResponseDTO.setRefreshToken("eyJhbGciOiJIUzM4NCJ9...");
 
-        successResponse = new ApiResponseDTO<>("success", "Login successful for user admin1", authResponseDTO);
+        successResponse = new ApiResponseDTO<>("success", "Login successful for user admin0001", authResponseDTO);
     }
 
     /**
@@ -86,10 +86,10 @@ public class AuthenticationControllerUnitTest {
         // Assert
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals("success", response.getBody().getStatus());
-        assertEquals("Login successful for user admin1", response.getBody().getMessage());
+        assertEquals("Login successful for user admin0001", response.getBody().getMessage());
         assertNotNull(response.getBody().getData());
         assertEquals(authResponseDTO.getToken(), response.getBody().getData().getToken());
-        verify(authenticateService, times(1)).authenticateUser("admin1", "admin1");
+        verify(authenticateService, times(1)).authenticateUser("admin0001", "admin0001");
     }
 
     /**
