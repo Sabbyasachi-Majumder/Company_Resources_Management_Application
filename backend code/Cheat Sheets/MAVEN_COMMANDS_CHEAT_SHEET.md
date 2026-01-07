@@ -23,7 +23,7 @@
 
 ### Parallel & Faster Builds
 
-- mvn clean install -T 1C ->Use 1 thread per CPU core (significantly faster on multi-core machines)
+- mvn clean install -T 1C ->Use 1 thread per CPU core (significantly faster on multicore machines)
 
 ### Spring Boot Specific
 

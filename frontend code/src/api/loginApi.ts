@@ -1,20 +1,39 @@
 // Authenticating the user
-export async function authenticateUser(userName: string, password: string) {
+
+//the structure of the api response from the backend
+interface AuthResponse {
+  status: string;
+  message: string;
+  data: {
+    token: string;
+    refreshToken: string;
+  };
+}
+
+export async function authenticateUser(
+  userName: string,
+  password: string
+): Promise<AuthResponse> {
   const response = await fetch(`/api/v1/authenticates/authenticate`, {
     method: "POST",
-    body: JSON.stringify({
-      // Convert JS object to JSON string
-      userName: userName,
-      password: password,
-    }),
+    body: JSON.stringify({ userName, password }),
     headers: {
       "Content-type": "application/json; charset=UTF-8", // Sending JSON
     },
   });
 
-  if (!response.ok) {
-    throw new Error("unable to authenticate for " + userName);
+  let data;
+  try {
+    data = await response.json();
+  } catch {
+    data = null;
   }
 
-  return await response.json(); // Returns the data directly
+  if (!response.ok) {
+    // Throw raw message — let global handler smoothen it
+    const rawMessage = data?.message || "Network error: Unable to reach server";
+    throw new Error(rawMessage);
+  }
+
+  return data; // success
 }
