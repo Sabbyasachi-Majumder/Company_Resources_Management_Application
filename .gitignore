@@ -18,7 +18,7 @@ application-dev.yml
 *.sqlite
 
 # shadcn/ui – do not commit generated components
-frontend code/src/components/ui/
+#frontend code/src/components/ui/
 
 HELP.md
 !.mvn/wrapper/maven-wrapper.jar
