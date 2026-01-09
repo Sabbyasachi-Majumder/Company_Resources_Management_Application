@@ -67,8 +67,8 @@ public class UserProfileControllerUnitTest {
     void setUp() {
         userProfileDTO = new UserProfileDTO();
         userProfileDTO.setUserId(1);
-        userProfileDTO.setUserName("admin1");
-        userProfileDTO.setPassword("admin1");
+        userProfileDTO.setUserName("admin0001");
+        userProfileDTO.setPassword("admin0001");
         userProfileDTO.setRole("admin");
         userProfileDTO.setEnabled(true);
 
@@ -149,7 +149,7 @@ public class UserProfileControllerUnitTest {
                 "Success message should match");
         assertNotNull(response.getBody().getData(), "Response data should contain user list");
         assertEquals(1, response.getBody().getData().size(), "Should return one user");
-        assertEquals("admin1", response.getBody().getData().get(0).getUserName(), "Username should match");
+        assertEquals("admin0001", response.getBody().getData().get(0).getUserName(), "Username should match");
         verify(userService, times(1)).fetchPagedDataList(any(Pageable.class));
         // Importance: Ensures pagination is applied and the service returns expected data,
         // critical for efficient data retrieval in user management.
@@ -200,7 +200,7 @@ public class UserProfileControllerUnitTest {
         assertEquals("success", response.getBody().getStatus(), "Response status should be 'success'");
         assertEquals("Operation successful", response.getBody().getMessage(), "Success message should match");
         assertNotNull(response.getBody().getData(), "Response data should contain user profile list");
-        assertEquals("admin1", response.getBody().getData().getUserProfileList().get(0).getUserName(), "Username should match");
+        assertEquals("admin0001", response.getBody().getData().getUserProfileList().get(0).getUserName(), "Username should match");
         verify(userService, times(1)).addDataToDataBase((ArrayList<UserProfileDTO>) any(List.class));
         // Importance: Ensures the service correctly processes valid user data, critical for user onboarding.
     }
@@ -283,7 +283,7 @@ public class UserProfileControllerUnitTest {
         assertEquals("success", response.getBody().getStatus(), "Response status should be 'success'");
         assertEquals("Operation successful", response.getBody().getMessage(), "Success message should match");
         assertNotNull(response.getBody().getData(), "Response data should contain user profile");
-        assertEquals("admin1", response.getBody().getData().getUserProfileList().get(0).getUserName(), "Username should match");
+        assertEquals("admin0001", response.getBody().getData().getUserProfileList().get(0).getUserName(), "Username should match");
         verify(userService, times(1)).searchDataBase(1L);
         // Importance: Ensures accurate user retrieval, critical for user management features.
     }
@@ -329,7 +329,7 @@ public class UserProfileControllerUnitTest {
         assertEquals("success", response.getBody().getStatus(), "Response status should be 'success'");
         assertEquals("Operation successful", response.getBody().getMessage(), "Success message should match");
         assertNotNull(response.getBody().getData(), "Response data should contain updated user profile");
-        assertEquals("admin1", response.getBody().getData().getUserProfileList().get(0).getUserName(), "Username should match");
+        assertEquals("admin0001", response.getBody().getData().getUserProfileList().get(0).getUserName(), "Username should match");
         verify(userService, times(1)).updateDataToDataBase((ArrayList<UserProfileDTO>) any(List.class));
         // Importance: Ensures user updates are processed correctly, critical for user management.
     }
@@ -374,7 +374,7 @@ public class UserProfileControllerUnitTest {
         assertEquals("success", response.getBody().getStatus(), "Response status should be 'success'");
         assertEquals("Operation successful", response.getBody().getMessage(), "Success message should match");
         assertNotNull(response.getBody().getData(), "Response data should contain deleted user profile");
-        assertEquals("admin1", response.getBody().getData().getUserProfileList().get(0).getUserName(), "Username should match");
+        assertEquals("admin0001", response.getBody().getData().getUserProfileList().get(0).getUserName(), "Username should match");
         verify(userService, times(1)).deleteDataFromDataBase((ArrayList<UserProfileDTO>) any(List.class));
         // Importance: Ensures user deletion works correctly, critical for account management.
     }

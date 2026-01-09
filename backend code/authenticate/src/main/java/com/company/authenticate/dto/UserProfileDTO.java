@@ -23,8 +23,8 @@ public class UserProfileDTO {
     @Schema(description = "User Name of the user", example = "admin01", requiredMode = Schema.RequiredMode.REQUIRED)
     private String userName;
 
-    @NotBlank(message = "Password must be at most 8 characters")
-    @Size(min=8 , max = 16, message = "Password must be at most 8 characters")
+    @NotBlank(message = "Password must be at least 8 characters and at most 16")
+    @Size(min = 8, max = 16, message = "Password must be at least 8 characters and at most 16")
     @Schema(description = "Password of the user", example = "password", requiredMode = Schema.RequiredMode.REQUIRED)
     private String password;
 
