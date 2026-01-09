@@ -35,7 +35,6 @@ export default function LoginPage() {
       localStorage.setItem("token", token);
       localStorage.setItem("refreshToken", refreshToken);
       alert(result.message); //temporary success message, will be removed in favour of redirecting and success toast
-      console.log(result);
       navigate("/home");
     } catch (err: any) {
       setError(handleApiError(err));
