@@ -39,7 +39,7 @@ export default function LoginPage() {
     } catch (err: any) {
       setError(handleApiError(err));
     } finally {
-      setIsLoading(false); // Always stop loading
+      setIsLoading(false); // stop loading
     }
   };
 

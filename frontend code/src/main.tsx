@@ -5,6 +5,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import LoginPage from "./components/Login Page/loginPage.tsx";
 import HomePage from "./components/HomePage/homePage.tsx";
 import DummyPage from "./components/utility-functions/dummy placeholder react page.tsx";
+import DataTable from "./components/common/dataTable.tsx";
 
 const router = createBrowserRouter([
   {
@@ -16,8 +17,12 @@ const router = createBrowserRouter([
     element: <HomePage />,
   },
   {
+    path: "/authenticates",
+    element: <DummyPage />,
+  },
+  {
     path: "/employees",
-    element: <DummyPage />, // Default route: show Login first
+    element: <DataTable />,
   },
   {
     path: "/departments",
@@ -25,7 +30,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/projects",
-    element: <DummyPage />, // Default route: show Login first
+    element: <DummyPage />,
   },
   // Add more routes here
 ]);
