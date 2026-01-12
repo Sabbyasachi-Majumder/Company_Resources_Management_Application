@@ -60,7 +60,8 @@ public class EmployeeDTO {
     @Schema(description = "Designation of the employee", example = "Software Developer", requiredMode = Schema.RequiredMode.REQUIRED)
     private String designation;
 
-    @Positive(message = "Manager Employee ID must be positive")
-    @Schema(description = "Employee ID of the manager", example = "2", requiredMode = Schema.RequiredMode.NOT_REQUIRED)  //temporarily kept not required . will be required before prod
+    @PositiveOrZero(message = "Manager Employee ID must be positive or zero (0 = no manager)")
+    @Schema(description = "Employee ID of the manager", example = "0 for no manager, otherwise positive ID", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    //temporarily kept not required . will be required before prod
     private int managerEmployeeId;
 }
