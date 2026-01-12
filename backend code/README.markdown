@@ -155,6 +155,13 @@ tools and practices, focusing on unit tests for service classes, repositories, a
 E2E) tests for API endpoints. This comprehensive approach covers success scenarios, error handling, edge cases, and
 security validations.
 
+## Postman Testing Setup
+
+1. Import collections from `/postman/collections/` into Postman.
+2. Import environments from `/postman/environments/`.
+3. Start all services (API gateway on port 8080, etc.).
+4. Run collections to test CRUD for authenticate (MySQL), employee (MySQL), project (MySQL), department (MongoDB).
+
 ### Authenticate Service Testing
 
 #### Unit Tests
