@@ -21,7 +21,7 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException {
         String path = request.getRequestURI();
-        if (path.startsWith("/swagger-ui/") || path.equals("/swagger-ui.html") || path.startsWith("/v3/api-docs/")  || path.equals("/api/v1/employees/testConnection") || path.equals("/api/v1/employees/testDataBaseConnection")) {
+        if (path.startsWith("/swagger-ui/") || path.equals("/swagger-ui.html") || path.startsWith("/v3/api-docs/") || path.equals("/api/v1/employees/testConnection") || path.equals("/api/v1/employees/testDataBaseConnection")) {
             logger.debug("Skipping authentication entry point for public path: {}", path);
             return;
         }
@@ -31,7 +31,7 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
 
         ObjectMapper mapper = new ObjectMapper();
         try {
-            String responseBody = mapper.writeValueAsString(new ApiResponseDTO<>("error", "Unauthorized: Authentication required [AUTH_401_NO_TOKEN]", null));
+            String responseBody = mapper.writeValueAsString(new ApiResponseDTO<>("Unauthorized: Authentication required [AUTH_401_NO_TOKEN]"));
             response.getWriter().write(responseBody);
         } catch (IOException e) {
             logger.error("Error writing response: {}", e.getMessage());

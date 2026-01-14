@@ -41,14 +41,14 @@ public class EmployeeGlobalExceptionHandler {
         }
         logger.error("Validation error: {}", errorMessage);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(new ApiResponseDTO<>("error", errorMessage.toString(), null));
+                .body(new ApiResponseDTO<>(errorMessage.toString()));
     }
 
     @ExceptionHandler(NoSuchElementException.class)
     public ResponseEntity<ApiResponseDTO<String>> handleNoSuchElementException(NoSuchElementException ex) {
         logger.error("Resource not found: {}", ex.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                .body(new ApiResponseDTO<>("error", "Resource not found: " + ex.getMessage(), null));
+                .body(new ApiResponseDTO<>("Resource not found: " + ex.getMessage()));
     }
 
     @ExceptionHandler(AuthenticationException.class)
@@ -63,7 +63,7 @@ public class EmployeeGlobalExceptionHandler {
         }
         logger.error("401 Unauthorized: {} - Path: {}", message, request.getRequestURI());
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                .body(new ApiResponseDTO<>("error", message, null));
+                .body(new ApiResponseDTO<>(message));
     }
 
     @ExceptionHandler(JwtException.class)
@@ -71,7 +71,7 @@ public class EmployeeGlobalExceptionHandler {
         String message = "Unauthorized: Invalid or expired JWT token [AUTH_401_INVALID_TOKEN]";
         logger.error("401 Unauthorized: {} - Path: {}", message, request.getRequestURI());
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                .body(new ApiResponseDTO<>("error", message, null));
+                .body(new ApiResponseDTO<>(message));
     }
 
     @ExceptionHandler(AccessDeniedException.class)
@@ -80,7 +80,7 @@ public class EmployeeGlobalExceptionHandler {
         String message = "Forbidden: Insufficient permissions [AUTH_403_INSUFFICIENT_PERMISSIONS]";
         logger.error("403 Forbidden: {} - Path: {} - User: {}", message, request.getRequestURI(), username);
         return ResponseEntity.status(HttpStatus.FORBIDDEN)
-                .body(new ApiResponseDTO<>("error", message, null));
+                .body(new ApiResponseDTO<>(message));
     }
 
     @ExceptionHandler(DataIntegrityViolationException.class)
@@ -88,7 +88,7 @@ public class EmployeeGlobalExceptionHandler {
         String message = "Database constraint violation: " + Objects.requireNonNull(ex.getRootCause()).getMessage();
         logger.error("Database error: {}", message);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(new ApiResponseDTO<>("error", message, null));
+                .body(new ApiResponseDTO<>(message));
     }
 
     @ExceptionHandler(ServletException.class)
@@ -102,7 +102,7 @@ public class EmployeeGlobalExceptionHandler {
             return handleJwtException((JwtException) ex.getCause(), request);
         }
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(new ApiResponseDTO<>("error", "Internal server error: " + ex.getMessage(), null));
+                .body(new ApiResponseDTO<>("Internal server error: " + ex.getMessage()));
     }
 
     @ExceptionHandler(TransactionSystemException.class)
@@ -111,18 +111,18 @@ public class EmployeeGlobalExceptionHandler {
         logger.error("Transaction error: {} - Path: {}", message, request.getRequestURI());
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .contentType(MediaType.APPLICATION_JSON)
-                .body(new ApiResponseDTO<>("error", message, null));
+                .body(new ApiResponseDTO<>(message));
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<ApiResponseDTO<String>> handleIllegalArgumentException(IllegalArgumentException ex, Pageable pageable, HttpServletRequest request) {
         logger.error("IllegalArgumentException : {} - Path: {} - StackTrace: ", ex.getMessage(), request.getRequestURI(), ex);
         if (pageable.getPageNumber() <= 0)
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponseDTO<>("error", "Total number of records is lower than 1.", null));
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponseDTO<>("Total number of records is lower than 1."));
         else
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .contentType(MediaType.APPLICATION_JSON)
-                    .body(new ApiResponseDTO<>("error", "Current page " + (pageable.getPageNumber()) + " is bigger than total number of pages available.", null));
+                    .body(new ApiResponseDTO<>("Current page " + (pageable.getPageNumber()) + " is bigger than total number of pages available."));
     }
 
     @ExceptionHandler(Exception.class)
@@ -130,6 +130,6 @@ public class EmployeeGlobalExceptionHandler {
         logger.error("Unexpected error: {} - Path: {} - StackTrace: ", ex.getMessage(), request.getRequestURI(), ex);
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .contentType(MediaType.APPLICATION_JSON)
-                .body(new ApiResponseDTO<>("error", "Generic Internal server error: " + ex.getMessage(), null));
+                .body(new ApiResponseDTO<>("Generic Internal server error: " + ex.getMessage()));
     }
 }

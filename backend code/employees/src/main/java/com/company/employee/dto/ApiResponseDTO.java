@@ -15,12 +15,6 @@ import lombok.Setter;
 @Schema(description = "Generic API response DTO containing status, message, and data")
 public class ApiResponseDTO<T> {
 
-    @Schema(description = "Status of the response", example = "success", requiredMode = Schema.RequiredMode.REQUIRED, allowableValues = {"success", "error"})
-    private String status; // "success" or "error"
-
-    @Schema(description = "Message describing the result", example = "Operation successful", requiredMode = Schema.RequiredMode.REQUIRED)
-    private String message;
-
     @Schema(description = "Data payload of the response", example = "null", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     private T data;
 }

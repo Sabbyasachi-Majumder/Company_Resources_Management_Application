@@ -23,8 +23,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class EmployeeResponseDTO {
 
     @JsonProperty("empDetailsList")
-    @Schema(description = "List of employee details returned in the response", example = "null", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-    ArrayList<EmployeeDTO> empDetailsList;
+    @Schema(description = "List of employee details returned in  the response", example = "null", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    ArrayList<EmployeeFetchOrCreateRequest> empDetailsList;
 
     @JsonProperty("apiResponse")
     @Schema(description = "List of API responses for individual operations (e.g., add, update, delete)", example = "null", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
