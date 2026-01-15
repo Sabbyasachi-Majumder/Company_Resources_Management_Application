@@ -3,15 +3,12 @@ package com.company.employee.controllers;
 import com.company.employee.dto.*;
 import com.company.employee.service.EmployeeService;
 
-import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/employees")
@@ -37,7 +34,7 @@ public class EmployeeController {
     public ResponseEntity<ApiResponseDTO<String>> testPostmanToApplicationConnection() {
         loggingStart();
         logger.debug("Testing EmployeeController to Postman connection.");
-        return ResponseEntity.ok(new ApiResponseDTO<>("Connection to Employee Application is successfully established."));
+        return ResponseEntity.ok(new ApiResponseDTO<>("Connection to Employee Application is successfully established.", null));
     }
 
     // testing Database connection
@@ -49,21 +46,22 @@ public class EmployeeController {
         loggingStart();
         logger.debug("Testing EmployeeController to employee database connection.");
         try {
-            return ResponseEntity.ok(new ApiResponseDTO<>(employeeService.testDatabaseConnection()));
+            return ResponseEntity.ok(new ApiResponseDTO<>(employeeService.testDatabaseConnection(), null));
         } catch (Exception e) {
-            return ResponseEntity.ok(new ApiResponseDTO<>("Connection to database not found"));
+            return ResponseEntity.ok(new ApiResponseDTO<>("Connection to database not found", null));
         }
     }
 
     // Displaying singular Employee Data
 //    @GetMapping(name = "/{employeeId}", produces = {MediaType.APPLICATION_JSON_VALUE})
-//    @Tag(name = "Employee Management")
-//    @Operation(summary = "Search employee by ID", description = "Searches for an employee by their ID. Requires USER or ADMIN role.")
-//    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Employee found successfully", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResponseDTO.class))), @ApiResponse(responseCode = "404", description = "Employee not found", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResponseDTO.class))), @ApiResponse(responseCode = "401", description = "Unauthorized: Authentication required", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResponseDTO.class))), @ApiResponse(responseCode = "403", description = "Forbidden: Insufficient permissions", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResponseDTO.class)))})
-//    public ResponseEntity<ApiResponseDTO<EmployeeResponseDTO>> searchByEmployeeId(@PathVariable("employeeId") int employeeId) {
+
+    /// /    @Tag(name = "Employee Management")
+    /// /    @Operation(summary = "Search employee by ID", description = "Searches for an employee by their ID. Requires USER or ADMIN role.")
+    /// /    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Employee found successfully", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResponseDTO.class))), @ApiResponse(responseCode = "404", description = "Employee not found", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResponseDTO.class))), @ApiResponse(responseCode = "401", description = "Unauthorized: Authentication required", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResponseDTO.class))), @ApiResponse(responseCode = "403", description = "Forbidden: Insufficient permissions", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResponseDTO.class)))})
+//    public ResponseEntity<ApiResponseDTO<EmployeeFetchOrCreateDTO>> searchByEmployeeId(@PathVariable("employeeId") Long employeeId) {
 //        loggingStart();
 //        logger.debug("Searching employeeId {} ", employeeId);
-//        return ResponseEntity.ok(employeeService.(employeeId));
+//        return ResponseEntity.ok(new ApiResponseDTO<>(employeeService.(employeeId)));
 //    }
 
     // Displaying Paginated Employees Data
@@ -71,10 +69,10 @@ public class EmployeeController {
 //    @Tag(name = "Employee Management")
 //    @Operation(summary = "Fetch all employees", description = "Retrieves all employee records from the database. Requires USER or ADMIN role.")
 //    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Employees fetched successfully", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResponseDTO.class))), @ApiResponse(responseCode = "401", description = "Unauthorized: Authentication required", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResponseDTO.class))), @ApiResponse(responseCode = "403", description = "Forbidden: Insufficient permissions", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResponseDTO.class)))})
-    public ResponseEntity<ApiResponseDTO<Page<EmployeeFetchOrCreateRequest>>> fetchEmployees(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int size) {
+    public ResponseEntity<ApiResponseDTO<Page<EmployeeFetchOrCreateDTO>>> fetchEmployees(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int size) {
         loggingStart();
         logger.debug("Displaying all employees with page: {}, size: {}", page, size);
-        return ResponseEntity.ok(employeeService.fetchPagedDataList(page, size));
+        return ResponseEntity.ok(new ApiResponseDTO<>(employeeService.fetchPagedDataList(page, size), null));
     }
 
     //Batch Adding Employees Data
@@ -82,7 +80,7 @@ public class EmployeeController {
 //    @Tag(name = "Employee Management")
 //    @Operation(summary = "Add new employees", description = "Adds a list of employees to the database. Requires ADMIN role.")
 //    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Employees added successfully", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResponseDTO.class))), @ApiResponse(responseCode = "400", description = "Bad Request: Validation failed or duplicate employee ID", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResponseDTO.class))), @ApiResponse(responseCode = "401", description = "Unauthorized: Authentication required", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResponseDTO.class))), @ApiResponse(responseCode = "403", description = "Forbidden: Insufficient permissions", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResponseDTO.class)))})
-//    public ResponseEntity<ApiResponseDTO<EmployeeResponseDTO>> addEmployees(@Valid @RequestBody List<EmployeeFetchOrCreateRequest> employeeFetchOrCreateRequests) {
+//    public ResponseEntity<ApiResponseDTO<EmployeeResponseDTO>> addEmployees(@Valid @RequestBody List<EmployeeFetchOrCreateDTO> employeeFetchOrCreateRequests) {
 //        loggingStart();
 //        try {
 //            logger.debug("Adding all records.");

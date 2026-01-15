@@ -1,32 +1,27 @@
 package com.company.employee.service;
 
 import com.company.employee.dto.ApiResponseDTO;
-import com.company.employee.dto.BulkUpdateRequest;
-import com.company.employee.dto.EmployeeFetchOrCreateRequest;
-import com.company.employee.dto.EmployeeResponseDTO;
-import com.company.employee.entity.EmployeeEntity;
+import com.company.employee.dto.EmployeeFetchOrCreateDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-
-import java.util.List;
 
 public interface EmployeeService {
 
     String testDatabaseConnection();
 
-    ApiResponseDTO<Page<EmployeeFetchOrCreateRequest>> fetchPagedDataList(int page, int size);
+    Page<EmployeeFetchOrCreateDTO> fetchPagedDataList(int page, int size);
 
-    Page<EmployeeFetchOrCreateRequest> fetchPageData(Pageable pageable);
+    Page<EmployeeFetchOrCreateDTO> fetchPageData(Pageable pageable);
 
-//    ApiResponseDTO<EmployeeResponseDTO> addDataToDataBase(List<EmployeeFetchOrCreateRequest> employeeFetchOrCreateRequests);
+//    ApiResponseDTO<EmployeeResponseDTO> addDataToDataBase(List<EmployeeFetchOrCreateDTO> employeeFetchOrCreateRequests);
 //
 //    void addData(EmployeeEntity employee);
 //
-//    ApiResponseDTO<EmployeeResponseDTO> searchDataBase(Integer employeeId);
+//    ApiResponseDTO<EmployeeResponseDTO> searchDataBase(Long employeeId);
 //
-//    EmployeeEntity searchData(Integer employeeId);
+//    EmployeeEntity searchData(Long employeeId);
 //
 //    ApiResponseDTO<EmployeeResponseDTO> updateDataToDataBase(List<BulkUpdateRequest> bulkUpdateRequestList);
 //
-//    ApiResponseDTO<EmployeeResponseDTO> deleteDataFromDataBase(List<Integer> deleteEmployeesList);
+//    ApiResponseDTO<EmployeeResponseDTO> deleteDataFromDataBase(List<Long> deleteEmployeesList);
 }

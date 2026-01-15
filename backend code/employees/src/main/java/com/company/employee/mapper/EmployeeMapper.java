@@ -1,7 +1,7 @@
 package com.company.employee.mapper;
 
 import com.company.employee.entity.EmployeeEntity;
-import com.company.employee.dto.EmployeeFetchOrCreateRequest;
+import com.company.employee.dto.EmployeeFetchOrCreateDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.mapstruct.ReportingPolicy;
@@ -13,8 +13,8 @@ import org.mapstruct.ReportingPolicy;
 )
 public interface EmployeeMapper {
     //Fetch or Create DTO -> Employee Entity
-    EmployeeEntity toEmployeeEntity(EmployeeFetchOrCreateRequest dto);
+    EmployeeEntity toEmployeeEntity(EmployeeFetchOrCreateDTO dto);
 
     //Employee Entity -> Fetch or Create DTO
-    EmployeeFetchOrCreateRequest toFetchORCreateDto(EmployeeEntity entity);
+    EmployeeFetchOrCreateDTO toFetchORCreateDto(EmployeeEntity entity);
 }

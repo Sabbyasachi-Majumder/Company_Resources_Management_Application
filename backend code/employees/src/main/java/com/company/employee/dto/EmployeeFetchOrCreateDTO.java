@@ -16,12 +16,12 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Schema(description = "Request to fetch or add new employee detail")
-public class EmployeeFetchOrCreateRequest {
+public class EmployeeFetchOrCreateDTO {
 
     @NotEmpty(message = "Unique identifier of the employee cannot be empty")
     @PositiveOrZero(message = "Employee ID must be positive or zero for new employees")
     @Schema(description = "Unique identifier of the employee", example = "1", requiredMode = Schema.RequiredMode.REQUIRED)
-    private Integer employeeId;
+    private Long employeeId;
 
     @NotBlank(message = "First name cannot be empty")
     @Size(max = 50, message = "First name must be at most 50 characters")
@@ -68,5 +68,5 @@ public class EmployeeFetchOrCreateRequest {
     @PositiveOrZero(message = "Manager Employee ID must be positive or zero (0 = no manager)")
     @Schema(description = "Manager's employee ID (0 = no manager)", example = "0", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     //temporarily kept not required . will be required before prod
-    private Integer managerEmployeeId = 0;  //default value is 0
+    private Long managerEmployeeId = 0L;  //default value is 0
 }

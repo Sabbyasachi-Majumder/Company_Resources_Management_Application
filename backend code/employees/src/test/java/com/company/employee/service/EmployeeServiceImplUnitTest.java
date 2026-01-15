@@ -1,7 +1,7 @@
 //package com.company.employee.service;
 //
 //import com.company.employee.dto.ApiResponseDTO;
-//import com.company.employee.dto.EmployeeFetchOrCreateRequest;
+//import com.company.employee.dto.EmployeeFetchOrCreateDTO;
 //import com.company.employee.dto.EmployeeResponseDTO;
 //import com.company.employee.entity.EmployeeEntity;
 //import com.company.employee.repository.EmployeeRepository;
@@ -44,7 +44,7 @@
 //    private Connection connection; // Mocked database connection for testDatabaseConnection
 //
 //    private EmployeeEntity employeeEntity;
-//    private EmployeeFetchOrCreateRequest employeeFetchOrCreateRequest;
+//    private EmployeeFetchOrCreateDTO employeeFetchOrCreateRequest;
 //    private EmployeeServiceImpl employeeService; // Class under test with mocked dependencies
 //    private final TestUtils testUtils = new TestUtils();
 //
@@ -58,7 +58,7 @@
 //        // Reusable entity for tests
 //        employeeEntity = testUtils.getSampleEmployeeEntity(1, "John", "Doe", new Date(631152000000L), "Male", 50000.0, new Date(1672531200000L), "L1", "Software Engineer", 2);
 //
-//        // Initialize sample EmployeeFetchOrCreateRequest
+//        // Initialize sample EmployeeFetchOrCreateDTO
 //        // Reusable DTO for tests
 //        employeeFetchOrCreateRequest = testUtils.getSampleEmployeeDTO(1, "John", "Doe", new Date(631152000000L), "Male", 50000.0, new Date(1672531200000L), "L1", "Software Engineer", 2);
 //
@@ -133,13 +133,13 @@
 //    }
 //
 //    /**
-//     * Tests mapping EmployeeEntity to EmployeeFetchOrCreateRequest.
+//     * Tests mapping EmployeeEntity to EmployeeFetchOrCreateDTO.
 //     * Verifies that fields are correctly mapped.
 //     */
 //    @Test
 //    void testToDTO() {
 //        // Act: Call toDTO
-//        EmployeeFetchOrCreateRequest result = employeeService.toDTO(employeeEntity);
+//        EmployeeFetchOrCreateDTO result = employeeService.toDTO(employeeEntity);
 //
 //        // Assert: Verify mapping
 //        assertNotNull(result, "DTO should not be null");
@@ -159,7 +159,7 @@
 //    }
 //
 //    /**
-//     * Tests mapping EmployeeFetchOrCreateRequest to EmployeeEntity.
+//     * Tests mapping EmployeeFetchOrCreateDTO to EmployeeEntity.
 //     * Verifies that fields are correctly mapped and password is encoded.
 //     */
 //    @Test
@@ -196,7 +196,7 @@
 //        when(employeeRepository.findAll(pageable)).thenReturn(page);
 //
 //        // Act: Call fetchPagedDataList
-//        ApiResponseDTO<List<EmployeeFetchOrCreateRequest>> response = employeeService.fetchPagedDataList(1, 10);
+//        ApiResponseDTO<List<EmployeeFetchOrCreateDTO>> response = employeeService.fetchPagedDataList(1, 10);
 //
 //        // Assert: Verify response
 //        assertNotNull(response, "Response should not be null");
@@ -243,7 +243,7 @@
 //        when(employeeRepository.findAll(pageable)).thenReturn(page);
 //
 //        // Act: Call fetchPageData
-//        Page<EmployeeFetchOrCreateRequest> result = employeeService.fetchPageData(pageable);
+//        Page<EmployeeFetchOrCreateDTO> result = employeeService.fetchPageData(pageable);
 //
 //        // Assert: Verify page content
 //        assertNotNull(result, "Page should not be null");
@@ -266,7 +266,7 @@
 //        when(employeeRepository.save(any(EmployeeEntity.class))).thenReturn(employeeEntity);
 //
 //        // Act: Call addDataToDataBase with one employee
-//        ArrayList<EmployeeFetchOrCreateRequest> employees = new ArrayList<>(List.of(employeeFetchOrCreateRequest));
+//        ArrayList<EmployeeFetchOrCreateDTO> employees = new ArrayList<>(List.of(employeeFetchOrCreateRequest));
 //        ApiResponseDTO<EmployeeResponseDTO> response = employeeService.addDataToDataBase(employees);
 //
 //        // Assert: Verify response
@@ -290,14 +290,14 @@
 //    @Test
 //    void testAddDataToDataBaseWithDuplicates() {
 //        // Arrange: Mock employeeRepository .
-//        EmployeeFetchOrCreateRequest existingEmployee = testUtils.getSampleEmployeeDTO(2, "Sam", "White", new Date(631152000000L), "Male", 50000.0, new Date(1672531200000L), "L1", "Software Engineer", 2);
+//        EmployeeFetchOrCreateDTO existingEmployee = testUtils.getSampleEmployeeDTO(2, "Sam", "White", new Date(631152000000L), "Male", 50000.0, new Date(1672531200000L), "L1", "Software Engineer", 2);
 //
 //        when(employeeRepository.existsById(1)).thenReturn(false);
 //        when(employeeRepository.existsById(2)).thenReturn(true);
 //        when(employeeRepository.save(any(EmployeeEntity.class))).thenReturn(employeeEntity);
 //
 //        // Act: Call addDataToDataBase with one new and one existing employee
-//        ArrayList<EmployeeFetchOrCreateRequest> employees = new ArrayList<>(List.of(employeeFetchOrCreateRequest, existingEmployee));
+//        ArrayList<EmployeeFetchOrCreateDTO> employees = new ArrayList<>(List.of(employeeFetchOrCreateRequest, existingEmployee));
 //        ApiResponseDTO<EmployeeResponseDTO> response = employeeService.addDataToDataBase(employees);
 //
 //        // Assert: Verify response
@@ -427,7 +427,7 @@
 //        when(employeeRepository.save(any(EmployeeEntity.class))).thenReturn(employeeEntity);
 //
 //        // Act: Call updateDataToDataBase with one employee
-//        ArrayList<EmployeeFetchOrCreateRequest> employees = new ArrayList<>(List.of(employeeFetchOrCreateRequest));
+//        ArrayList<EmployeeFetchOrCreateDTO> employees = new ArrayList<>(List.of(employeeFetchOrCreateRequest));
 //        ApiResponseDTO<EmployeeResponseDTO> response = employeeService.updateDataToDataBase(employees);
 //
 //        // Assert: Verify response
@@ -450,14 +450,14 @@
 //    @Test
 //    void testUpdateDataToDataBaseWithNonExistent() {
 //        // Arrange: Mock employeeRepository .
-//        EmployeeFetchOrCreateRequest nonExistentEmployee = testUtils.getSampleEmployeeDTO(2, "Sam", "White", new Date(631152000000L), "Male", 60000, new Date(1672531200000L), "L4", "Software Developer", 5);
+//        EmployeeFetchOrCreateDTO nonExistentEmployee = testUtils.getSampleEmployeeDTO(2, "Sam", "White", new Date(631152000000L), "Male", 60000, new Date(1672531200000L), "L4", "Software Developer", 5);
 //
 //        when(employeeRepository.existsById(1)).thenReturn(true);
 //        when(employeeRepository.existsById(2)).thenReturn(false);
 //        when(employeeRepository.save(any(EmployeeEntity.class))).thenReturn(employeeEntity);
 //
 //        // Act: Call updateDataToDataBase with one existing and one non-existent employee
-//        ArrayList<EmployeeFetchOrCreateRequest> employees = new ArrayList<>(List.of(employeeFetchOrCreateRequest, nonExistentEmployee));
+//        ArrayList<EmployeeFetchOrCreateDTO> employees = new ArrayList<>(List.of(employeeFetchOrCreateRequest, nonExistentEmployee));
 //        ApiResponseDTO<EmployeeResponseDTO> response = employeeService.updateDataToDataBase(employees);
 //
 //        // Assert: Verify response
@@ -485,7 +485,7 @@
 //        when(employeeRepository.existsById(1)).thenReturn(true);
 //
 //        // Act: Call deleteDataFromDataBase with one employee
-//        ArrayList<EmployeeFetchOrCreateRequest> employees = new ArrayList<>(List.of(employeeFetchOrCreateRequest));
+//        ArrayList<EmployeeFetchOrCreateDTO> employees = new ArrayList<>(List.of(employeeFetchOrCreateRequest));
 //        ApiResponseDTO<EmployeeResponseDTO> response = employeeService.deleteDataFromDataBase(employees);
 //
 //        // Assert: Verify response
@@ -508,13 +508,13 @@
 //    @Test
 //    void testDeleteDataFromDataBaseWithNonExistent() {
 //        // Arrange: Mock employeeRepository
-//        EmployeeFetchOrCreateRequest nonExistentEmployee = testUtils.getSampleEmployeeDTO(2, "Sam", "White", new Date(631152000000L), "Male", 60000, new Date(1672531200000L), "L4", "Software Developer", 5);
+//        EmployeeFetchOrCreateDTO nonExistentEmployee = testUtils.getSampleEmployeeDTO(2, "Sam", "White", new Date(631152000000L), "Male", 60000, new Date(1672531200000L), "L4", "Software Developer", 5);
 //
 //        when(employeeRepository.existsById(1)).thenReturn(true);
 //        when(employeeRepository.existsById(2)).thenReturn(false);
 //
 //        // Act: Call deleteDataFromDataBase with one existing and one non-existent employee
-//        ArrayList<EmployeeFetchOrCreateRequest> employees = new ArrayList<>(List.of(employeeFetchOrCreateRequest, nonExistentEmployee));
+//        ArrayList<EmployeeFetchOrCreateDTO> employees = new ArrayList<>(List.of(employeeFetchOrCreateRequest, nonExistentEmployee));
 //        ApiResponseDTO<EmployeeResponseDTO> response = employeeService.deleteDataFromDataBase(employees);
 //
 //        // Assert: Verify response

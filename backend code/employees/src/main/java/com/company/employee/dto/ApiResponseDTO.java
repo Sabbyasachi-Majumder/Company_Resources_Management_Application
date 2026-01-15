@@ -12,9 +12,14 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Schema(description = "Generic API response DTO containing status, message, and data")
+@Schema(description = "Unified API response wrapper used across all microservices")
 public class ApiResponseDTO<T> {
 
-    @Schema(description = "Data payload of the response", example = "null", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    @Schema(description = "The actual response payload (Page of employees, single employee, result summary, etc.)",
+            requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     private T data;
+
+    @Schema(description = "Present only when the operation had partial success, failures, or warnings (e.g., refresh failed). Contains per-item errors and special markers (-1 = full failure, -2 = refresh warning)",
+            requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    private OperationSummaryDTO operationSummaryDTO;
 }

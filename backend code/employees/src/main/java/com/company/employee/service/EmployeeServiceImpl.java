@@ -1,10 +1,6 @@
 package com.company.employee.service;
 
-import com.company.employee.dto.ApiResponseDTO;
-import com.company.employee.dto.BulkUpdateRequest;
-import com.company.employee.dto.EmployeeFetchOrCreateRequest;
-import com.company.employee.dto.EmployeeResponseDTO;
-import com.company.employee.entity.EmployeeEntity;
+import com.company.employee.dto.EmployeeFetchOrCreateDTO;
 import com.company.employee.mapper.EmployeeMapper;
 import com.company.employee.repository.EmployeeRepository;
 
@@ -16,10 +12,6 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.NoSuchElementException;
 
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
@@ -58,26 +50,39 @@ public class EmployeeServiceImpl implements EmployeeService {
         }
     }
 
+    // Business logic to search database for an employee based on its employeeId
+//    public ApiResponseDTO<EmployeeResponseDTO> searchDataBase(Long employeeId) {
+//        ArrayList<EmployeeFetchOrCreateDTO> entityArrayList = new ArrayList<>();
+//        entityArrayList.add(toDTO(searchData(employeeId)));
+//        return new ApiResponseDTO<>("success", "Successfully found Employee Id " + employeeId + " data records", new EmployeeResponseDTO(entityArrayList, null));
+//    }
+//
+//    // Calling findById to search the table for a employee based on employeeId
+//    public EmployeeEntity searchData(Long employeeId) {
+//        return employeeRepository.findById(employeeId)
+//                .orElseThrow(() -> new NoSuchElementException("employeeId " + employeeId + " not found"));
+//    }
+
     // Get Employee Data Table with Pageable specifications
-    public ApiResponseDTO<Page<EmployeeFetchOrCreateRequest>> fetchPagedDataList(int page, int size) {
+    public Page<EmployeeFetchOrCreateDTO> fetchPagedDataList(int page, int size) {
         Pageable pageable = PageRequest.of(page - 1, size);  //internally the page index starts from 0 instead of 1
-        Page<EmployeeFetchOrCreateRequest> pagedData = fetchPageData(pageable);
+        Page<EmployeeFetchOrCreateDTO> pagedData = fetchPageData(pageable);
         if (pageable.getPageNumber() < 0 || pageable.getPageNumber() > Math.ceil((float) pagedData.getTotalElements() / pageable.getPageSize()))
             throw new IllegalArgumentException();
-        return new ApiResponseDTO<>(pagedData);
+        return pagedData;
     }
 
     // Fetches all data with pagination
-    public Page<EmployeeFetchOrCreateRequest> fetchPageData(Pageable pageable) {
+    public Page<EmployeeFetchOrCreateDTO> fetchPageData(Pageable pageable) {
         return employeeRepository.findAll(pageable)
                 .map(employeeMapper::toFetchORCreateDto);
     }
 
     // Business logic to add employee data records one by one .
-//    public ApiResponseDTO<EmployeeResponseDTO> addDataToDataBase(List<EmployeeFetchOrCreateRequest> employeeFetchOrCreateRequestList) {
+//    public ApiResponseDTO<EmployeeResponseDTO> addDataToDataBase(List<EmployeeFetchOrCreateDTO> employeeFetchOrCreateRequestList) {
 //        ArrayList<ApiResponseDTO<EmployeeResponseDTO>> responses = new ArrayList<>();
-//        int addCounter = 0;
-//        for (EmployeeFetchOrCreateRequest e : employeeFetchOrCreateRequestList) {
+//        Long addCounter = 0;
+//        for (EmployeeFetchOrCreateDTO e : employeeFetchOrCreateRequestList) {
 //            if (!employeeRepository.existsById(e.getEmployeeId())) {
 //                logger.debug("Adding employeeId {} ", e.getEmployeeId());
 //                addData();
@@ -99,22 +104,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 //        logger.debug("Added employeeId {} successfully", entity.getEmployeeId());
 //    }
 //
-//    // Business logic to search database for an employee based on its employeeId
-//    public ApiResponseDTO<EmployeeResponseDTO> searchDataBase(Integer employeeId) {
-//        ArrayList<EmployeeFetchOrCreateRequest> entityArrayList = new ArrayList<>();
-//        entityArrayList.add(toDTO(searchData(employeeId)));
-//        return new ApiResponseDTO<>("success", "Successfully found Employee Id " + employeeId + " data records", new EmployeeResponseDTO(entityArrayList, null));
-//    }
-//
-//    // Calling findById to search the table for a employee based on employeeId
-//    public EmployeeEntity searchData(Integer employeeId) {
-//        return employeeRepository.findById(employeeId)
-//                .orElseThrow(() -> new NoSuchElementException("employeeId " + employeeId + " not found"));
-//    }
-//
 //    public ApiResponseDTO<EmployeeResponseDTO> updateDataToDataBase(ArrayList<BulkUpdateRequest> bulkUpdateRequestArrayList) {
 //        ArrayList<ApiResponseDTO<EmployeeResponseDTO>> responses = new ArrayList<>();
-//        int updateCounter = 0;
+//        Long updateCounter = 0;
 //        for (BulkUpdateRequest e : bulkUpdateRequestArrayList) {
 //            if (employeeRepository.existsById(e.getEmployeeId())) {
 //                logger.debug("Updated employeeId {} successfully", e.getEmployeeId());
@@ -129,10 +121,10 @@ public class EmployeeServiceImpl implements EmployeeService {
 //        return new ApiResponseDTO<>("success", "Update Success : " + updateCounter + " . Update Failed : " + (empList.size() - updateCounter), new EmployeeResponseDTO(null, responses));
 //    }
 //
-//    public ApiResponseDTO<EmployeeResponseDTO> deleteDataFromDataBase(ArrayList<EmployeeFetchOrCreateRequest> empList) {
+//    public ApiResponseDTO<EmployeeResponseDTO> deleteDataFromDataBase(ArrayList<EmployeeFetchOrCreateDTO> empList) {
 //        ArrayList<ApiResponseDTO<EmployeeResponseDTO>> responses = new ArrayList<>();
-//        int deleteCounter = 0;
-//        for (EmployeeFetchOrCreateRequest e : empList) {
+//        Long deleteCounter = 0;
+//        for (EmployeeFetchOrCreateDTO e : empList) {
 //            ApiResponseDTO<EmployeeResponseDTO> apiResponse;
 //            if (employeeRepository.existsById(e.getEmployeeId())) {
 //                logger.debug("Deleted employeeId {} successfully", e.getEmployeeId());
