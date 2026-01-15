@@ -3,6 +3,12 @@ package com.company.employee.controllers;
 import com.company.employee.dto.*;
 import com.company.employee.service.EmployeeService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -34,7 +40,7 @@ public class EmployeeController {
     public ResponseEntity<ApiResponseDTO<String>> testPostmanToApplicationConnection() {
         loggingStart();
         logger.debug("Testing EmployeeController to Postman connection.");
-        return ResponseEntity.ok(new ApiResponseDTO<>("Connection to Employee Application is successfully established.", null));
+        return ResponseEntity.ok(new ApiResponseDTO<>("Connection to Employee Application is successfully established.", null, null));
     }
 
     // testing Database connection
@@ -46,33 +52,35 @@ public class EmployeeController {
         loggingStart();
         logger.debug("Testing EmployeeController to employee database connection.");
         try {
-            return ResponseEntity.ok(new ApiResponseDTO<>(employeeService.testDatabaseConnection(), null));
+            return ResponseEntity.ok(new ApiResponseDTO<>(employeeService.testDatabaseConnection(), null, null));
         } catch (Exception e) {
-            return ResponseEntity.ok(new ApiResponseDTO<>("Connection to database not found", null));
+            return ResponseEntity.ok(new ApiResponseDTO<>(null, null, new ErrorDetailsDto("Error_Code", "Connection to database not found")));
         }
     }
 
     // Displaying singular Employee Data
-//    @GetMapping(name = "/{employeeId}", produces = {MediaType.APPLICATION_JSON_VALUE})
+    @GetMapping(value = "/{employeeId}", produces = {MediaType.APPLICATION_JSON_VALUE})
+    @Tag(name = "Employee Management")
+    @Operation(summary = "Search employee by ID", description = "Retrieves a single employee by ID. Requires USER or ADMIN role.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Employee found"),
+            @ApiResponse(responseCode = "404", description = "Employee not found"),
+            @ApiResponse(responseCode = "401", description = "Unauthorized"),
+            @ApiResponse(responseCode = "403", description = "Forbidden")
+    })
+    public ResponseEntity<ApiResponseDTO<EmployeeFetchOrCreateDTO>> searchByEmployeeId(@PathVariable("employeeId") Long employeeId) {
+        loggingStart();
+        logger.debug("Searching employeeId {} ", employeeId);
+        return ResponseEntity.ok(new ApiResponseDTO<>(employeeService.searchDataBase(employeeId), null, null));
+    }
 
-    /// /    @Tag(name = "Employee Management")
-    /// /    @Operation(summary = "Search employee by ID", description = "Searches for an employee by their ID. Requires USER or ADMIN role.")
-    /// /    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Employee found successfully", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResponseDTO.class))), @ApiResponse(responseCode = "404", description = "Employee not found", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResponseDTO.class))), @ApiResponse(responseCode = "401", description = "Unauthorized: Authentication required", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResponseDTO.class))), @ApiResponse(responseCode = "403", description = "Forbidden: Insufficient permissions", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResponseDTO.class)))})
-//    public ResponseEntity<ApiResponseDTO<EmployeeFetchOrCreateDTO>> searchByEmployeeId(@PathVariable("employeeId") Long employeeId) {
-//        loggingStart();
-//        logger.debug("Searching employeeId {} ", employeeId);
-//        return ResponseEntity.ok(new ApiResponseDTO<>(employeeService.(employeeId)));
-//    }
-
-    // Displaying Paginated Employees Data
     @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
-//    @Tag(name = "Employee Management")
-//    @Operation(summary = "Fetch all employees", description = "Retrieves all employee records from the database. Requires USER or ADMIN role.")
-//    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Employees fetched successfully", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResponseDTO.class))), @ApiResponse(responseCode = "401", description = "Unauthorized: Authentication required", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResponseDTO.class))), @ApiResponse(responseCode = "403", description = "Forbidden: Insufficient permissions", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResponseDTO.class)))})
+    @Tag(name = "Employee Management")
+    @Operation(summary = "Fetch all employees (paginated)", description = "Retrieves paginated list of employees. Requires USER or ADMIN role.")
     public ResponseEntity<ApiResponseDTO<Page<EmployeeFetchOrCreateDTO>>> fetchEmployees(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int size) {
         loggingStart();
         logger.debug("Displaying all employees with page: {}, size: {}", page, size);
-        return ResponseEntity.ok(new ApiResponseDTO<>(employeeService.fetchPagedDataList(page, size), null));
+        return ResponseEntity.ok(new ApiResponseDTO<>(employeeService.fetchPagedDataList(page, size), null, null));
     }
 
     //Batch Adding Employees Data

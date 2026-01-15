@@ -1,9 +1,11 @@
 package com.company.employee.service;
 
 import com.company.employee.dto.EmployeeFetchOrCreateDTO;
+import com.company.employee.entity.EmployeeEntity;
 import com.company.employee.mapper.EmployeeMapper;
 import com.company.employee.repository.EmployeeRepository;
 
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.NoSuchElementException;
 
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
@@ -50,19 +53,6 @@ public class EmployeeServiceImpl implements EmployeeService {
         }
     }
 
-    // Business logic to search database for an employee based on its employeeId
-//    public ApiResponseDTO<EmployeeResponseDTO> searchDataBase(Long employeeId) {
-//        ArrayList<EmployeeFetchOrCreateDTO> entityArrayList = new ArrayList<>();
-//        entityArrayList.add(toDTO(searchData(employeeId)));
-//        return new ApiResponseDTO<>("success", "Successfully found Employee Id " + employeeId + " data records", new EmployeeResponseDTO(entityArrayList, null));
-//    }
-//
-//    // Calling findById to search the table for a employee based on employeeId
-//    public EmployeeEntity searchData(Long employeeId) {
-//        return employeeRepository.findById(employeeId)
-//                .orElseThrow(() -> new NoSuchElementException("employeeId " + employeeId + " not found"));
-//    }
-
     // Get Employee Data Table with Pageable specifications
     public Page<EmployeeFetchOrCreateDTO> fetchPagedDataList(int page, int size) {
         Pageable pageable = PageRequest.of(page - 1, size);  //internally the page index starts from 0 instead of 1
@@ -77,6 +67,18 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employeeRepository.findAll(pageable)
                 .map(employeeMapper::toFetchORCreateDto);
     }
+
+    // Business logic to search database for an employee based on its employeeId
+    public EmployeeFetchOrCreateDTO searchDataBase(Long employeeId) {
+        return employeeMapper.toFetchORCreateDto(searchData(employeeId));
+    }
+
+    // Calling findById to search the table for a employee based on employeeId
+    public EmployeeEntity searchData(Long employeeId) {
+        return employeeRepository.findById(employeeId)
+                .orElseThrow(() -> new EntityNotFoundException("employeeId " + employeeId + " not found"));
+    }
+
 
     // Business logic to add employee data records one by one .
 //    public ApiResponseDTO<EmployeeResponseDTO> addDataToDataBase(List<EmployeeFetchOrCreateDTO> employeeFetchOrCreateRequestList) {

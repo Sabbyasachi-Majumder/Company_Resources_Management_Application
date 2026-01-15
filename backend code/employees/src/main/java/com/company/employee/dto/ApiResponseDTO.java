@@ -22,4 +22,9 @@ public class ApiResponseDTO<T> {
     @Schema(description = "Present only when the operation had partial success, failures, or warnings (e.g., refresh failed). Contains per-item errors and special markers (-1 = full failure, -2 = refresh warning)",
             requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     private OperationSummaryDTO operationSummaryDTO;
+
+    @Schema(description = "Error Details for the System Crash",
+            requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    private ErrorDetailsDto errorDetails;
+
 }

@@ -34,7 +34,6 @@ public class EmployeeSecurityConfig {
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class).authorizeHttpRequests(auth -> auth
                         .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/api/v1/employees/testConnection", "/api/v1/employees/testDataBaseConnection").permitAll()
                         .requestMatchers("/testConnection", "/testDataBaseConnection").permitAll()
-                        .requestMatchers("/fetchEmployees", "/searchEmployee/**").hasAnyRole("USER", "ADMIN")
                         .requestMatchers("/addEmployees", "/updateEmployees", "/deleteEmployees").hasRole("ADMIN")
                         .requestMatchers("/actuator/**").authenticated()
                         .anyRequest().permitAll())

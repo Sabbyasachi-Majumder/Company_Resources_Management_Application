@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @Getter
@@ -35,5 +36,5 @@ public class OperationSummaryDTO {
             - Key -1: full failure (no changes applied, reason in value)
             - Key -2: mutation succeeded but table refresh failed (warning in value)
             """)
-    private Map<Long, String> operationDetails;
+    private Map<Long, String> operationDetails = new HashMap<>();
 }
