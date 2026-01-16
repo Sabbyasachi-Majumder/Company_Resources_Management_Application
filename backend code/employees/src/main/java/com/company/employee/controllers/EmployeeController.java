@@ -40,7 +40,7 @@ public class EmployeeController {
     public ResponseEntity<ApiResponseDTO<String>> testPostmanToApplicationConnection() {
         loggingStart();
         logger.debug("Testing EmployeeController to Postman connection.");
-        return ResponseEntity.ok(new ApiResponseDTO<>("Connection to Employee Application is successfully established.", null, null));
+        return ResponseEntity.ok(new ApiResponseDTO<>("Connection to Employee Application is successfully established."));
     }
 
     // testing Database connection
@@ -52,9 +52,9 @@ public class EmployeeController {
         loggingStart();
         logger.debug("Testing EmployeeController to employee database connection.");
         try {
-            return ResponseEntity.ok(new ApiResponseDTO<>(employeeService.testDatabaseConnection(), null, null));
+            return ResponseEntity.ok(new ApiResponseDTO<>(employeeService.testDatabaseConnection()));
         } catch (Exception e) {
-            return ResponseEntity.ok(new ApiResponseDTO<>(null, null, new ErrorDetailsDto("Error_Code", "Connection to database not found")));
+            return ResponseEntity.ok(new ApiResponseDTO<>("Connection to database not found"));
         }
     }
 
@@ -71,7 +71,7 @@ public class EmployeeController {
     public ResponseEntity<ApiResponseDTO<EmployeeFetchOrCreateDTO>> searchByEmployeeId(@PathVariable("employeeId") Long employeeId) {
         loggingStart();
         logger.debug("Searching employeeId {} ", employeeId);
-        return ResponseEntity.ok(new ApiResponseDTO<>(employeeService.searchDataBase(employeeId), null, null));
+        return ResponseEntity.ok(new ApiResponseDTO<>(employeeService.searchDataBase(employeeId)));
     }
 
     @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -80,7 +80,7 @@ public class EmployeeController {
     public ResponseEntity<ApiResponseDTO<Page<EmployeeFetchOrCreateDTO>>> fetchEmployees(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int size) {
         loggingStart();
         logger.debug("Displaying all employees with page: {}, size: {}", page, size);
-        return ResponseEntity.ok(new ApiResponseDTO<>(employeeService.fetchPagedDataList(page, size), null, null));
+        return ResponseEntity.ok(new ApiResponseDTO<>(employeeService.fetchPagedDataList(page, size)));
     }
 
     //Batch Adding Employees Data

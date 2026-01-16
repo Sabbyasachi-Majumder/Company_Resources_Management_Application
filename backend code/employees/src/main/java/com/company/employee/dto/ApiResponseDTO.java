@@ -14,17 +14,8 @@ import lombok.Setter;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Schema(description = "Unified API response wrapper used across all microservices")
 public class ApiResponseDTO<T> {
-
-    @Schema(description = "The actual response payload (Page of employees, single employee, result summary, etc.)",
-            requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    @Schema(
+            description = "The actual payload — type depends on endpoint: Page<EmployeeFetchOrCreateDTO> on success, OperationSummaryDTO on mutation feedback, ErrorDetailsDto on failure",
+            requiredMode = Schema.RequiredMode.REQUIRED)
     private T data;
-
-    @Schema(description = "Present only when the operation had partial success, failures, or warnings (e.g., refresh failed). Contains per-item errors and special markers (-1 = full failure, -2 = refresh warning)",
-            requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-    private OperationSummaryDTO operationSummaryDTO;
-
-    @Schema(description = "Error Details for the System Crash",
-            requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-    private ErrorDetailsDto errorDetails;
-
 }

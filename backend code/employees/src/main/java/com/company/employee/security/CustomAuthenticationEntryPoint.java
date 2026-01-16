@@ -32,7 +32,7 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
 
         ObjectMapper mapper = new ObjectMapper();
         try {
-            String responseBody = mapper.writeValueAsString(new ApiResponseDTO<>(null, null, new ErrorDetailsDto("AUTH_401_NO_TOKEN", "Unauthorized: Authentication required")));
+            String responseBody = mapper.writeValueAsString(new ApiResponseDTO<>(new ErrorDetailsDto("AUTH_401_NO_TOKEN", "Unauthorized: Authentication required")));
             response.getWriter().write(responseBody);
         } catch (IOException e) {
             logger.error("Error writing response: {}", e.getMessage());
