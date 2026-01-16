@@ -1,0 +1,1510 @@
+{
+	"info": {
+		"_postman_id": "e5a1e128-a978-4673-8a86-814f2ff8f75a",
+		"name": "Api Gateway Authenticate Service Connection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "44742224"
+	},
+	"item": [
+		{
+			"name": "authenticate",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userName\": \"admin0001\",\r\n    \"password\": \"admin0001\"\r\n    // \"userName\": \"admin123\",\r\n    // \"password\": \"admin123\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/authenticates/authenticate",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"authenticates",
+						"authenticate"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "testDisabledUser",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userName\": \"user1\",\r\n    \"password\": \"user1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/authenticates/authenticate",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"authenticates",
+								"authenticate"
+							]
+						}
+					},
+					"status": "Forbidden",
+					"code": 403,
+					"_postman_previewlanguage": "JSON",
+					"header": [
+						{
+							"key": "transfer-encoding",
+							"value": "chunked",
+							"type": "text"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin",
+							"type": "text"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method",
+							"type": "text"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers",
+							"type": "text"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin",
+							"type": "text"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method",
+							"type": "text"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers",
+							"type": "text"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff",
+							"type": "text"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "0",
+							"type": "text"
+						},
+						{
+							"key": "Cache-Control",
+							"value": "no-cache, no-store, max-age=0, must-revalidate",
+							"type": "text"
+						},
+						{
+							"key": "Pragma",
+							"value": "no-cache",
+							"type": "text"
+						},
+						{
+							"key": "Expires",
+							"value": "0",
+							"type": "text"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY",
+							"type": "text"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"type": "text"
+						},
+						{
+							"key": "Date",
+							"value": "Mon, 28 Jul 2025 19:44:37 GMT",
+							"type": "text"
+						},
+						{
+							"key": "Referrer-Policy",
+							"value": "no-referrer",
+							"type": "text"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": \"error\",\n    \"message\": \"Forbidden: User account is disabled [AUTH_403_DISABLED]\"\n}"
+				},
+				{
+					"name": "testInvalidCredentials",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userName\": \"admin\",\r\n    \"password\": \"admin123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/authenticates/authenticate",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"authenticates",
+								"authenticate"
+							]
+						}
+					},
+					"status": "Unauthorized",
+					"code": 401,
+					"_postman_previewlanguage": "JSON",
+					"header": [
+						{
+							"key": "transfer-encoding",
+							"value": "chunked",
+							"type": "text"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin",
+							"type": "text"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method",
+							"type": "text"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers",
+							"type": "text"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin",
+							"type": "text"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method",
+							"type": "text"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers",
+							"type": "text"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff",
+							"type": "text"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "0",
+							"type": "text"
+						},
+						{
+							"key": "Cache-Control",
+							"value": "no-cache, no-store, max-age=0, must-revalidate",
+							"type": "text"
+						},
+						{
+							"key": "Pragma",
+							"value": "no-cache",
+							"type": "text"
+						},
+						{
+							"key": "Expires",
+							"value": "0",
+							"type": "text"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY",
+							"type": "text"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"type": "text"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 29 Jul 2025 05:56:23 GMT",
+							"type": "text"
+						},
+						{
+							"key": "Referrer-Policy",
+							"value": "no-referrer",
+							"type": "text"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": \"error\",\n    \"message\": \"Unauthorized: Invalid username or password [AUTH_401_INVALID_CREDENTIALS]\"\n}"
+				},
+				{
+					"name": "success admin login 200",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userName\": \"admin1\",\r\n    \"password\": \"admin1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/authenticates/authenticate",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"authenticates",
+								"authenticate"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "JSON",
+					"header": [
+						{
+							"key": "transfer-encoding",
+							"value": "chunked",
+							"type": "text"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin",
+							"type": "text"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method",
+							"type": "text"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers",
+							"type": "text"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin",
+							"type": "text"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method",
+							"type": "text"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers",
+							"type": "text"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff",
+							"type": "text"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "0",
+							"type": "text"
+						},
+						{
+							"key": "Cache-Control",
+							"value": "no-cache, no-store, max-age=0, must-revalidate",
+							"type": "text"
+						},
+						{
+							"key": "Pragma",
+							"value": "no-cache",
+							"type": "text"
+						},
+						{
+							"key": "Expires",
+							"value": "0",
+							"type": "text"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY",
+							"type": "text"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"type": "text"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 29 Jul 2025 06:01:20 GMT",
+							"type": "text"
+						},
+						{
+							"key": "Referrer-Policy",
+							"value": "no-referrer",
+							"type": "text"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": \"success\",\n    \"message\": \"Login successful for user admin1\",\n    \"data\": {\n        \"token\": \"eyJhbGciOiJIUzM4NCJ9.eyJyb2xlcyI6W3siYXV0aG9yaXR5IjoiYWRtaW4ifV0sInN1YiI6ImFkbWluMSIsImlhdCI6MTc1Mzc2ODg4MCwiZXhwIjoxNzUzODA0ODgwfQ.B0G1NYixFkXA6l-3NFn44Kcfto91lOpdjIcaVezYopqqgBXbXwFPrMpC6czvn4jD\",\n        \"refreshToken\": \"eyJhbGciOiJIUzM4NCJ9.eyJ0eXBlIjoicmVmcmVzaCIsInN1YiI6ImFkbWluMSIsImlhdCI6MTc1Mzc2ODg4MCwiZXhwIjoxNzU0MzczNjgwfQ.I0XHnFgOM6iOO509CZU4DssshdCFLK61O0PLTvsCYNKjQOgfKrH5BjK5U86rOhf4\"\n    }\n}"
+				},
+				{
+					"name": "testMalformedRequest",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userName\": \"\",\r\n    \"password\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/authenticates/authenticate",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"authenticates",
+								"authenticate"
+							]
+						}
+					},
+					"status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+					"code": 422,
+					"_postman_previewlanguage": "JSON",
+					"header": [
+						{
+							"key": "transfer-encoding",
+							"value": "chunked",
+							"type": "text"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin",
+							"type": "text"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method",
+							"type": "text"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers",
+							"type": "text"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin",
+							"type": "text"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method",
+							"type": "text"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers",
+							"type": "text"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff",
+							"type": "text"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "0",
+							"type": "text"
+						},
+						{
+							"key": "Cache-Control",
+							"value": "no-cache, no-store, max-age=0, must-revalidate",
+							"type": "text"
+						},
+						{
+							"key": "Pragma",
+							"value": "no-cache",
+							"type": "text"
+						},
+						{
+							"key": "Expires",
+							"value": "0",
+							"type": "text"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY",
+							"type": "text"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"type": "text"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 30 Jul 2025 11:06:20 GMT",
+							"type": "text"
+						},
+						{
+							"key": "Referrer-Policy",
+							"value": "no-referrer",
+							"type": "text"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": \"error\",\n    \"message\": \"Validation failed: userName: must not be blank; password: must not be blank; \"\n}"
+				},
+				{
+					"name": "success user login 200",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userName\": \"user2\",\r\n    \"password\": \"user2\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/authenticates/authenticate",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"authenticates",
+								"authenticate"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "JSON",
+					"header": [
+						{
+							"key": "transfer-encoding",
+							"value": "chunked",
+							"type": "text"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin",
+							"type": "text"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method",
+							"type": "text"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers",
+							"type": "text"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin",
+							"type": "text"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method",
+							"type": "text"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers",
+							"type": "text"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff",
+							"type": "text"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "0",
+							"type": "text"
+						},
+						{
+							"key": "Cache-Control",
+							"value": "no-cache, no-store, max-age=0, must-revalidate",
+							"type": "text"
+						},
+						{
+							"key": "Pragma",
+							"value": "no-cache",
+							"type": "text"
+						},
+						{
+							"key": "Expires",
+							"value": "0",
+							"type": "text"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY",
+							"type": "text"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"type": "text"
+						},
+						{
+							"key": "Date",
+							"value": "Mon, 11 Aug 2025 17:32:04 GMT",
+							"type": "text"
+						},
+						{
+							"key": "Referrer-Policy",
+							"value": "no-referrer",
+							"type": "text"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": \"success\",\n    \"message\": \"Login successful for user user2\",\n    \"data\": {\n        \"token\": \"eyJhbGciOiJIUzM4NCJ9.eyJyb2xlcyI6W3siYXV0aG9yaXR5IjoidXNlciJ9XSwic3ViIjoidXNlcjIiLCJpYXQiOjE3NTQ5MzM1MjQsImV4cCI6MTc1NDk2OTUyNH0.79QOJCGdKR0fSB1Z8vkXw5QYZgHJKhqq3cd_nZA6gVKurSU8rFtMWDpX41gWkowk\",\n        \"refreshToken\": \"eyJhbGciOiJIUzM4NCJ9.eyJ0eXBlIjoicmVmcmVzaCIsInN1YiI6InVzZXIyIiwiaWF0IjoxNzU0OTMzNTI0LCJleHAiOjE3NTU1MzgzMjR9.Quk3GuJygwqs1ixIF897yDmNC9goq7PvL8hMBFy8AbQfLPg0tjNvWUGotJXuMTFv\"\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "testConnection",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v1/authenticates/testConnection",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"authenticates",
+						"testConnection"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "testDataBaseConnection",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v1/authenticates/testDataBaseConnection",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"authenticates",
+						"testDataBaseConnection"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "success 200",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/authenticates/testDataBaseConnection",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"authenticates",
+								"testDataBaseConnection"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "JSON",
+					"header": [
+						{
+							"key": "transfer-encoding",
+							"value": "chunked",
+							"type": "text"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin",
+							"type": "text"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method",
+							"type": "text"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers",
+							"type": "text"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin",
+							"type": "text"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method",
+							"type": "text"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers",
+							"type": "text"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff",
+							"type": "text"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "0",
+							"type": "text"
+						},
+						{
+							"key": "Cache-Control",
+							"value": "no-cache, no-store, max-age=0, must-revalidate",
+							"type": "text"
+						},
+						{
+							"key": "Pragma",
+							"value": "no-cache",
+							"type": "text"
+						},
+						{
+							"key": "Expires",
+							"value": "0",
+							"type": "text"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY",
+							"type": "text"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"type": "text"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 17 Aug 2025 11:07:41 GMT",
+							"type": "text"
+						},
+						{
+							"key": "Referrer-Policy",
+							"value": "no-referrer",
+							"type": "text"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": \"success\",\n    \"message\": \"Connection from User Application to User Database successfully established.\"\n}"
+				}
+			]
+		},
+		{
+			"name": "fetchUsers",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzM4NCJ9.eyJyb2xlcyI6WyJST0xFX0FETUlOIl0sInN1YiI6ImFkbWluMSIsImlhdCI6MTc1NTQzMzIzMiwiZXhwIjoxNzU1NDY5MjMyfQ.U7dTouYDvY4LMNmL3_NQjE0I2_LjWKxn50SZL1mw-khDXb_ZaFrHd2BgYxa_chJA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v1/authenticates/fetchUsers?size=5&page=1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"authenticates",
+						"fetchUsers"
+					],
+					"query": [
+						{
+							"key": "size",
+							"value": "5"
+						},
+						{
+							"key": "page",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "addUsers",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzM4NCJ9.eyJyb2xlcyI6W3siYXV0aG9yaXR5IjoiVVNFUiJ9XSwic3ViIjoidXNlcjIiLCJpYXQiOjE3NTUyOTM2NTYsImV4cCI6MTc1NTMyOTY1Nn0.1bI9edJw3DE0cLHIenVUXv-NHMaUETPgY11lsSiHTgVUfJ3hC-qZLZSaeAzx_oQ4",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userProfileList\": [\r\n        {\r\n            \"userId\": 12,\r\n            \"userName\": \"\",\r\n            \"password\": \"\",\r\n            \"role\": \"\",\r\n            \"enabled\": true\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/authenticates/addUsers",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"authenticates",
+						"addUsers"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "successScenario",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userProfileList\": [\r\n  {\r\n    \"userId\": 1,\r\n    \"userName\": \"admin01\",\r\n    \"password\": \"admin01\",\r\n    \"role\": \"admin\",\r\n    \"enabled\": true\r\n  },\r\n  {\r\n    \"userId\": 2,\r\n    \"userName\": \"user01\",\r\n    \"password\": \"user01\",\r\n    \"role\": \"user\",\r\n    \"enabled\": false\r\n  },\r\n  {\r\n    \"userId\": 3,\r\n    \"userName\": \"admin02\",\r\n    \"password\": \"admin02\",\r\n    \"role\": \"admin\",\r\n    \"enabled\": true\r\n  },\r\n  {\r\n    \"userId\": 4,\r\n    \"userName\": \"user02\",\r\n    \"password\": \"user02\",\r\n    \"role\": \"user\",\r\n    \"enabled\": false\r\n  },\r\n  {\r\n    \"userId\": 5,\r\n    \"userName\": \"admin03\",\r\n    \"password\": \"admin03\",\r\n    \"role\": \"admin\",\r\n    \"enabled\": true\r\n  },\r\n  {\r\n    \"userId\": 6,\r\n    \"userName\": \"user03\",\r\n    \"password\": \"user03\",\r\n    \"role\": \"user\",\r\n    \"enabled\": false\r\n  },\r\n  {\r\n    \"userId\": 7,\r\n    \"userName\": \"admin04\",\r\n    \"password\": \"admin04\",\r\n    \"role\": \"admin\",\r\n    \"enabled\": true\r\n  },\r\n  {\r\n    \"userId\": 8,\r\n    \"userName\": \"user04\",\r\n    \"password\": \"user04\",\r\n    \"role\": \"user\",\r\n    \"enabled\": false\r\n  },\r\n  {\r\n    \"userId\": 9,\r\n    \"userName\": \"admin05\",\r\n    \"password\": \"admin05\",\r\n    \"role\": \"admin\",\r\n    \"enabled\": true\r\n  },\r\n  {\r\n    \"userId\": 10,\r\n    \"userName\": \"user05\",\r\n    \"password\": \"user05\",\r\n    \"role\": \"user\",\r\n    \"enabled\": false\r\n  }\r\n]\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/authenticates/addUsers",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"authenticates",
+								"addUsers"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "JSON",
+					"header": [
+						{
+							"key": "transfer-encoding",
+							"value": "chunked",
+							"type": "text"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin",
+							"type": "text"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method",
+							"type": "text"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers",
+							"type": "text"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin",
+							"type": "text"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method",
+							"type": "text"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers",
+							"type": "text"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff",
+							"type": "text"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "0",
+							"type": "text"
+						},
+						{
+							"key": "Cache-Control",
+							"value": "no-cache, no-store, max-age=0, must-revalidate",
+							"type": "text"
+						},
+						{
+							"key": "Pragma",
+							"value": "no-cache",
+							"type": "text"
+						},
+						{
+							"key": "Expires",
+							"value": "0",
+							"type": "text"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY",
+							"type": "text"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"type": "text"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 05 Aug 2025 19:49:54 GMT",
+							"type": "text"
+						},
+						{
+							"key": "Referrer-Policy",
+							"value": "no-referrer",
+							"type": "text"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": \"success\",\n    \"message\": \"Successfully added 1 . Add failed : 0\",\n    \"data\": {\n        \"apiResponse\": [\n            {\n                \"status\": \"success\",\n                \"message\": \"Successfully added User Id 12 data records\"\n            }\n        ]\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "searchUser",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzM4NCJ9.eyJyb2xlcyI6WyJST0xFX0FETUlOIl0sInN1YiI6ImFkbWluMDAwMSIsImlhdCI6MTc2NzIxNjc1NSwiZXhwIjoxNzY3MjUyNzU1fQ.KttdJ205hdFUac_61j-V1Q7xgx9btw9XIm72f_DJye59qOPCFfQ8VM6qwb8PEpRp",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v1/authenticates/searchUser/6",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"authenticates",
+						"searchUser",
+						"6"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "success",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/authenticates/searchUser/6",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"authenticates",
+								"searchUser",
+								"6"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "JSON",
+					"header": [
+						{
+							"key": "transfer-encoding",
+							"value": "chunked",
+							"type": "text"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin",
+							"type": "text"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method",
+							"type": "text"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers",
+							"type": "text"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff",
+							"type": "text"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "0",
+							"type": "text"
+						},
+						{
+							"key": "Cache-Control",
+							"value": "no-cache, no-store, max-age=0, must-revalidate",
+							"type": "text"
+						},
+						{
+							"key": "Pragma",
+							"value": "no-cache",
+							"type": "text"
+						},
+						{
+							"key": "Expires",
+							"value": "0",
+							"type": "text"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY",
+							"type": "text"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"type": "text"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 31 Dec 2025 21:32:50 GMT",
+							"type": "text"
+						},
+						{
+							"key": "Referrer-Policy",
+							"value": "no-referrer",
+							"type": "text"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": \"success\",\n    \"message\": \"Successfully found User Id 6 data records\",\n    \"data\": {\n        \"userProfileList\": [\n            {\n                \"userId\": 6,\n                \"userName\": \"user0003\",\n                \"role\": \"USER\",\n                \"enabled\": true\n            }\n        ]\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "updateUsers",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzM4NCJ9.eyJyb2xlcyI6WyJST0xFX0FETUlOIl0sInN1YiI6ImFkbWluMSIsImlhdCI6MTc1NTQ2MTIwNCwiZXhwIjoxNzU1NDk3MjA0fQ.rSLFt9k1uF1v3YxeSem4vh6wqgJUZybyR_KL6K4nmDdVtm67OyeepqEA94ECeg2W",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userProfileList\":[\r\n        {\r\n            \"userId\" :11,\r\n            \"userName\": \"admin10\",\r\n            \"password\": \"123456789\",\r\n            \"role\": \"admin\" ,\r\n            \"enabled\": false\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/authenticates/updateUsers",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"authenticates",
+						"updateUsers"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "user not found",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userProfileList\":[\r\n        {\r\n            \"userId\" :11,\r\n            \"userName\": \"admin10\",\r\n            \"password\": \"123456789\",\r\n            \"role\": \"admin\" ,\r\n            \"enabled\": false\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/authenticates/updateUsers",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"authenticates",
+								"updateUsers"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "JSON",
+					"header": [
+						{
+							"key": "transfer-encoding",
+							"value": "chunked",
+							"type": "text"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin",
+							"type": "text"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method",
+							"type": "text"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers",
+							"type": "text"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin",
+							"type": "text"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method",
+							"type": "text"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers",
+							"type": "text"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff",
+							"type": "text"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "0",
+							"type": "text"
+						},
+						{
+							"key": "Cache-Control",
+							"value": "no-cache, no-store, max-age=0, must-revalidate",
+							"type": "text"
+						},
+						{
+							"key": "Pragma",
+							"value": "no-cache",
+							"type": "text"
+						},
+						{
+							"key": "Expires",
+							"value": "0",
+							"type": "text"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY",
+							"type": "text"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"type": "text"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 05 Aug 2025 20:25:20 GMT",
+							"type": "text"
+						},
+						{
+							"key": "Referrer-Policy",
+							"value": "no-referrer",
+							"type": "text"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": \"success\",\n    \"message\": \"Update Success : 0 . Update Failed : 1\",\n    \"data\": {\n        \"apiResponse\": [\n            {\n                \"status\": \"error\",\n                \"message\": \"User Id 11 doesn't exist\"\n            }\n        ]\n    }\n}"
+				},
+				{
+					"name": "validation failure",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userProfileList\":[\r\n        {\r\n            \"userId\" :1,\r\n            \"userName\": \"\",\r\n            \"password\": \"\",\r\n            \"role\": \"\" ,\r\n            \"enabled\": false\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/authenticates/updateUsers",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"authenticates",
+								"updateUsers"
+							]
+						}
+					},
+					"status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+					"code": 422,
+					"_postman_previewlanguage": "JSON",
+					"header": [
+						{
+							"key": "transfer-encoding",
+							"value": "chunked",
+							"type": "text"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin",
+							"type": "text"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method",
+							"type": "text"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers",
+							"type": "text"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin",
+							"type": "text"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method",
+							"type": "text"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers",
+							"type": "text"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff",
+							"type": "text"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "0",
+							"type": "text"
+						},
+						{
+							"key": "Cache-Control",
+							"value": "no-cache, no-store, max-age=0, must-revalidate",
+							"type": "text"
+						},
+						{
+							"key": "Pragma",
+							"value": "no-cache",
+							"type": "text"
+						},
+						{
+							"key": "Expires",
+							"value": "0",
+							"type": "text"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY",
+							"type": "text"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"type": "text"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 05 Aug 2025 20:31:36 GMT",
+							"type": "text"
+						},
+						{
+							"key": "Referrer-Policy",
+							"value": "no-referrer",
+							"type": "text"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": \"error\",\n    \"message\": \"Validation failed: userProfileList[0].password: Password must be at most 8 characters; userProfileList[0].password: Password cannot be empty; userProfileList[0].role: Role cannot be empty; userProfileList[0].userName: User Name cannot be empty; userProfileList[0].role: Role must be admin or user; \"\n}"
+				}
+			]
+		},
+		{
+			"name": "deleteUsers",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzM4NCJ9.eyJyb2xlcyI6WyJST0xFX1VTRVIiXSwic3ViIjoidXNlcjIiLCJpYXQiOjE3NTU0NjQxMzQsImV4cCI6MTc1NTUwMDEzNH0.OuZscGBibO4UXb6-YgGhEwxRJimueilTh-Azzcaxh3k8M5n2x8Ndqxx_FHbvMMb4",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userProfileList\": [\r\n        {\r\n            \"userId\": 111,\r\n            \"userName\": \"newAdmin01\",\r\n            \"password\": \"12345678\",\r\n            \"role\": \"admin\",\r\n            \"enabled\": true\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/authenticates/deleteUsers",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"authenticates",
+						"deleteUsers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "refresh",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzM4NCJ9.eyJyb2xlcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9BRE1JTiJ9LHsiYXV0aG9yaXR5IjoiUk9MRV9VU0VSIn1dLCJzdWIiOiJhZG1pbiIsImlhdCI6MTc0OTk5NDU0MSwiZXhwIjoxNzUwMDMwNTQxfQ.7P6BaXHPMLBstzgXUoIEtNqTPDLTEz2Yip3DBvuzCn2Fx4X9gE8uoT98NVZo9vzA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"refreshToken\": \"eyJhbGciOiJIUzM4NCJ9.eyJ0eXBlIjoicmVmcmVzaCIsInN1YiI6ImFkbWluIiwiaWF0IjoxNzQ5NDE0MTA2LCJleHAiOjE3NTAwMTg5MDZ9.Le0Y3LoGA_eaOCVcThYryOB8TF50MHeaupc0adu8KzaEk3VwPixpzUZEC937euzl\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8081/api/v1/authenticates/refresh",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"api",
+						"v1",
+						"authenticates",
+						"refresh"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "addUsers",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"userProfileList\": [\r\n    {\r\n      \"userId\": 1,\r\n      \"userName\": \"admin0001\",\r\n      \"password\": \"admin0001\",\r\n      \"role\": \"admin\",\r\n      \"enabled\": true\r\n    },\r\n    {\r\n      \"userId\": 2,\r\n      \"userName\": \"user0001\",\r\n      \"password\": \"user0001\",\r\n      \"role\": \"user\",\r\n      \"enabled\": true\r\n    },\r\n    {\r\n      \"userId\": 3,\r\n      \"userName\": \"admin0002\",\r\n      \"password\": \"admin0002\",\r\n      \"role\": \"admin\",\r\n      \"enabled\": false\r\n    },\r\n    {\r\n      \"userId\": 4,\r\n      \"userName\": \"user0002\",\r\n      \"password\": \"user0002\",\r\n      \"role\": \"user\",\r\n      \"enabled\": false\r\n    },\r\n    {\r\n      \"userId\": 5,\r\n      \"userName\": \"admin0003\",\r\n      \"password\": \"admin0003\",\r\n      \"role\": \"admin\",\r\n      \"enabled\": true\r\n    },\r\n    {\r\n      \"userId\": 6,\r\n      \"userName\": \"user0003\",\r\n      \"password\": \"user0003\",\r\n      \"role\": \"user\",\r\n      \"enabled\": true\r\n    },\r\n    {\r\n      \"userId\": 7,\r\n      \"userName\": \"admin0004\",\r\n      \"password\": \"admin0004\",\r\n      \"role\": \"admin\",\r\n      \"enabled\": false\r\n    },\r\n    {\r\n      \"userId\": 8,\r\n      \"userName\": \"user0004\",\r\n      \"password\": \"user0004\",\r\n      \"role\": \"user\",\r\n      \"enabled\": false\r\n    },\r\n    {\r\n      \"userId\": 9,\r\n      \"userName\": \"admin0005\",\r\n      \"password\": \"admin0005\",\r\n      \"role\": \"admin\",\r\n      \"enabled\": true\r\n    },\r\n    {\r\n      \"userId\": 10,\r\n      \"userName\": \"user0005\",\r\n      \"password\": \"user0005\",\r\n      \"role\": \"user\",\r\n      \"enabled\": true\r\n    }\r\n  ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/authenticates/addUsers",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"authenticates",
+						"addUsers"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

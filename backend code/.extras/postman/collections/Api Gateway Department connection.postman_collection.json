@@ -1,0 +1,586 @@
+{
+	"info": {
+		"_postman_id": "966238b7-06fb-4b0f-a41a-64def0990e77",
+		"name": "Api Gateway Department connection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "44742224"
+	},
+	"item": [
+		{
+			"name": "testConnection",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v1/department/testConnection",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"department",
+						"testConnection"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "testDataBaseConnection",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v1/department/testDataBaseConnection",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"department",
+						"testDataBaseConnection"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "fetchDepartments",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzM4NCJ9.eyJyb2xlcyI6WyJST0xFX0FETUlOIl0sInN1YiI6ImFkbWluMDAwMSIsImlhdCI6MTc2ODIxOTYzNiwiZXhwIjoxNzY4MjU1NjM2fQ.T0H3a1eQFf9p3ye9Lbnz6imKCCT3Ld-JC6NVeTFLL_Er8GLDfZnpjoTv4g1aNJtF",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v1/department/fetchDepartments?page=1&size=100",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"department",
+						"fetchDepartments"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "1"
+						},
+						{
+							"key": "size",
+							"value": "100"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "1st page with 10 records",
+					"originalRequest": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzM4NCJ9.eyJyb2xlcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9BRE1JTiJ9LHsiYXV0aG9yaXR5IjoiUk9MRV9VU0VSIn1dLCJzdWIiOiJhZG1pbiIsImlhdCI6MTc1MTcwNjg3NCwiZXhwIjoxNzUxNzQyODc0fQ.ej-xQGmY7PcNkXBDAOcNF-gqbp-NeinbD0F5tJvscO9UZ_Vuve3GOJIQxj1f-_xV",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8084/api/v1/department/fetchDepartments",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8084",
+							"path": [
+								"api",
+								"v1",
+								"department",
+								"fetchDepartments"
+							]
+						}
+					},
+					"_postman_previewlanguage": null,
+					"header": null,
+					"cookie": [],
+					"body": null
+				}
+			]
+		},
+		{
+			"name": "addDepartments",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzM4NCJ9.eyJyb2xlcyI6WyJST0xFX0FETUlOIl0sInN1YiI6ImFkbWluMDAwMSIsImlhdCI6MTc2ODIxOTYzNiwiZXhwIjoxNzY4MjU1NjM2fQ.T0H3a1eQFf9p3ye9Lbnz6imKCCT3Ld-JC6NVeTFLL_Er8GLDfZnpjoTv4g1aNJtF",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"departmentDetailList\": [\r\n        {\r\n            \"departmentId\": 1,\r\n            \"departmentName\": \"Engineering\",\r\n            \"locations\": [\"Kolkata\", \"Boise\", \"New York\"],\r\n            \"departmentHeadId\": 1,\r\n            \"departmentEmployeeIds\": [1, 51, 52, 53, 54]\r\n        },\r\n        {\r\n            \"departmentId\": 2,\r\n            \"departmentName\": \"Data Science\",\r\n            \"locations\": [\"San Francisco\", \"Raleigh\", \"Kolkata\"],\r\n            \"departmentHeadId\": 2,\r\n            \"departmentEmployeeIds\": [2, 55, 56, 57]\r\n        },\r\n        {\r\n            \"departmentId\": 3,\r\n            \"departmentName\": \"DevOps\",\r\n            \"locations\": [\"London\", \"Asheville\", \"Singapore\"],\r\n            \"departmentHeadId\": 3,\r\n            \"departmentEmployeeIds\": [3, 58, 59, 60, 61]\r\n        },\r\n        {\r\n            \"departmentId\": 4,\r\n            \"departmentName\": \"Cloud Infrastructure\",\r\n            \"locations\": [\"Seattle\", \"Chattanooga\", \"Kolkata\", \"Boston\"],\r\n            \"departmentHeadId\": 4,\r\n            \"departmentEmployeeIds\": [4, 62, 63, 64, 65, 66, 67]\r\n        },\r\n        {\r\n            \"departmentId\": 5,\r\n            \"departmentName\": \"Machine Learning\",\r\n            \"locations\": [\"Tokyo\", \"Burlington\"],\r\n            \"departmentHeadId\": 5,\r\n            \"departmentEmployeeIds\": [5, 68, 69, 70]\r\n        },\r\n        {\r\n            \"departmentId\": 6,\r\n            \"departmentName\": \"Cybersecurity\",\r\n            \"locations\": [\"Kolkata\", \"Ann Arbor\", \"Sydney\", \"Durham\"],\r\n            \"departmentHeadId\": 6,\r\n            \"departmentEmployeeIds\": [6, 71, 72, 73, 74, 75]\r\n        },\r\n        {\r\n            \"departmentId\": 7,\r\n            \"departmentName\": \"Product Management\",\r\n            \"locations\": [\"Bangalore\", \"Fort Collins\"],\r\n            \"departmentHeadId\": 7,\r\n            \"departmentEmployeeIds\": [7, 76, 77, 78, 79]\r\n        },\r\n        {\r\n            \"departmentId\": 8,\r\n            \"departmentName\": \"Quality Assurance\",\r\n            \"locations\": [\"Berlin\", \"Provo\", \"Kolkata\"],\r\n            \"departmentHeadId\": 8,\r\n            \"departmentEmployeeIds\": [8, 80, 81, 82, 83, 84, 85]\r\n        },\r\n        {\r\n            \"departmentId\": 9,\r\n            \"departmentName\": \"Site Reliability\",\r\n            \"locations\": [\"New York\", \"Madison\"],\r\n            \"departmentHeadId\": 9,\r\n            \"departmentEmployeeIds\": [9, 86, 87, 88]\r\n        },\r\n        {\r\n            \"departmentId\": 10,\r\n            \"departmentName\": \"Analytics\",\r\n            \"locations\": [\"Kolkata\", \"Raleigh\", \"Singapore\", \"Boise\"],\r\n            \"departmentHeadId\": 10,\r\n            \"departmentEmployeeIds\": [10, 89, 90, 91, 92]\r\n        },\r\n        {\r\n            \"departmentId\": 11,\r\n            \"departmentName\": \"AI Research\",\r\n            \"locations\": [\"Boston\", \"Asheville\"],\r\n            \"departmentHeadId\": 11,\r\n            \"departmentEmployeeIds\": [11, 93, 94, 95, 96, 97]\r\n        },\r\n        {\r\n            \"departmentId\": 12,\r\n            \"departmentName\": \"Customer Success\",\r\n            \"locations\": [\"Sydney\", \"Chattanooga\", \"Kolkata\", \"Burlington\"],\r\n            \"departmentHeadId\": 12,\r\n            \"departmentEmployeeIds\": [12, 98, 99, 100]\r\n        },\r\n        {\r\n            \"departmentId\": 13,\r\n            \"departmentName\": \"Platform Engineering\",\r\n            \"locations\": [\"London\", \"Ann Arbor\"],\r\n            \"departmentHeadId\": 13,\r\n            \"departmentEmployeeIds\": [13, 101, 102, 103, 104]\r\n        },\r\n        {\r\n            \"departmentId\": 14,\r\n            \"departmentName\": \"Infrastructure\",\r\n            \"locations\": [\"Kolkata\", \"Seattle\", \"Madison\", \"Provo\"],\r\n            \"departmentHeadId\": 14,\r\n            \"departmentEmployeeIds\": [14, 105, 106, 107, 108, 109, 110]\r\n        },\r\n        {\r\n            \"departmentId\": 15,\r\n            \"departmentName\": \"Research & Development\",\r\n            \"locations\": [\"Tokyo\"],\r\n            \"departmentHeadId\": 15,\r\n            \"departmentEmployeeIds\": [15, 111, 112, 113]\r\n        },\r\n        {\r\n            \"departmentId\": 16,\r\n            \"departmentName\": \"Engineering\",\r\n            \"locations\": [\"Bangalore\", \"Durham\", \"Kolkata\"],\r\n            \"departmentHeadId\": 16,\r\n            \"departmentEmployeeIds\": [16, 114, 115, 116, 117]\r\n        },\r\n        {\r\n            \"departmentId\": 17,\r\n            \"departmentName\": \"Data Science\",\r\n            \"locations\": [\"San Francisco\", \"Fort Collins\", \"Singapore\"],\r\n            \"departmentHeadId\": 17,\r\n            \"departmentEmployeeIds\": [17, 118, 119, 120, 121, 122]\r\n        },\r\n        {\r\n            \"departmentId\": 18,\r\n            \"departmentName\": \"DevOps\",\r\n            \"locations\": [\"Kolkata\", \"Raleigh\"],\r\n            \"departmentHeadId\": 18,\r\n            \"departmentEmployeeIds\": [18, 123, 124, 125]\r\n        },\r\n        {\r\n            \"departmentId\": 19,\r\n            \"departmentName\": \"Cloud Infrastructure\",\r\n            \"locations\": [\"New York\", \"Asheville\", \"Kolkata\", \"Berlin\"],\r\n            \"departmentHeadId\": 19,\r\n            \"departmentEmployeeIds\": [19, 126, 127, 128, 129, 130]\r\n        },\r\n        {\r\n            \"departmentId\": 20,\r\n            \"departmentName\": \"Machine Learning\",\r\n            \"locations\": [\"Boston\", \"Chattanooga\"],\r\n            \"departmentHeadId\": 20,\r\n            \"departmentEmployeeIds\": [20, 131, 132, 133, 134]\r\n        },\r\n        {\r\n            \"departmentId\": 21,\r\n            \"departmentName\": \"Cybersecurity\",\r\n            \"locations\": [\"Kolkata\", \"Burlington\", \"Sydney\"],\r\n            \"departmentHeadId\": 21,\r\n            \"departmentEmployeeIds\": [21, 135, 136, 137, 138, 139, 140]\r\n        },\r\n        {\r\n            \"departmentId\": 22,\r\n            \"departmentName\": \"Product Management\",\r\n            \"locations\": [\"Tokyo\", \"Madison\"],\r\n            \"departmentHeadId\": 22,\r\n            \"departmentEmployeeIds\": [22, 141, 142, 143]\r\n        },\r\n        {\r\n            \"departmentId\": 23,\r\n            \"departmentName\": \"Quality Assurance\",\r\n            \"locations\": [\"Kolkata\", \"Provo\", \"Seattle\"],\r\n            \"departmentHeadId\": 23,\r\n            \"departmentEmployeeIds\": [23, 144, 145, 146, 147]\r\n        },\r\n        {\r\n            \"departmentId\": 24,\r\n            \"departmentName\": \"Site Reliability\",\r\n            \"locations\": [\"London\", \"Ann Arbor\", \"Kolkata\"],\r\n            \"departmentHeadId\": 24,\r\n            \"departmentEmployeeIds\": [24, 148, 149, 150, 151, 152]\r\n        },\r\n        {\r\n            \"departmentId\": 25,\r\n            \"departmentName\": \"Analytics\",\r\n            \"locations\": [\"Singapore\"],\r\n            \"departmentHeadId\": 25,\r\n            \"departmentEmployeeIds\": [25, 153, 154, 155]\r\n        },\r\n        {\r\n            \"departmentId\": 26,\r\n            \"departmentName\": \"AI Research\",\r\n            \"locations\": [\"Kolkata\", \"Durham\", \"Boston\", \"Raleigh\"],\r\n            \"departmentHeadId\": 26,\r\n            \"departmentEmployeeIds\": [26, 156, 157, 158, 159]\r\n        },\r\n        {\r\n            \"departmentId\": 27,\r\n            \"departmentName\": \"Customer Success\",\r\n            \"locations\": [\"Sydney\", \"Boise\"],\r\n            \"departmentHeadId\": 27,\r\n            \"departmentEmployeeIds\": [27, 160, 161, 162, 163, 164]\r\n        },\r\n        {\r\n            \"departmentId\": 28,\r\n            \"departmentName\": \"Platform Engineering\",\r\n            \"locations\": [\"Kolkata\", \"Asheville\", \"Berlin\"],\r\n            \"departmentHeadId\": 28,\r\n            \"departmentEmployeeIds\": [28, 165, 166, 167]\r\n        },\r\n        {\r\n            \"departmentId\": 29,\r\n            \"departmentName\": \"Infrastructure\",\r\n            \"locations\": [\"New York\", \"Fort Collins\", \"Kolkata\"],\r\n            \"departmentHeadId\": 29,\r\n            \"departmentEmployeeIds\": [29, 168, 169, 170, 171]\r\n        },\r\n        {\r\n            \"departmentId\": 30,\r\n            \"departmentName\": \"Research & Development\",\r\n            \"locations\": [\"Tokyo\", \"Chattanooga\", \"Singapore\"],\r\n            \"departmentHeadId\": 30,\r\n            \"departmentEmployeeIds\": [30, 172, 173, 174, 175, 176]\r\n        },\r\n        {\r\n            \"departmentId\": 31,\r\n            \"departmentName\": \"Engineering\",\r\n            \"locations\": [\"Kolkata\", \"Burlington\"],\r\n            \"departmentHeadId\": 31,\r\n            \"departmentEmployeeIds\": [31, 177, 178, 179]\r\n        },\r\n        {\r\n            \"departmentId\": 32,\r\n            \"departmentName\": \"Data Science\",\r\n            \"locations\": [\"San Francisco\", \"Madison\", \"Kolkata\"],\r\n            \"departmentHeadId\": 32,\r\n            \"departmentEmployeeIds\": [32, 180, 181, 182, 183]\r\n        },\r\n        {\r\n            \"departmentId\": 33,\r\n            \"departmentName\": \"DevOps\",\r\n            \"locations\": [\"London\", \"Provo\"],\r\n            \"departmentHeadId\": 33,\r\n            \"departmentEmployeeIds\": [33, 184, 185, 186, 187, 188]\r\n        },\r\n        {\r\n            \"departmentId\": 34,\r\n            \"departmentName\": \"Cloud Infrastructure\",\r\n            \"locations\": [\"Kolkata\", \"Seattle\", \"Ann Arbor\", \"Sydney\"],\r\n            \"departmentHeadId\": 34,\r\n            \"departmentEmployeeIds\": [34, 189, 190, 191, 192]\r\n        },\r\n        {\r\n            \"departmentId\": 35,\r\n            \"departmentName\": \"Machine Learning\",\r\n            \"locations\": [\"Boston\", \"Raleigh\"],\r\n            \"departmentHeadId\": 35,\r\n            \"departmentEmployeeIds\": [35, 193, 194, 195]\r\n        },\r\n        {\r\n            \"departmentId\": 36,\r\n            \"departmentName\": \"Cybersecurity\",\r\n            \"locations\": [\"Kolkata\", \"Durham\", \"Tokyo\"],\r\n            \"departmentHeadId\": 36,\r\n            \"departmentEmployeeIds\": [36, 196, 197, 198, 199, 200]\r\n        },\r\n        {\r\n            \"departmentId\": 37,\r\n            \"departmentName\": \"Product Management\",\r\n            \"locations\": [\"Bangalore\", \"Asheville\", \"Kolkata\"],\r\n            \"departmentHeadId\": 37,\r\n            \"departmentEmployeeIds\": [37, 201, 202, 203]\r\n        },\r\n        {\r\n            \"departmentId\": 38,\r\n            \"departmentName\": \"Quality Assurance\",\r\n            \"locations\": [\"Berlin\", \"Fort Collins\"],\r\n            \"departmentHeadId\": 38,\r\n            \"departmentEmployeeIds\": [38, 204, 205, 206, 207]\r\n        },\r\n        {\r\n            \"departmentId\": 39,\r\n            \"departmentName\": \"Site Reliability\",\r\n            \"locations\": [\"Kolkata\", \"New York\", \"Chattanooga\"],\r\n            \"departmentHeadId\": 39,\r\n            \"departmentEmployeeIds\": [39, 208, 209, 210, 211, 212]\r\n        },\r\n        {\r\n            \"departmentId\": 40,\r\n            \"departmentName\": \"Analytics\",\r\n            \"locations\": [\"Singapore\", \"Burlington\", \"Kolkata\"],\r\n            \"departmentHeadId\": 40,\r\n            \"departmentEmployeeIds\": [40, 213, 214, 215]\r\n        },\r\n        {\r\n            \"departmentId\": 41,\r\n            \"departmentName\": \"AI Research\",\r\n            \"locations\": [\"Tokyo\", \"Madison\"],\r\n            \"departmentHeadId\": 41,\r\n            \"departmentEmployeeIds\": [41, 216, 217, 218, 219]\r\n        },\r\n        {\r\n            \"departmentId\": 42,\r\n            \"departmentName\": \"Customer Success\",\r\n            \"locations\": [\"Kolkata\", \"Sydney\", \"Provo\", \"Seattle\"],\r\n            \"departmentHeadId\": 42,\r\n            \"departmentEmployeeIds\": [42, 220, 221, 222, 223]\r\n        },\r\n        {\r\n            \"departmentId\": 43,\r\n            \"departmentName\": \"Platform Engineering\",\r\n            \"locations\": [\"London\", \"Ann Arbor\"],\r\n            \"departmentHeadId\": 43,\r\n            \"departmentEmployeeIds\": [43, 224, 225, 226]\r\n        },\r\n        {\r\n            \"departmentId\": 44,\r\n            \"departmentName\": \"Infrastructure\",\r\n            \"locations\": [\"Kolkata\", \"Boston\", \"Raleigh\"],\r\n            \"departmentHeadId\": 44,\r\n            \"departmentEmployeeIds\": [44, 227, 228, 229, 230, 231]\r\n        },\r\n        {\r\n            \"departmentId\": 45,\r\n            \"departmentName\": \"Research & Development\",\r\n            \"locations\": [\"Bangalore\", \"Chattanooga\"],\r\n            \"departmentHeadId\": 45,\r\n            \"departmentEmployeeIds\": [45, 232, 233, 234]\r\n        },\r\n        {\r\n            \"departmentId\": 46,\r\n            \"departmentName\": \"Engineering\",\r\n            \"locations\": [\"Kolkata\", \"San Francisco\", \"Durham\"],\r\n            \"departmentHeadId\": 46,\r\n            \"departmentEmployeeIds\": [46, 235, 236, 237, 238]\r\n        },\r\n        {\r\n            \"departmentId\": 47,\r\n            \"departmentName\": \"Data Science\",\r\n            \"locations\": [\"New York\", \"Asheville\", \"Kolkata\"],\r\n            \"departmentHeadId\": 47,\r\n            \"departmentEmployeeIds\": [47, 239, 240, 241, 242, 243]\r\n        },\r\n        {\r\n            \"departmentId\": 48,\r\n            \"departmentName\": \"DevOps\",\r\n            \"locations\": [\"Singapore\", \"Fort Collins\"],\r\n            \"departmentHeadId\": 48,\r\n            \"departmentEmployeeIds\": [48, 244, 245, 246]\r\n        },\r\n        {\r\n            \"departmentId\": 49,\r\n            \"departmentName\": \"Cloud Infrastructure\",\r\n            \"locations\": [\"Kolkata\", \"Berlin\", \"Provo\", \"Tokyo\"],\r\n            \"departmentHeadId\": 49,\r\n            \"departmentEmployeeIds\": [49, 247, 248, 249, 250]\r\n        },\r\n        {\r\n            \"departmentId\": 50,\r\n            \"departmentName\": \"Customer Success\",\r\n            \"locations\": [\"Sydney\", \"Kolkata\", \"Madison\"],\r\n            \"departmentHeadId\": 50,\r\n            \"departmentEmployeeIds\": [50, 251, 252, 253, 254]\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/department/addDepartments",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"department",
+						"addDepartments"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Initial 50 departments addition",
+					"originalRequest": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzM4NCJ9.eyJyb2xlcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9BRE1JTiJ9LHsiYXV0aG9yaXR5IjoiUk9MRV9VU0VSIn1dLCJzdWIiOiJhZG1pbiIsImlhdCI6MTc1MTcwNjg3NCwiZXhwIjoxNzUxNzQyODc0fQ.ej-xQGmY7PcNkXBDAOcNF-gqbp-NeinbD0F5tJvscO9UZ_Vuve3GOJIQxj1f-_xV",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"departmentDetailList\": [\r\n        {\r\n            \"departmentId\": 1,\r\n            \"departmentName\": \"Engineering\",\r\n            \"locations\": [\"Kolkata\", \"Boise\", \"New York\"],\r\n            \"departmentHeadId\": 1,\r\n            \"departmentEmployeeIds\": [1, 51, 52, 53, 54]\r\n        },\r\n        {\r\n            \"departmentId\": 2,\r\n            \"departmentName\": \"Data Science\",\r\n            \"locations\": [\"San Francisco\", \"Raleigh\", \"Kolkata\"],\r\n            \"departmentHeadId\": 2,\r\n            \"departmentEmployeeIds\": [2, 55, 56, 57]\r\n        },\r\n        {\r\n            \"departmentId\": 3,\r\n            \"departmentName\": \"DevOps\",\r\n            \"locations\": [\"London\", \"Asheville\", \"Singapore\"],\r\n            \"departmentHeadId\": 3,\r\n            \"departmentEmployeeIds\": [3, 58, 59, 60, 61]\r\n        },\r\n        {\r\n            \"departmentId\": 4,\r\n            \"departmentName\": \"Cloud Infrastructure\",\r\n            \"locations\": [\"Seattle\", \"Chattanooga\", \"Kolkata\", \"Boston\"],\r\n            \"departmentHeadId\": 4,\r\n            \"departmentEmployeeIds\": [4, 62, 63, 64, 65, 66, 67]\r\n        },\r\n        {\r\n            \"departmentId\": 5,\r\n            \"departmentName\": \"Machine Learning\",\r\n            \"locations\": [\"Tokyo\", \"Burlington\"],\r\n            \"departmentHeadId\": 5,\r\n            \"departmentEmployeeIds\": [5, 68, 69, 70]\r\n        },\r\n        {\r\n            \"departmentId\": 6,\r\n            \"departmentName\": \"Cybersecurity\",\r\n            \"locations\": [\"Kolkata\", \"Ann Arbor\", \"Sydney\", \"Durham\"],\r\n            \"departmentHeadId\": 6,\r\n            \"departmentEmployeeIds\": [6, 71, 72, 73, 74, 75]\r\n        },\r\n        {\r\n            \"departmentId\": 7,\r\n            \"departmentName\": \"Product Management\",\r\n            \"locations\": [\"Bangalore\", \"Fort Collins\"],\r\n            \"departmentHeadId\": 7,\r\n            \"departmentEmployeeIds\": [7, 76, 77, 78, 79]\r\n        },\r\n        {\r\n            \"departmentId\": 8,\r\n            \"departmentName\": \"Quality Assurance\",\r\n            \"locations\": [\"Berlin\", \"Provo\", \"Kolkata\"],\r\n            \"departmentHeadId\": 8,\r\n            \"departmentEmployeeIds\": [8, 80, 81, 82, 83, 84, 85]\r\n        },\r\n        {\r\n            \"departmentId\": 9,\r\n            \"departmentName\": \"Site Reliability\",\r\n            \"locations\": [\"New York\", \"Madison\"],\r\n            \"departmentHeadId\": 9,\r\n            \"departmentEmployeeIds\": [9, 86, 87, 88]\r\n        },\r\n        {\r\n            \"departmentId\": 10,\r\n            \"departmentName\": \"Analytics\",\r\n            \"locations\": [\"Kolkata\", \"Raleigh\", \"Singapore\", \"Boise\"],\r\n            \"departmentHeadId\": 10,\r\n            \"departmentEmployeeIds\": [10, 89, 90, 91, 92]\r\n        },\r\n        {\r\n            \"departmentId\": 11,\r\n            \"departmentName\": \"AI Research\",\r\n            \"locations\": [\"Boston\", \"Asheville\"],\r\n            \"departmentHeadId\": 11,\r\n            \"departmentEmployeeIds\": [11, 93, 94, 95, 96, 97]\r\n        },\r\n        {\r\n            \"departmentId\": 12,\r\n            \"departmentName\": \"Customer Success\",\r\n            \"locations\": [\"Sydney\", \"Chattanooga\", \"Kolkata\", \"Burlington\"],\r\n            \"departmentHeadId\": 12,\r\n            \"departmentEmployeeIds\": [12, 98, 99, 100]\r\n        },\r\n        {\r\n            \"departmentId\": 13,\r\n            \"departmentName\": \"Platform Engineering\",\r\n            \"locations\": [\"London\", \"Ann Arbor\"],\r\n            \"departmentHeadId\": 13,\r\n            \"departmentEmployeeIds\": [13, 101, 102, 103, 104]\r\n        },\r\n        {\r\n            \"departmentId\": 14,\r\n            \"departmentName\": \"Infrastructure\",\r\n            \"locations\": [\"Kolkata\", \"Seattle\", \"Madison\", \"Provo\"],\r\n            \"departmentHeadId\": 14,\r\n            \"departmentEmployeeIds\": [14, 105, 106, 107, 108, 109, 110]\r\n        },\r\n        {\r\n            \"departmentId\": 15,\r\n            \"departmentName\": \"Research & Development\",\r\n            \"locations\": [\"Tokyo\"],\r\n            \"departmentHeadId\": 15,\r\n            \"departmentEmployeeIds\": [15, 111, 112, 113]\r\n        },\r\n        {\r\n            \"departmentId\": 16,\r\n            \"departmentName\": \"Engineering\",\r\n            \"locations\": [\"Bangalore\", \"Durham\", \"Kolkata\"],\r\n            \"departmentHeadId\": 16,\r\n            \"departmentEmployeeIds\": [16, 114, 115, 116, 117]\r\n        },\r\n        {\r\n            \"departmentId\": 17,\r\n            \"departmentName\": \"Data Science\",\r\n            \"locations\": [\"San Francisco\", \"Fort Collins\", \"Singapore\"],\r\n            \"departmentHeadId\": 17,\r\n            \"departmentEmployeeIds\": [17, 118, 119, 120, 121, 122]\r\n        },\r\n        {\r\n            \"departmentId\": 18,\r\n            \"departmentName\": \"DevOps\",\r\n            \"locations\": [\"Kolkata\", \"Raleigh\"],\r\n            \"departmentHeadId\": 18,\r\n            \"departmentEmployeeIds\": [18, 123, 124, 125]\r\n        },\r\n        {\r\n            \"departmentId\": 19,\r\n            \"departmentName\": \"Cloud Infrastructure\",\r\n            \"locations\": [\"New York\", \"Asheville\", \"Kolkata\", \"Berlin\"],\r\n            \"departmentHeadId\": 19,\r\n            \"departmentEmployeeIds\": [19, 126, 127, 128, 129, 130]\r\n        },\r\n        {\r\n            \"departmentId\": 20,\r\n            \"departmentName\": \"Machine Learning\",\r\n            \"locations\": [\"Boston\", \"Chattanooga\"],\r\n            \"departmentHeadId\": 20,\r\n            \"departmentEmployeeIds\": [20, 131, 132, 133, 134]\r\n        },\r\n        {\r\n            \"departmentId\": 21,\r\n            \"departmentName\": \"Cybersecurity\",\r\n            \"locations\": [\"Kolkata\", \"Burlington\", \"Sydney\"],\r\n            \"departmentHeadId\": 21,\r\n            \"departmentEmployeeIds\": [21, 135, 136, 137, 138, 139, 140]\r\n        },\r\n        {\r\n            \"departmentId\": 22,\r\n            \"departmentName\": \"Product Management\",\r\n            \"locations\": [\"Tokyo\", \"Madison\"],\r\n            \"departmentHeadId\": 22,\r\n            \"departmentEmployeeIds\": [22, 141, 142, 143]\r\n        },\r\n        {\r\n            \"departmentId\": 23,\r\n            \"departmentName\": \"Quality Assurance\",\r\n            \"locations\": [\"Kolkata\", \"Provo\", \"Seattle\"],\r\n            \"departmentHeadId\": 23,\r\n            \"departmentEmployeeIds\": [23, 144, 145, 146, 147]\r\n        },\r\n        {\r\n            \"departmentId\": 24,\r\n            \"departmentName\": \"Site Reliability\",\r\n            \"locations\": [\"London\", \"Ann Arbor\", \"Kolkata\"],\r\n            \"departmentHeadId\": 24,\r\n            \"departmentEmployeeIds\": [24, 148, 149, 150, 151, 152]\r\n        },\r\n        {\r\n            \"departmentId\": 25,\r\n            \"departmentName\": \"Analytics\",\r\n            \"locations\": [\"Singapore\"],\r\n            \"departmentHeadId\": 25,\r\n            \"departmentEmployeeIds\": [25, 153, 154, 155]\r\n        },\r\n        {\r\n            \"departmentId\": 26,\r\n            \"departmentName\": \"AI Research\",\r\n            \"locations\": [\"Kolkata\", \"Durham\", \"Boston\", \"Raleigh\"],\r\n            \"departmentHeadId\": 26,\r\n            \"departmentEmployeeIds\": [26, 156, 157, 158, 159]\r\n        },\r\n        {\r\n            \"departmentId\": 27,\r\n            \"departmentName\": \"Customer Success\",\r\n            \"locations\": [\"Sydney\", \"Boise\"],\r\n            \"departmentHeadId\": 27,\r\n            \"departmentEmployeeIds\": [27, 160, 161, 162, 163, 164]\r\n        },\r\n        {\r\n            \"departmentId\": 28,\r\n            \"departmentName\": \"Platform Engineering\",\r\n            \"locations\": [\"Kolkata\", \"Asheville\", \"Berlin\"],\r\n            \"departmentHeadId\": 28,\r\n            \"departmentEmployeeIds\": [28, 165, 166, 167]\r\n        },\r\n        {\r\n            \"departmentId\": 29,\r\n            \"departmentName\": \"Infrastructure\",\r\n            \"locations\": [\"New York\", \"Fort Collins\", \"Kolkata\"],\r\n            \"departmentHeadId\": 29,\r\n            \"departmentEmployeeIds\": [29, 168, 169, 170, 171]\r\n        },\r\n        {\r\n            \"departmentId\": 30,\r\n            \"departmentName\": \"Research & Development\",\r\n            \"locations\": [\"Tokyo\", \"Chattanooga\", \"Singapore\"],\r\n            \"departmentHeadId\": 30,\r\n            \"departmentEmployeeIds\": [30, 172, 173, 174, 175, 176]\r\n        },\r\n        {\r\n            \"departmentId\": 31,\r\n            \"departmentName\": \"Engineering\",\r\n            \"locations\": [\"Kolkata\", \"Burlington\"],\r\n            \"departmentHeadId\": 31,\r\n            \"departmentEmployeeIds\": [31, 177, 178, 179]\r\n        },\r\n        {\r\n            \"departmentId\": 32,\r\n            \"departmentName\": \"Data Science\",\r\n            \"locations\": [\"San Francisco\", \"Madison\", \"Kolkata\"],\r\n            \"departmentHeadId\": 32,\r\n            \"departmentEmployeeIds\": [32, 180, 181, 182, 183]\r\n        },\r\n        {\r\n            \"departmentId\": 33,\r\n            \"departmentName\": \"DevOps\",\r\n            \"locations\": [\"London\", \"Provo\"],\r\n            \"departmentHeadId\": 33,\r\n            \"departmentEmployeeIds\": [33, 184, 185, 186, 187, 188]\r\n        },\r\n        {\r\n            \"departmentId\": 34,\r\n            \"departmentName\": \"Cloud Infrastructure\",\r\n            \"locations\": [\"Kolkata\", \"Seattle\", \"Ann Arbor\", \"Sydney\"],\r\n            \"departmentHeadId\": 34,\r\n            \"departmentEmployeeIds\": [34, 189, 190, 191, 192]\r\n        },\r\n        {\r\n            \"departmentId\": 35,\r\n            \"departmentName\": \"Machine Learning\",\r\n            \"locations\": [\"Boston\", \"Raleigh\"],\r\n            \"departmentHeadId\": 35,\r\n            \"departmentEmployeeIds\": [35, 193, 194, 195]\r\n        },\r\n        {\r\n            \"departmentId\": 36,\r\n            \"departmentName\": \"Cybersecurity\",\r\n            \"locations\": [\"Kolkata\", \"Durham\", \"Tokyo\"],\r\n            \"departmentHeadId\": 36,\r\n            \"departmentEmployeeIds\": [36, 196, 197, 198, 199, 200]\r\n        },\r\n        {\r\n            \"departmentId\": 37,\r\n            \"departmentName\": \"Product Management\",\r\n            \"locations\": [\"Bangalore\", \"Asheville\", \"Kolkata\"],\r\n            \"departmentHeadId\": 37,\r\n            \"departmentEmployeeIds\": [37, 201, 202, 203]\r\n        },\r\n        {\r\n            \"departmentId\": 38,\r\n            \"departmentName\": \"Quality Assurance\",\r\n            \"locations\": [\"Berlin\", \"Fort Collins\"],\r\n            \"departmentHeadId\": 38,\r\n            \"departmentEmployeeIds\": [38, 204, 205, 206, 207]\r\n        },\r\n        {\r\n            \"departmentId\": 39,\r\n            \"departmentName\": \"Site Reliability\",\r\n            \"locations\": [\"Kolkata\", \"New York\", \"Chattanooga\"],\r\n            \"departmentHeadId\": 39,\r\n            \"departmentEmployeeIds\": [39, 208, 209, 210, 211, 212]\r\n        },\r\n        {\r\n            \"departmentId\": 40,\r\n            \"departmentName\": \"Analytics\",\r\n            \"locations\": [\"Singapore\", \"Burlington\", \"Kolkata\"],\r\n            \"departmentHeadId\": 40,\r\n            \"departmentEmployeeIds\": [40, 213, 214, 215]\r\n        },\r\n        {\r\n            \"departmentId\": 41,\r\n            \"departmentName\": \"AI Research\",\r\n            \"locations\": [\"Tokyo\", \"Madison\"],\r\n            \"departmentHeadId\": 41,\r\n            \"departmentEmployeeIds\": [41, 216, 217, 218, 219]\r\n        },\r\n        {\r\n            \"departmentId\": 42,\r\n            \"departmentName\": \"Customer Success\",\r\n            \"locations\": [\"Kolkata\", \"Sydney\", \"Provo\", \"Seattle\"],\r\n            \"departmentHeadId\": 42,\r\n            \"departmentEmployeeIds\": [42, 220, 221, 222, 223]\r\n        },\r\n        {\r\n            \"departmentId\": 43,\r\n            \"departmentName\": \"Platform Engineering\",\r\n            \"locations\": [\"London\", \"Ann Arbor\"],\r\n            \"departmentHeadId\": 43,\r\n            \"departmentEmployeeIds\": [43, 224, 225, 226]\r\n        },\r\n        {\r\n            \"departmentId\": 44,\r\n            \"departmentName\": \"Infrastructure\",\r\n            \"locations\": [\"Kolkata\", \"Boston\", \"Raleigh\"],\r\n            \"departmentHeadId\": 44,\r\n            \"departmentEmployeeIds\": [44, 227, 228, 229, 230, 231]\r\n        },\r\n        {\r\n            \"departmentId\": 45,\r\n            \"departmentName\": \"Research & Development\",\r\n            \"locations\": [\"Bangalore\", \"Chattanooga\"],\r\n            \"departmentHeadId\": 45,\r\n            \"departmentEmployeeIds\": [45, 232, 233, 234]\r\n        },\r\n        {\r\n            \"departmentId\": 46,\r\n            \"departmentName\": \"Engineering\",\r\n            \"locations\": [\"Kolkata\", \"San Francisco\", \"Durham\"],\r\n            \"departmentHeadId\": 46,\r\n            \"departmentEmployeeIds\": [46, 235, 236, 237, 238]\r\n        },\r\n        {\r\n            \"departmentId\": 47,\r\n            \"departmentName\": \"Data Science\",\r\n            \"locations\": [\"New York\", \"Asheville\", \"Kolkata\"],\r\n            \"departmentHeadId\": 47,\r\n            \"departmentEmployeeIds\": [47, 239, 240, 241, 242, 243]\r\n        },\r\n        {\r\n            \"departmentId\": 48,\r\n            \"departmentName\": \"DevOps\",\r\n            \"locations\": [\"Singapore\", \"Fort Collins\"],\r\n            \"departmentHeadId\": 48,\r\n            \"departmentEmployeeIds\": [48, 244, 245, 246]\r\n        },\r\n        {\r\n            \"departmentId\": 49,\r\n            \"departmentName\": \"Cloud Infrastructure\",\r\n            \"locations\": [\"Kolkata\", \"Berlin\", \"Provo\", \"Tokyo\"],\r\n            \"departmentHeadId\": 49,\r\n            \"departmentEmployeeIds\": [49, 247, 248, 249, 250]\r\n        },\r\n        {\r\n            \"departmentId\": 50,\r\n            \"departmentName\": \"Customer Success\",\r\n            \"locations\": [\"Sydney\", \"Kolkata\", \"Madison\"],\r\n            \"departmentHeadId\": 50,\r\n            \"departmentEmployeeIds\": [50, 251, 252, 253, 254]\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8084/api/v1/department/addDepartments",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8084",
+							"path": [
+								"api",
+								"v1",
+								"department",
+								"addDepartments"
+							]
+						}
+					},
+					"_postman_previewlanguage": null,
+					"header": null,
+					"cookie": [],
+					"body": null
+				}
+			]
+		},
+		{
+			"name": "searchDepartments",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzM4NCJ9.eyJyb2xlcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9BRE1JTiJ9LHsiYXV0aG9yaXR5IjoiUk9MRV9VU0VSIn1dLCJzdWIiOiJhZG1pbiIsImlhdCI6MTc1MTkxMzE0OCwiZXhwIjoxNzUxOTQ5MTQ4fQ.GwnG0BZgJdTKBij-t3GLln2kj-W3FVMSEvjGnZ_6qEbfaB7onj0cw7HiKA_RpI8q",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v1/department/searchDepartment/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"department",
+						"searchDepartment",
+						"1"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "1st record searched",
+					"originalRequest": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzM4NCJ9.eyJyb2xlcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9BRE1JTiJ9LHsiYXV0aG9yaXR5IjoiUk9MRV9VU0VSIn1dLCJzdWIiOiJhZG1pbiIsImlhdCI6MTc1MTcwODc3NCwiZXhwIjoxNzUxNzQ0Nzc0fQ.RFbqQSUHqYWZbV57pV73m8ddPU9u8iSFdKfB6wE70Mlo325Qbp2KnbH_9ohOLzvf",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8084/api/v1/department/searchDepartment/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8084",
+							"path": [
+								"api",
+								"v1",
+								"department",
+								"searchDepartment",
+								"1"
+							]
+						}
+					},
+					"_postman_previewlanguage": null,
+					"header": null,
+					"cookie": [],
+					"body": null
+				}
+			]
+		},
+		{
+			"name": "updateDepartments",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzM4NCJ9.eyJyb2xlcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9BRE1JTiJ9LHsiYXV0aG9yaXR5IjoiUk9MRV9VU0VSIn1dLCJzdWIiOiJhZG1pbiIsImlhdCI6MTc1MjQ3NjMzMCwiZXhwIjoxNzUyNTEyMzMwfQ.KrHJRIK_WwhrwPiVfcseEJRU4RVjaRufO5jZG5y_vU_DkXjSXsIaqQUY0_x-y7-7",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"departmentDetailList\": [\r\n        {\r\n            \"departmentId\": 1,\r\n            \"departmentName\": \"EngineeringNew\",\r\n            \"locations\": [\"Kolkata\", \"Boise\", \"New Zealand\"],\r\n            \"departmentHeadId\": 1,\r\n            \"departmentEmployeeIds\": [1, 51, 52, 53, 54]\r\n        },\r\n        {\r\n            \"departmentId\": 2,\r\n            \"departmentName\": \"Data ScienceNew\",\r\n            \"locations\": [\"Los Angeles\", \"Raleigh\", \"Kolkata\"],\r\n            \"departmentHeadId\": 2,\r\n            \"departmentEmployeeIds\": [2, 55, 56, 57]\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/department/updateDepartments",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"department",
+						"updateDepartments"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "successfull updates",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"departmentDetailList\": [\r\n        {\r\n            \"departmentId\": 1,\r\n            \"departmentName\": \"EngineeringNew\",\r\n            \"locations\": [\"Kolkata\", \"Boise\", \"New Zealand\"],\r\n            \"departmentHeadId\": 1,\r\n            \"departmentEmployeeIds\": [1, 51, 52, 53, 54]\r\n        },\r\n        {\r\n            \"departmentId\": 2,\r\n            \"departmentName\": \"Data ScienceNew\",\r\n            \"locations\": [\"Los Angeles\", \"Raleigh\", \"Kolkata\"],\r\n            \"departmentHeadId\": 2,\r\n            \"departmentEmployeeIds\": [2, 55, 56, 57]\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8084/api/v1/department/updateDepartments",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8084",
+							"path": [
+								"api",
+								"v1",
+								"department",
+								"updateDepartments"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "JSON",
+					"header": [
+						{
+							"key": "Vary",
+							"value": "Origin",
+							"type": "text"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method",
+							"type": "text"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers",
+							"type": "text"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff",
+							"type": "text"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "0",
+							"type": "text"
+						},
+						{
+							"key": "Cache-Control",
+							"value": "no-cache, no-store, max-age=0, must-revalidate",
+							"type": "text"
+						},
+						{
+							"key": "Pragma",
+							"value": "no-cache",
+							"type": "text"
+						},
+						{
+							"key": "Expires",
+							"value": "0",
+							"type": "text"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY",
+							"type": "text"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"type": "text"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked",
+							"type": "text"
+						},
+						{
+							"key": "Date",
+							"value": "Mon, 07 Jul 2025 17:33:25 GMT",
+							"type": "text"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60",
+							"type": "text"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive",
+							"type": "text"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": \"success\",\n    \"message\": \"Update Success : 2 . Update Failed : 0\",\n    \"data\": {\n        \"apiResponse\": [\n            {\n                \"status\": \"success\",\n                \"message\": \"Successfully updated department Id 1 data records\"\n            },\n            {\n                \"status\": \"success\",\n                \"message\": \"Successfully updated department Id 2 data records\"\n            }\n        ]\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "deleteDepartments",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzM4NCJ9.eyJyb2xlcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9BRE1JTiJ9LHsiYXV0aG9yaXR5IjoiUk9MRV9VU0VSIn1dLCJzdWIiOiJhZG1pbiIsImlhdCI6MTc1MTkwOTUzNiwiZXhwIjoxNzUxOTQ1NTM2fQ.6UXLkFj-sn70N1af18QlW3IRokUUpg2N1y_yAbtd-uH-S4oeVESVRmgCNF_YbDkC",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"departmentDetailList\": [\r\n        {\r\n            \"departmentId\": 1\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8084/api/v1/department/deleteDepartments",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8084",
+					"path": [
+						"api",
+						"v1",
+						"department",
+						"deleteDepartments"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "successfull delete",
+					"originalRequest": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"departmentDetailList\": [\r\n        {\r\n            \"departmentId\": 1\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8084/api/v1/department/deleteDepartments",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8084",
+							"path": [
+								"api",
+								"v1",
+								"department",
+								"deleteDepartments"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "JSON",
+					"header": [
+						{
+							"key": "Vary",
+							"value": "Origin",
+							"type": "text"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method",
+							"type": "text"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers",
+							"type": "text"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff",
+							"type": "text"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "0",
+							"type": "text"
+						},
+						{
+							"key": "Cache-Control",
+							"value": "no-cache, no-store, max-age=0, must-revalidate",
+							"type": "text"
+						},
+						{
+							"key": "Pragma",
+							"value": "no-cache",
+							"type": "text"
+						},
+						{
+							"key": "Expires",
+							"value": "0",
+							"type": "text"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY",
+							"type": "text"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"type": "text"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked",
+							"type": "text"
+						},
+						{
+							"key": "Date",
+							"value": "Mon, 07 Jul 2025 17:34:45 GMT",
+							"type": "text"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60",
+							"type": "text"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive",
+							"type": "text"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": \"success\",\n    \"message\": \"Delete Success : 1. Delete Failed : 0\",\n    \"data\": {\n        \"apiResponse\": [\n            {\n                \"status\": \"success\",\n                \"message\": \"Successfully deleted department Id 1 data records\"\n            }\n        ]\n    }\n}"
+				}
+			]
+		}
+	]
+}

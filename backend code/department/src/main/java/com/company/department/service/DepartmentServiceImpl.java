@@ -66,8 +66,8 @@ public class DepartmentServiceImpl implements DepartmentService {
         return entity;
     }
 
-    public ApiResponseDTO<List<DepartmentDTO>> fetchPagedDataList(int page , int size) {
-        Pageable pageable = PageRequest.of(page - 1, size);  //internally the page index starts from 0 instead of 1
+    public ApiResponseDTO<List<DepartmentDTO>> fetchPagedDataList(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);  //internally the page index starts from 0 instead of 1
         Page<DepartmentDTO> pagedData = fetchPageData(pageable);
         if (pageable.getPageNumber() < 0 || pageable.getPageNumber() > Math.ceil((float) pagedData.getTotalElements() / pageable.getPageSize()))
             throw new IllegalArgumentException();

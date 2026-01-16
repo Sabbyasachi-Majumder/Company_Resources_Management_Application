@@ -2,7 +2,7 @@
 SELECT 'Executing data.sql to insert users' AS debug_message;
 
 INSERT INTO UserProfileTable (UserId, UserName, Password, Role, Enabled) VALUES
-(1, 'admin1', '$2a$10$IlN72vcY8enDUJB8vG6mUuVMONntc3axKrjW4mnPaQhvFmcnJbpRq', 'ROLE_ADMIN', true),
-(2, 'disabledUser', '$2a$10$bAG5hubsWC.Fe64bjjmUTO7qCZUMxfrzszXV79FMI17cHDLHhdtGu', 'ROLE_USER', false),
-(3, 'user1', '$2a$10$5Wjg/6gnk1Gjs1wsYyra7eCuDgxQtV1Vzvcnx/b8asDwIzfTtnZ2q', 'ROLE_USER', true),
-(4, 'admin2', '$2a$10$8ISIRdutR2w9YlAO5NnWWenAZ1bP0yZA//V8lbaiwhU/EFqjsk.xK', 'ROLE_ADMIN', false);
+(1, 'admin0001', '$2a$10$r1IwNRFpRFTSKRofhbm0ke2g8/5qIfZ0wRDA1Pl.64wVgwCZCefLK', 'ROLE_ADMIN', true),
+(2, 'disabledUser', '$2a$10$9kcwn5zDIr4givCXGDjSKuKZx/FgEsyMOeTn37UHFJt7OFX.tkJsW', 'ROLE_USER', false),
+(3, 'user0001', '$2a$10$QFb80isO6JNeK6wDHPfrvuqzEvFwc1PR49rs4G.yKTVI7nwFQ7muK', 'ROLE_USER', true),
+(4, 'admin0002', '$2a$10$oDMMjD8yt.4pEM/6nawKK.0ahKoMDZq3f2nhcj867NjRrCUpi1DfO', 'ROLE_ADMIN', false);

@@ -15,7 +15,7 @@ import java.text.SimpleDateFormat;
 
 /**
  * Test configuration to provide a mocked EmployeeService bean.
- * Used to satisfy constructor injection in EmployeeOperationsController.
+ * Used to satisfy constructor injection in EmployeeController.
  */
 @Configuration
 public class TestConfig {

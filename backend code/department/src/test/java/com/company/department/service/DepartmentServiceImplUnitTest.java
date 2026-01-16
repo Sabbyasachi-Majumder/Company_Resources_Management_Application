@@ -235,7 +235,7 @@ public class DepartmentServiceImplUnitTest {
     void testFetchPagedDataListInvalidPage() {
         // Arrange: Mock departmentRepository to return an empty page
         Pageable pageable = PageRequest.of(9, 10);
-        Page<DepartmentEntity> page = new PageImpl<>(List.of(), pageable, 0);
+        Page<DepartmentEntity> page = new PageImpl<>(List.of(), pageable, -1);
         when(departmentRepository.findAll(pageable)).thenReturn(page);
 
         // Assert: Verify response
