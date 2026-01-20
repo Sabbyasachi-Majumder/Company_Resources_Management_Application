@@ -5,11 +5,43 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { useEffect, useState } from "react";
 
 import { useNavigate } from "react-router-dom";
 
+import { fetchEmployees } from "@/api/employeesApi";
+
 export default function HomePage() {
   const navigate = useNavigate();
+
+  const [employeeCount, setEmployeeCount] = useState(0);
+
+  useEffect(() => {
+    console.log("Fetching Card Content Data...");
+
+    const loadData = async () => {
+      try {
+        const result = await fetchEmployees(1, 10);
+        console.log(result);
+
+        if (result.errorCode != null) {
+          throw new Error(
+            result.errorMessage || "API returned non-success status",
+          );
+        }
+
+        const data = result.data || [];
+        setEmployeeCount(data.totalElements);
+      } catch (err) {
+        const message = err instanceof Error ? err.message : "Unknown error";
+        console.error("Fetch failed:", err);
+      } finally {
+      }
+    };
+
+    loadData();
+  }, []);
+
   return (
     <div className="container mx-auto py-8 px-4">
       <h1 className="text-3xl font-bold mb-8">
@@ -39,7 +71,7 @@ export default function HomePage() {
             <CardDescription>CRUD operations about Employees</CardDescription>
           </CardHeader>
           <CardContent>
-            <p className="text-2xl font-bold text-primary">342</p>
+            <p className="text-2xl font-bold text-primary">{employeeCount}</p>
             <p className="text-sm text-muted-foreground">Total Employees</p>
           </CardContent>
         </Card>

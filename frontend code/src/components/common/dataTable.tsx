@@ -56,7 +56,7 @@ function PureTable<TData>({ columns, data }: PureTableProps<TData>) {
                     ? null
                     : flexRender(
                         header.column.columnDef.header,
-                        header.getContext()
+                        header.getContext(),
                       )}
                 </TableHead>
               ))}
@@ -107,16 +107,19 @@ export default function EmployeeTable() {
         setError(null);
 
         const result = await fetchEmployees(1, 10);
+        console.log(result);
 
-        if (result.status !== "success") {
-          throw new Error(result.message || "API returned non-success status");
+        if (result.errorCode != null) {
+          throw new Error(
+            result.errorMessage || "API returned non-success status",
+          );
         }
 
         const data = result.data || [];
-        setEmployees(data);
+        setEmployees(data.content);
 
-        if (data.length > 0) {
-          const headers = extractHeadersData(data[0]);
+        if (data.content.length > 0) {
+          const headers = extractHeadersData(data.content[0]);
           setHeaderMap(headers);
           console.log("Generated headers:", headers);
         }
@@ -137,7 +140,7 @@ export default function EmployeeTable() {
     ([key, headerText]) => ({
       accessorKey: key,
       header: headerText,
-    })
+    }),
   );
 
   if (isLoading) {
