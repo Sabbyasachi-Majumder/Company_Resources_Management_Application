@@ -18,6 +18,8 @@ public interface EmployeeService {
     // Fetching the whole page of employee data based on page and size
     Page<EmployeeDTO> fetchPagedDataList(int page, int size);
 
+    Long countEntities();
+
     // searching the employee data based on its employeeID
     EmployeeDTO searchDataBase(Long employeeId);
 

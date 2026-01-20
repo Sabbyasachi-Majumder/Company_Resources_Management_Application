@@ -55,6 +55,15 @@ public class EmployeeServiceImpl implements EmployeeService {
         }
     }
 
+    // Get Total amount of Employee Data Table entries
+    public Long countEntities() {
+        try {
+            return employeeRepository.count();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     // Get Employee Data Table with Pageable specifications
     public Page<EmployeeDTO> fetchPagedDataList(int page, int size) {
         Pageable pageable = PageRequest.of(page - 1, size);  //internally the page index starts from 0 instead of 1

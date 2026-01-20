@@ -61,6 +61,17 @@ public class EmployeeController {
         }
     }
 
+    // testing Database connection
+    @GetMapping(value = "/countTotal")
+    @Tag(name = "Employee management")
+    @Operation(summary = "Test database connection", description = "Tests if the connection to the employee database is established.")
+    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Database connection test result", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResponseDTO.class)))})
+    public ResponseEntity<ApiResponseDTO<Long>> countEmployees() {
+        loggingStart();
+        logger.debug("Counting the total amount of employee entries.");
+        return ResponseEntity.ok(new ApiResponseDTO<>(employeeService.countEntities()));
+    }
+
     // Displaying singular Employee Data
     @GetMapping(value = "/{employeeId}", produces = {MediaType.APPLICATION_JSON_VALUE})
     @Tag(name = "Employee Management")
