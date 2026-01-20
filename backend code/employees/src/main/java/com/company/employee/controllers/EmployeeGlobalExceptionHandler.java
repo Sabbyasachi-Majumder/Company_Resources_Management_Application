@@ -26,11 +26,15 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.*;
 
+@Schema(description = "Global Exception Handling class for Employee Service")
 @RestControllerAdvice
 public class EmployeeGlobalExceptionHandler {
 
     private static final Logger logger = LoggerFactory.getLogger(EmployeeGlobalExceptionHandler.class);
 
+    /**
+     * Logger initiation
+     */
     EmployeeGlobalExceptionHandler() {
         logger.info("GlobalExceptionHandler initialized");
     }
@@ -154,7 +158,4 @@ public class EmployeeGlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(new ApiResponseDTO<>(new ErrorDetailsDto(null, message)));
     }
-
-    // Operation Succeeded (Full or Partial) but Fetching/Refreshing failed – trigger -2 warning
-    // Note: These are NOT caught in global handler — they are caught locally in the mutation methods
 }

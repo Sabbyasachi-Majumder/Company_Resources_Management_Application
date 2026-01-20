@@ -75,43 +75,39 @@ public class EmployeeServiceImpl implements EmployeeService {
     // Business logic to add employee data records one by one .
     public OperationSummaryDTO addDataToDataBase(List<EmployeeDTO> employeeFetchOrCreateRequestList) {
         Map<Long, String> operationDetails = new HashMap<>();
-        Long successCount = 0L;
         for (EmployeeDTO e : employeeFetchOrCreateRequestList) {
             logger.debug("Creating employee with employeeID: {}", e.getEmployeeId());
             try {
                 if (e.getEmployeeId() != null && employeeRepository.existsById(e.getEmployeeId()))
                     throw new IllegalArgumentException("The employeeId is either empty or present in the database.");
                 employeeRepository.save(employeeMapper.toEmployeeEntity(e));
-                successCount++;
                 logger.debug("Successfully created employee with employeeId {} ", e.getEmployeeId());
             } catch (Exception ex) {
                 logger.error("Error while creating EmployeeId {} -> {}", e.getEmployeeId(), ex.getMessage());
                 operationDetails.put(e.getEmployeeId(), ex.getMessage());
             }
         }
-        return new OperationSummaryDTO((long) employeeFetchOrCreateRequestList.size(), successCount, (long) employeeFetchOrCreateRequestList.size() - successCount, operationDetails);
+        return new OperationSummaryDTO((long) employeeFetchOrCreateRequestList.size(), (long) employeeFetchOrCreateRequestList.size() - operationDetails.size(), (long) operationDetails.size(), operationDetails);
     }
 
     public OperationSummaryDTO bulkUpdateDataToDataBase(List<BulkUpdateRequest> bulkUpdateRequestArrayList) {
         Map<Long, String> operationDetails = new HashMap<>();
-        Long successCount = 0L;
-        for (BulkUpdateRequest e : bulkUpdateRequestArrayList) {
+        for (BulkUpdateRequest dto : bulkUpdateRequestArrayList) {
             try {
-                logger.debug("Updating employeeId {} successfully", e.getEmployeeId());
-                EmployeeEntity entity = employeeRepository.findById(e.getEmployeeId()).orElseThrow(EntityNotFoundException::new);
-                employeeMapper.fromUpdateDtoToEntity(e, entity);
+                logger.debug("Updating employeeId {} successfully", dto.getEmployeeId());
+                EmployeeEntity entity = employeeRepository.findById(dto.getEmployeeId()).orElseThrow(EntityNotFoundException::new);
+                employeeMapper.fromUpdateDtoToEntity(dto, entity);
                 employeeRepository.save(entity);
-            } catch (EntityNotFoundException ex) {
-                logger.error("Updating employeeId {} failed since employeeId doesn't exist", e.getEmployeeId());
-                operationDetails.put(e.getEmployeeId(), " doesn't exist");
+            } catch (Exception ex) {
+                logger.error("Error while updating EmployeeId {} -> {}", dto.getEmployeeId(), ex.getLocalizedMessage());
+                operationDetails.put(dto.getEmployeeId(), "doesn't exist");
             }
         }
-        return new OperationSummaryDTO((long) bulkUpdateRequestArrayList.size(), successCount, (long) bulkUpdateRequestArrayList.size() - successCount, operationDetails);
+        return new OperationSummaryDTO((long) bulkUpdateRequestArrayList.size(), (long) bulkUpdateRequestArrayList.size() - operationDetails.size(), (long) operationDetails.size(), operationDetails);
     }
 
     public OperationSummaryDTO bulkDeleteDataFromDataBase(List<Long> employeeIds) {
         Map<Long, String> operationDetails = new HashMap<>();
-        Long successCount = 0L;
         for (Long employeeId : employeeIds) {
             try {
                 logger.debug("Deleted employeeId {} successfully", employeeId);
@@ -119,9 +115,9 @@ public class EmployeeServiceImpl implements EmployeeService {
                 employeeRepository.delete(e);
             } catch (EntityNotFoundException ex) {
                 logger.error("Deleting employeeId {} failed since employeeId doesn't exist", employeeId);
-                operationDetails.put(employeeId, " doesn't exist");
+                operationDetails.put(employeeId, "doesn't exist");
             }
         }
-        return new OperationSummaryDTO((long) employeeIds.size(), successCount, (long) employeeIds.size() - successCount, operationDetails);
+        return new OperationSummaryDTO((long) employeeIds.size(), (long) employeeIds.size() - operationDetails.size(), (long) operationDetails.size(), operationDetails);
     }
 }
