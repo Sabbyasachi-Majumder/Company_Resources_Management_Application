@@ -15,7 +15,7 @@ import lombok.Setter;
 @Schema(description = "Unified API response wrapper used across all microservices")
 public class ApiResponseDTO<T> {
     @Schema(
-            description = "The actual payload — type depends on endpoint: Page<EmployeeFetchOrCreateDTO> on success, OperationSummaryDTO on mutation feedback, ErrorDetailsDto on failure",
+            description = "The actual payload — type depends on endpoint: Page<EmployeeDTO> on success, OperationSummaryDTO on mutation feedback, ErrorDetailsDto on failure",
             requiredMode = Schema.RequiredMode.REQUIRED)
     private T data;
 }

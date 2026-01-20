@@ -3,7 +3,7 @@
 //import com.company.employee.configs.TestConfig;
 //import com.company.employee.configs.TestSecurityConfig;
 //import com.company.employee.dto.ApiResponseDTO;
-//import com.company.employee.dto.EmployeeFetchOrCreateDTO;
+//import com.company.employee.dto.EmployeeDTO;
 //import com.company.employee.dto.EmployeeResponseDTO;
 //import com.company.employee.service.EmployeeService;
 //import com.fasterxml.jackson.databind.ObjectMapper;
@@ -54,7 +54,7 @@
 //    private ObjectMapper objectMapper;  //For JSON serialization/deserialization
 //
 //    private CreateEmployeesDTO sampleCreateEmployeesDTO;
-//    private ApiResponseDTO<List<EmployeeFetchOrCreateDTO>> samplePagedResponse;
+//    private ApiResponseDTO<List<EmployeeDTO>> samplePagedResponse;
 //    private ApiResponseDTO<EmployeeResponseDTO> sampleResponseDTO;
 //
 //    /**
@@ -62,8 +62,8 @@
 //     */
 //    @BeforeEach
 //    void setUp() {
-//        final EmployeeFetchOrCreateDTO sampleEmployeeFetchOrCreateRequest = getEmployeeDTO();
-//        ArrayList<EmployeeFetchOrCreateDTO> sampleEmployeeList = new ArrayList<>();
+//        final EmployeeDTO sampleEmployeeFetchOrCreateRequest = getEmployeeDTO();
+//        ArrayList<EmployeeDTO> sampleEmployeeList = new ArrayList<>();
 //        sampleEmployeeList.add(sampleEmployeeFetchOrCreateRequest);
 //        sampleCreateEmployeesDTO = new CreateEmployeesDTO();
 //        sampleCreateEmployeesDTO.setEmpDetailsList(sampleEmployeeList);
@@ -75,8 +75,8 @@
 //        mockMvc = MockMvcBuilders.standaloneSetup(new EmployeeController(employeeService)).setControllerAdvice(new EmployeeGlobalExceptionHandler()).build();
 //    }
 //
-//    private static EmployeeFetchOrCreateDTO getEmployeeDTO() {
-//        EmployeeFetchOrCreateDTO sampleEmployeeFetchOrCreateRequest = new EmployeeFetchOrCreateDTO();
+//    private static EmployeeDTO getEmployeeDTO() {
+//        EmployeeDTO sampleEmployeeFetchOrCreateRequest = new EmployeeDTO();
 //        sampleEmployeeFetchOrCreateRequest.setEmployeeId(1);
 //        sampleEmployeeFetchOrCreateRequest.setFirstName("John");
 //        sampleEmployeeFetchOrCreateRequest.setLastName("Doe");
@@ -217,7 +217,7 @@
 //    @Test
 //    @WithMockUser(roles = "ADMIN")
 //    void addEmployees_ValidationFailure_InvalidGender() throws Exception {
-//        EmployeeFetchOrCreateDTO invalidEmployee = new EmployeeFetchOrCreateDTO();
+//        EmployeeDTO invalidEmployee = new EmployeeDTO();
 //        invalidEmployee.setEmployeeId(1);
 //        invalidEmployee.setFirstName("John");
 //        invalidEmployee.setLastName("Doe");
@@ -229,7 +229,7 @@
 //        invalidEmployee.setDesignation("Software Engineer");
 //        invalidEmployee.setManagerEmployeeId(2);
 //
-//        ArrayList<EmployeeFetchOrCreateDTO> invalidList = new ArrayList<>();
+//        ArrayList<EmployeeDTO> invalidList = new ArrayList<>();
 //        invalidList.add(invalidEmployee);
 //        CreateEmployeesDTO invalidRequest = new CreateEmployeesDTO();
 //        invalidRequest.setEmpDetailsList(invalidList);

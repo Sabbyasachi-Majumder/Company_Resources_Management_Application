@@ -15,10 +15,10 @@ import java.util.Date;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Schema(description = "Request to fetch or add new employee detail")
-public class EmployeeFetchOrCreateDTO {
+@Schema(description = "Core employee data transfer object (used for create requests and read responses)")
+public class EmployeeDTO {
 
-    @NotEmpty(message = "Unique identifier of the employee cannot be empty")
+    @NotNull(message = "Unique identifier of the employee cannot be empty")
     @PositiveOrZero(message = "Employee ID must be positive or zero for new employees")
     @Schema(description = "Unique identifier of the employee", example = "1", requiredMode = Schema.RequiredMode.REQUIRED)
     private Long employeeId;

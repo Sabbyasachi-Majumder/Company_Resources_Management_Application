@@ -442,7 +442,7 @@
 //     * Conditions:
 //     * - Error: Returns 422 status code with validation error messages
 //     * Note: Test uses /updateEmployees, but controller defines /updateEmployees; assuming correct endpoint is /updateEmployees
-//     * Note: Validation errors reference userProfileList, userName, password, and role, which are not in EmployeeFetchOrCreateDTO; assuming DTO mismatch or additional validation logic
+//     * Note: Validation errors reference userProfileList, userName, password, and role, which are not in EmployeeDTO; assuming DTO mismatch or additional validation logic
 //     */
 //    @Test
 //    void updateEmployees_ValidationFailure() {

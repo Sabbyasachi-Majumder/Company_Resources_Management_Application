@@ -25,5 +25,5 @@ public class BulkDeleteRequest {
             example = "[1, 2, 3, 45, 67]",
             requiredMode = Schema.RequiredMode.REQUIRED)
     @JsonProperty("employeeIds")
-    private List<Integer> employeeIds;
+    private List<Long> employeeIds;
 }

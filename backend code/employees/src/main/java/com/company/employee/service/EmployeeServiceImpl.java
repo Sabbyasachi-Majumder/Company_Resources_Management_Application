@@ -1,6 +1,6 @@
 package com.company.employee.service;
 
-import com.company.employee.dto.EmployeeFetchOrCreateDTO;
+import com.company.employee.dto.*;
 import com.company.employee.entity.EmployeeEntity;
 import com.company.employee.mapper.EmployeeMapper;
 import com.company.employee.repository.EmployeeRepository;
@@ -14,7 +14,9 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.NoSuchElementException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
@@ -54,91 +56,72 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     // Get Employee Data Table with Pageable specifications
-    public Page<EmployeeFetchOrCreateDTO> fetchPagedDataList(int page, int size) {
+    public Page<EmployeeDTO> fetchPagedDataList(int page, int size) {
         Pageable pageable = PageRequest.of(page - 1, size);  //internally the page index starts from 0 instead of 1
-        Page<EmployeeFetchOrCreateDTO> pagedData = fetchPageData(pageable);
+        Page<EmployeeDTO> pagedData = employeeRepository.findAll(pageable)
+                .map(employeeMapper::toFetchORCreateDto);
         if (pageable.getPageNumber() < 0 || pageable.getPageNumber() > Math.ceil((float) pagedData.getTotalElements() / pageable.getPageSize()))
             throw new IllegalArgumentException();
         return pagedData;
     }
 
-    // Fetches all data with pagination
-    public Page<EmployeeFetchOrCreateDTO> fetchPageData(Pageable pageable) {
-        return employeeRepository.findAll(pageable)
-                .map(employeeMapper::toFetchORCreateDto);
-    }
-
     // Business logic to search database for an employee based on its employeeId
-    public EmployeeFetchOrCreateDTO searchDataBase(Long employeeId) {
-        return employeeMapper.toFetchORCreateDto(searchData(employeeId));
-    }
-
-    // Calling findById to search the table for a employee based on employeeId
-    public EmployeeEntity searchData(Long employeeId) {
-        return employeeRepository.findById(employeeId)
-                .orElseThrow(() -> new EntityNotFoundException("employeeId " + employeeId + " not found"));
+    public EmployeeDTO searchDataBase(Long employeeId) {
+        return employeeMapper.toFetchORCreateDto(employeeRepository.findById(employeeId)
+                .orElseThrow(() -> new EntityNotFoundException("employeeId " + employeeId + " not found")));
     }
 
 
     // Business logic to add employee data records one by one .
-//    public ApiResponseDTO<EmployeeResponseDTO> addDataToDataBase(List<EmployeeFetchOrCreateDTO> employeeFetchOrCreateRequestList) {
-//        ArrayList<ApiResponseDTO<EmployeeResponseDTO>> responses = new ArrayList<>();
-//        Long addCounter = 0;
-//        for (EmployeeFetchOrCreateDTO e : employeeFetchOrCreateRequestList) {
-//            if (!employeeRepository.existsById(e.getEmployeeId())) {
-//                logger.debug("Adding employeeId {} ", e.getEmployeeId());
-//                addData();
-//                addCounter++;
-//                responses.add(new ApiResponseDTO<>("success", "Successfully added Employee Id " + e.getEmployeeId() + " data records", null));
-//            } else {
-//                logger.error("employeeId {} is already present thus not added again.", e.getEmployeeId());
-//                responses.add(new ApiResponseDTO<>("error", "Employee Id " + e.getEmployeeId() + " already exists ", null));
-//            }
-//        }
-//        return new ApiResponseDTO<>("success", "Successfully added " + addCounter + " . Add failed : " + (employeeFetchOrCreateRequestList.size() - addCounter), new EmployeeResponseDTO(null, responses));
-//    }
-//
-//    //Adds Employee details to the employee table
-//    @Override
-//    public void addData(EmployeeEntity entity) {
-//        logger.debug("Attempting to add employeeId {}", entity.getEmployeeId());
-//        employeeRepository.save(entity);
-//        logger.debug("Added employeeId {} successfully", entity.getEmployeeId());
-//    }
-//
-//    public ApiResponseDTO<EmployeeResponseDTO> updateDataToDataBase(ArrayList<BulkUpdateRequest> bulkUpdateRequestArrayList) {
-//        ArrayList<ApiResponseDTO<EmployeeResponseDTO>> responses = new ArrayList<>();
-//        Long updateCounter = 0;
-//        for (BulkUpdateRequest e : bulkUpdateRequestArrayList) {
-//            if (employeeRepository.existsById(e.getEmployeeId())) {
-//                logger.debug("Updated employeeId {} successfully", e.getEmployeeId());
-//                employeeRepository.save(toEntity(e));
-//                updateCounter++;
-//                responses.add(new ApiResponseDTO<>("success", "Successfully updated Employee Id " + e.getEmployeeId() + " data records", null));
-//            } else {
-//                logger.error("Updating employeeId {} failed since employeeId doesn't exist", e.getEmployeeId());
-//                responses.add(new ApiResponseDTO<>("error", "Employee Id " + e.getEmployeeId() + " doesn't exist", null));
-//            }
-//        }
-//        return new ApiResponseDTO<>("success", "Update Success : " + updateCounter + " . Update Failed : " + (empList.size() - updateCounter), new EmployeeResponseDTO(null, responses));
-//    }
-//
-//    public ApiResponseDTO<EmployeeResponseDTO> deleteDataFromDataBase(ArrayList<EmployeeFetchOrCreateDTO> empList) {
-//        ArrayList<ApiResponseDTO<EmployeeResponseDTO>> responses = new ArrayList<>();
-//        Long deleteCounter = 0;
-//        for (EmployeeFetchOrCreateDTO e : empList) {
-//            ApiResponseDTO<EmployeeResponseDTO> apiResponse;
-//            if (employeeRepository.existsById(e.getEmployeeId())) {
-//                logger.debug("Deleted employeeId {} successfully", e.getEmployeeId());
-//                employeeRepository.deleteById(e.getEmployeeId());
-//                deleteCounter++;
-//                apiResponse = new ApiResponseDTO<>("success", "Successfully deleted Employee Id " + e.getEmployeeId() + " data records", null);
-//            } else {
-//                logger.error("Deleting employeeId {} failed since employeeId doesn't exist", e.getEmployeeId());
-//                apiResponse = new ApiResponseDTO<>("error", "Employee Id " + e.getEmployeeId() + " doesn't exist", null);
-//            }
-//            responses.add(apiResponse);
-//        }
-//        return new ApiResponseDTO<>("success", "Delete Success : " + deleteCounter + ". Delete Failed : " + (empList.size() - deleteCounter), new EmployeeResponseDTO(null, responses));
-//    }
+    public OperationSummaryDTO addDataToDataBase(List<EmployeeDTO> employeeFetchOrCreateRequestList) {
+        Map<Long, String> operationDetails = new HashMap<>();
+        Long successCount = 0L;
+        for (EmployeeDTO e : employeeFetchOrCreateRequestList) {
+            logger.debug("Creating employee with employeeID: {}", e.getEmployeeId());
+            try {
+                if (e.getEmployeeId() != null && employeeRepository.existsById(e.getEmployeeId()))
+                    throw new IllegalArgumentException("The employeeId is either empty or present in the database.");
+                employeeRepository.save(employeeMapper.toEmployeeEntity(e));
+                successCount++;
+                logger.debug("Successfully created employee with employeeId {} ", e.getEmployeeId());
+            } catch (Exception ex) {
+                logger.error("Error while creating EmployeeId {} -> {}", e.getEmployeeId(), ex.getMessage());
+                operationDetails.put(e.getEmployeeId(), ex.getMessage());
+            }
+        }
+        return new OperationSummaryDTO((long) employeeFetchOrCreateRequestList.size(), successCount, (long) employeeFetchOrCreateRequestList.size() - successCount, operationDetails);
+    }
+
+    public OperationSummaryDTO bulkUpdateDataToDataBase(List<BulkUpdateRequest> bulkUpdateRequestArrayList) {
+        Map<Long, String> operationDetails = new HashMap<>();
+        Long successCount = 0L;
+        for (BulkUpdateRequest e : bulkUpdateRequestArrayList) {
+            try {
+                logger.debug("Updating employeeId {} successfully", e.getEmployeeId());
+                EmployeeEntity entity = employeeRepository.findById(e.getEmployeeId()).orElseThrow(EntityNotFoundException::new);
+                employeeMapper.fromUpdateDtoToEntity(e, entity);
+                employeeRepository.save(entity);
+            } catch (EntityNotFoundException ex) {
+                logger.error("Updating employeeId {} failed since employeeId doesn't exist", e.getEmployeeId());
+                operationDetails.put(e.getEmployeeId(), " doesn't exist");
+            }
+        }
+        return new OperationSummaryDTO((long) bulkUpdateRequestArrayList.size(), successCount, (long) bulkUpdateRequestArrayList.size() - successCount, operationDetails);
+    }
+
+    public OperationSummaryDTO bulkDeleteDataFromDataBase(List<Long> employeeIds) {
+        Map<Long, String> operationDetails = new HashMap<>();
+        Long successCount = 0L;
+        for (Long employeeId : employeeIds) {
+            try {
+                logger.debug("Deleted employeeId {} successfully", employeeId);
+                EmployeeEntity e = employeeRepository.findById(employeeId).orElseThrow(EntityNotFoundException::new);
+                employeeRepository.delete(e);
+            } catch (EntityNotFoundException ex) {
+                logger.error("Deleting employeeId {} failed since employeeId doesn't exist", employeeId);
+                operationDetails.put(employeeId, " doesn't exist");
+            }
+        }
+        return new OperationSummaryDTO((long) employeeIds.size(), successCount, (long) employeeIds.size() - successCount, operationDetails);
+    }
 }

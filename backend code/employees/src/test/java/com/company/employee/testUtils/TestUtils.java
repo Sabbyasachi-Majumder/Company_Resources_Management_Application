@@ -1,6 +1,6 @@
 //package com.company.employee.testUtils;
 //
-//import com.company.employee.dto.EmployeeFetchOrCreateDTO;
+//import com.company.employee.dto.EmployeeDTO;
 //import com.company.employee.entity.EmployeeEntity;
 //import org.slf4j.Logger;
 //import org.slf4j.LoggerFactory;
@@ -16,8 +16,8 @@
 //    private static final Logger logger = LoggerFactory.getLogger(TestUtils.class);
 //
 //    //for making various employee records depending on the test case
-//    public EmployeeFetchOrCreateDTO getSampleEmployeeDTO(int employeeId, String firstName, String lastName, Date dateOfBirth, String gender, double salary, Date hireDate, String jobStage, String designation, int managerEmployeeId) {
-//        EmployeeFetchOrCreateDTO sampleEmployeeFetchOrCreateRequest = new EmployeeFetchOrCreateDTO();
+//    public EmployeeDTO getSampleEmployeeDTO(int employeeId, String firstName, String lastName, Date dateOfBirth, String gender, double salary, Date hireDate, String jobStage, String designation, int managerEmployeeId) {
+//        EmployeeDTO sampleEmployeeFetchOrCreateRequest = new EmployeeDTO();
 //        sampleEmployeeFetchOrCreateRequest.setEmployeeId(employeeId);
 //        sampleEmployeeFetchOrCreateRequest.setFirstName(firstName);
 //        sampleEmployeeFetchOrCreateRequest.setLastName(lastName);
@@ -55,8 +55,8 @@
 //    }
 //
 //    //Adds Employee details to the employee table
-//    public EmployeeFetchOrCreateDTO toDTO(EmployeeEntity entity) {
-//        EmployeeFetchOrCreateDTO dto = new EmployeeFetchOrCreateDTO();
+//    public EmployeeDTO toDTO(EmployeeEntity entity) {
+//        EmployeeDTO dto = new EmployeeDTO();
 //        dto.setEmployeeId(entity.getEmployeeId());
 //        dto.setFirstName(entity.getFirstName());
 //        dto.setLastName(entity.getLastName());
@@ -72,7 +72,7 @@
 //    }
 //
 //    //Adds Employee table details to the employee details
-//    public EmployeeEntity toEntity(EmployeeFetchOrCreateDTO dto) {
+//    public EmployeeEntity toEntity(EmployeeDTO dto) {
 //        EmployeeEntity entity = new EmployeeEntity();
 //        entity.setEmployeeId(dto.getEmployeeId());
 //        entity.setFirstName(dto.getFirstName());

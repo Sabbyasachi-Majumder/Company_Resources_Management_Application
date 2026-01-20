@@ -21,10 +21,10 @@ import java.util.Date;
 @AllArgsConstructor
 @Component
 public class BulkUpdateRequest {
-    @NotEmpty(message = "Unique identifier of the employee cannot be empty")
-    @PositiveOrZero(message = "Employee ID must be positive or zero for new employees")
+    @NotNull(message = "Unique identifier of the employee cannot be empty")
+    @Positive(message = "Employee ID must be positive for new employees")
     @Schema(description = "Unique identifier of the employee", example = "1", requiredMode = Schema.RequiredMode.REQUIRED)
-    private Integer employeeId;
+    private Long employeeId;
 
     @Size(max = 50, message = "First name must be at most 50 characters")
     @Schema(description = "First name", example = "Sam", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
@@ -65,5 +65,5 @@ public class BulkUpdateRequest {
     @PositiveOrZero(message = "Manager Employee ID must be positive or zero (0 = no manager)")
     @Schema(description = "Manager's employee ID (0 = no manager)", example = "0", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     //temporarily kept not required . will be required before prod
-    private Integer managerEmployeeId = 0;  //default value is 0
+    private Long managerEmployeeId = 0L;  //default value is 0
 }
