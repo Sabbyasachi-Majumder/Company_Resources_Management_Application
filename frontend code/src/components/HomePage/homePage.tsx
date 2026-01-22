@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 
 import { useNavigate } from "react-router-dom";
 
-import { fetchEmployees } from "@/api/employeesApi";
+import { fetchResponse } from "@/api/employeesApi";
 
 export default function HomePage() {
   const navigate = useNavigate();
@@ -21,21 +21,13 @@ export default function HomePage() {
 
     const loadData = async () => {
       try {
-        const result = await fetchEmployees(1, 10);
+        const result = await fetchResponse(1, 100);
         console.log(result);
-
-        if (result.errorCode != null) {
-          throw new Error(
-            result.errorMessage || "API returned non-success status",
-          );
-        }
-
-        const data = result.data || [];
+        const data = result.data || null;
         setEmployeeCount(data.totalElements);
       } catch (err) {
-        const message = err instanceof Error ? err.message : "Unknown error";
         console.error("Fetch failed:", err);
-      } finally {
+        throw new Error("Unknown error");
       }
     };
 

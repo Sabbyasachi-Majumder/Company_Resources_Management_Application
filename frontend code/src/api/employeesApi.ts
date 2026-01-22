@@ -1,27 +1,59 @@
-// Manipulating the employee service
-
-//the structure of the api response from the backend
+// Fetch reponse structure for Operation Summary of Create, Update, Delete operations.
 interface OperationSummary {
-  totalRequested: Number;
-  successCount: Number;
-  errorCount: Number;
-  operationDetails: Record<number, string>;
+  totalRequested: number;
+  successCount: number;
+  errorCount: number;
+  operationDetails: Record<number, string>; //The summary of operation of each data entry if they failed.
 }
 
+// Fetch response structure for System errors like authentication error, Database errors, etc.
 interface ErrorDetails {
   errorCode: string;
   errorMessage: string;
 }
 
-interface ApiResponse {
-  data: JSON;
+// Generic paginated response for any table
+interface PaginatedTableData {
+  content: any[]; // array of data (Employee, Department, etc.)
+  pageable: {
+    pageNumber: number;
+    pageSize: number;
+    sort: {
+      empty: boolean;
+      unsorted: boolean;
+      sorted: boolean;
+    };
+    offset: number;
+    unpaged: boolean;
+    paged: boolean;
+  };
+  totalElements: number;
+  totalPages: number;
+  last: boolean;
+  first: boolean;
+  size: number;
+  number: number;
+  sort: {
+    empty: boolean;
+    unsorted: boolean;
+    sorted: boolean;
+  };
+  numberOfElements: number;
+  empty: boolean;
 }
 
-export async function fetchEmployees(
+interface ApiResponse {
+  data: OperationSummary | ErrorDetails | PaginatedTableData;
+}
+
+export async function fetchResponse(
   page: Number,
   size: Number,
 ): Promise<ApiResponse> {
   const token = localStorage.getItem("token");
+  if (!token)
+    throw new Error("Authentication token not found. Please log in again.");
+
   const response = await fetch(`/api/v1/employees?page=${page}&size=${size}`, {
     method: "GET",
     headers: {
@@ -30,19 +62,16 @@ export async function fetchEmployees(
       Authorization: `Bearer ${token}`,
     },
   });
-
-  let data;
-  try {
-    data = await response.json();
-  } catch {
-    data = null;
-  }
-
   if (!response.ok) {
-    // Throw raw message — let global handler smoothen it
-    const rawMessage = "Network error: Unable to reach server";
-    throw new Error(rawMessage);
+    throw new Error(`HTTP error ${response.status} — ${response.statusText}`);
   }
 
-  return data; // success
+  const json = await response.json();
+
+  // Very important safety check — helps during development
+  if (!json || typeof json !== "object" || !("data" in json)) {
+    throw new Error("Invalid response format — missing 'data' key");
+  }
+
+  return json as ApiResponse;
 }

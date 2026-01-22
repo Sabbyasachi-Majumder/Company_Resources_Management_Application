@@ -2,7 +2,7 @@
 // Currently hardcoded for employees, but headers are dynamic
 
 import { useEffect, useState } from "react";
-import { fetchEmployees } from "@/api/employeesApi";
+import { fetchResponse } from "@/api/employeesApi";
 import { extractHeadersData } from "../utility-functions/extractHeadersData";
 
 import type { ColumnDef } from "@tanstack/react-table";
@@ -106,14 +106,8 @@ export default function EmployeeTable() {
         setIsLoading(true);
         setError(null);
 
-        const result = await fetchEmployees(1, 10);
+        const result = await fetchResponse(1, 2);
         console.log(result);
-
-        if (result.errorCode != null) {
-          throw new Error(
-            result.errorMessage || "API returned non-success status",
-          );
-        }
 
         const data = result.data || [];
         setEmployees(data.content);
