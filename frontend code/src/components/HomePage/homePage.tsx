@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 
 import { useNavigate } from "react-router-dom";
 
-import { fetchResponse } from "@/api/employeesApi";
+import { fetchResponse } from "@/api/tableDataApi";
 
 export default function HomePage() {
   const navigate = useNavigate();

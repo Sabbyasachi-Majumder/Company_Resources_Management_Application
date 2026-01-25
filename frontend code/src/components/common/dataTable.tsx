@@ -2,7 +2,7 @@
 // Currently hardcoded for employees, but headers are dynamic
 
 import { useEffect, useState } from "react";
-import { fetchResponse } from "@/api/employeesApi";
+import { fetchResponse } from "@/api/tableDataApi";
 import { extractHeadersData } from "../utility-functions/extractHeadersData";
 
 import type { ColumnDef } from "@tanstack/react-table";
