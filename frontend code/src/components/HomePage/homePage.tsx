@@ -6,32 +6,29 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { useEffect, useState } from "react";
-
 import { useNavigate } from "react-router-dom";
-
-import { fetchResponse } from "@/api/tableDataApi";
+import { getDataCalls } from "@/api/getData";
 
 export default function HomePage() {
   const navigate = useNavigate();
 
-  const [employeeCount, setEmployeeCount] = useState(0);
+  const [employeeCount, setEmployeeCount] = useState<number>(0);
 
   useEffect(() => {
     console.log("Fetching Card Content Data...");
 
-    const loadData = async () => {
+    const loadCardData = async () => {
       try {
-        const result = await fetchResponse(1, 100);
+        const result = await getDataCalls("employees", "/countTotal");
         console.log(result);
-        const data = result.data || null;
-        setEmployeeCount(data.totalElements);
+        setEmployeeCount(result.data);
       } catch (err) {
         console.error("Fetch failed:", err);
         throw new Error("Unknown error");
       }
     };
 
-    loadData();
+    loadCardData();
   }, []);
 
   return (

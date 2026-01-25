@@ -1,8 +1,5 @@
-// dataTable.tsx
-// Currently hardcoded for employees, but headers are dynamic
-
 import { useEffect, useState } from "react";
-import { fetchResponse } from "@/api/tableDataApi";
+import { getDataCalls } from "@/api/getData";
 import { extractHeadersData } from "../utility-functions/extractHeadersData";
 
 import type { ColumnDef } from "@tanstack/react-table";
@@ -24,7 +21,7 @@ import {
 } from "@/components/ui/table";
 
 // ────────────────────────────────────────────────
-// Pure reusable table (only displays data + columns)
+// Pure reusable table (only displays data + columns name)
 // ────────────────────────────────────────────────
 
 interface PureTableProps<TData> {
@@ -33,7 +30,7 @@ interface PureTableProps<TData> {
 }
 
 function PureTable<TData>({ columns, data }: PureTableProps<TData>) {
-  const [sorting, setSorting] = useState<SortingState>([]);
+  const [sorting, setSorting] = useState<SortingState>([]); //not using right now properly
 
   const table = useReactTable({
     data,
@@ -106,7 +103,7 @@ export default function EmployeeTable() {
         setIsLoading(true);
         setError(null);
 
-        const result = await fetchResponse(1, 2);
+        const result = await getDataCalls("employees", "", 1, 15);
         console.log(result);
 
         const data = result.data || [];
