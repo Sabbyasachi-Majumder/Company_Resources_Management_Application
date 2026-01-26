@@ -20,6 +20,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
+import { PaginationComponent } from "./paginationComponent";
+
 // ────────────────────────────────────────────────
 // Pure reusable table (only displays data + columns name)
 // ────────────────────────────────────────────────
@@ -86,28 +88,33 @@ function PureTable<TData>({ columns, data }: PureTableProps<TData>) {
 }
 
 // ────────────────────────────────────────────────
-// Main component – fetches employees & uses dynamic headers
+// Main component – fetches entities & uses dynamic headers
 // ────────────────────────────────────────────────
 
-export default function EmployeeTable() {
-  const [employees, setEmployees] = useState<any[]>([]);
+interface DataTableProps {
+  serviceName: string;
+  // Add more props later, e.g. data?: YourDataType[], columns, etc.
+}
+
+export default function DataTable({ serviceName }: DataTableProps) {
+  const [entities, setEntities] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [headerMap, setHeaderMap] = useState<Record<string, string>>({});
 
   useEffect(() => {
-    console.log("Fetching Employees Data...");
+    console.log("Fetching Entities Data...");
 
     const loadData = async () => {
       try {
         setIsLoading(true);
         setError(null);
 
-        const result = await getDataCalls("employees", "", 1, 15);
+        const result = await getDataCalls(serviceName, "", 1, 15);
         console.log(result);
 
         const data = result.data || [];
-        setEmployees(data.content);
+        setEntities(data.content);
 
         if (data.content.length > 0) {
           const headers = extractHeadersData(data.content[0]);
@@ -136,7 +143,7 @@ export default function EmployeeTable() {
 
   if (isLoading) {
     return (
-      <div className="p-8 text-center text-gray-600">Loading employees...</div>
+      <div className="p-8 text-center text-gray-600">Loading entities...</div>
     );
   }
 
@@ -157,14 +164,16 @@ export default function EmployeeTable() {
 
   return (
     <div className="p-6 max-w-7xl mx-auto">
-      <h2 className="text-2xl font-bold mb-6">Employee List</h2>
-
-      {employees.length === 0 ? (
+      <h2 className="text-2xl font-bold mb-6">{serviceName} List</h2>
+      <div className="pagination-component">
+        <PaginationComponent />
+      </div>
+      {entities.length === 0 ? (
         <p className="text-gray-500 text-center py-12">
-          No employees found in the database.
+          No entities found in the database.
         </p>
       ) : (
-        <PureTable columns={columns} data={employees} />
+        <PureTable columns={columns} data={entities} />
       )}
     </div>
   );

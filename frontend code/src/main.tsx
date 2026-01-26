@@ -22,7 +22,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/employees",
-    element: <DataTable />,
+    element: <DataTable serviceName="employees" />,
   },
   {
     path: "/departments",
@@ -38,5 +38,5 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <RouterProvider router={router} />
-  </StrictMode>
+  </StrictMode>,
 );
