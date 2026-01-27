@@ -103,11 +103,11 @@ export default function DataTable({ serviceName }: DataTableProps) {
   const [headerMap, setHeaderMap] = useState<Record<string, string>>({});
 
   //pagination related state management
+  const [totalEntities, setTotalEntities] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
-  const [firstPageFlag, setFirstPageFlag] = useState(true);
-  const [lastPageFlag, setLastPageFlag] = useState(false);
+  const [offset, setOffset] = useState(1);
 
   // These are the callback functions
   const handlePageChange = (newPage: number) => {
@@ -138,8 +138,10 @@ export default function DataTable({ serviceName }: DataTableProps) {
         const data = result.data || [];
         setEntities(data.content);
         setHeaderMap(headerData({ serviceName }));
+        setTotalEntities(data.totalElements);
         setCurrentPage(data.pageable.pageNumber + 1);
         setTotalPages(data.totalPages);
+        setOffset(data.pageable.offset);
         console.log("Generated headers:", headerMap);
       } catch (err) {
         const message = err instanceof Error ? err.message : "Unknown error";
@@ -179,8 +181,8 @@ export default function DataTable({ serviceName }: DataTableProps) {
           currentPage={currentPage}
           totalPages={totalPages}
           pageSize={pageSize}
-          isFirstPage={firstPageFlag}
-          isLastPage={lastPageFlag}
+          totalEntities={totalEntities}
+          offset={offset}
           onPageChange={handlePageChange}
           onPageSizeChange={handlePageSizeChange}
         />{" "}

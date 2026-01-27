@@ -20,8 +20,8 @@ interface PaginationProps {
   currentPage: number;
   totalPages: number;
   pageSize: number;
-  isFirstPage: Boolean;
-  isLastPage: Boolean;
+  totalEntities: number;
+  offset: number;
   onPageChange: (page: number) => void; //callback functions from parent class
   onPageSizeChange: (size: number) => void;
 }
@@ -30,8 +30,8 @@ export function PaginationComponent({
   currentPage,
   totalPages,
   pageSize,
-  isFirstPage,
-  isLastPage,
+  totalEntities,
+  offset,
   onPageChange,
   onPageSizeChange,
 }: PaginationProps) {
@@ -43,7 +43,9 @@ export function PaginationComponent({
           <PaginationItem>
             <div className="flex items-center gap-2 pr-4">
               <span className="text-sm text-muted-foreground whitespace-nowrap">
-                Showing {1} to {50} out of {totalPages}
+                Showing {offset + 1} to{" "}
+                {offset + 10 < totalEntities ? offset + 10 : totalEntities} out
+                of {totalEntities}
               </span>
             </div>
           </PaginationItem>
