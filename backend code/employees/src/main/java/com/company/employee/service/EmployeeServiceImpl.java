@@ -1,11 +1,11 @@
 package com.company.employee.service;
 
-import com.company.employee.dto.ApiResponseDTO;
-import com.company.employee.dto.EmployeeDTO;
-import com.company.employee.dto.EmployeeResponseDTO;
+import com.company.employee.dto.*;
 import com.company.employee.entity.EmployeeEntity;
+import com.company.employee.mapper.EmployeeMapper;
 import com.company.employee.repository.EmployeeRepository;
 
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -14,10 +14,9 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.Map;
 
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
@@ -29,160 +28,105 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     private final EmployeeRepository employeeRepository;
     private final DataSource dataSource;
+    private final EmployeeMapper employeeMapper;
 
     // For detailed logging in the application
     private static final Logger logger = LoggerFactory.getLogger(EmployeeServiceImpl.class);
 
-    public EmployeeServiceImpl(EmployeeRepository employeeRepository, DataSource dataSource) {
+    public EmployeeServiceImpl(EmployeeRepository employeeRepository, DataSource dataSource, EmployeeMapper employeeMapper) {
         this.employeeRepository = employeeRepository;
         this.dataSource = dataSource;
+        this.employeeMapper = employeeMapper;
     }
 
     //Test Database Connection business logic
-    public ApiResponseDTO<String> testDatabaseConnection() {
+    public String testDatabaseConnection() {
         Connection connection = DataSourceUtils.getConnection(dataSource);
         try {
             if (connection.isValid(1)) {
                 logger.debug("Testing successful . Database connection is present.");
-                return new ApiResponseDTO<>("success", "Connection from Employee Application to Employee Database successfully established.", null);
+                return "Connection from Employee Application to Employee Database successfully established.";
             } else {
                 logger.error("Testing failed . Database connection is not present.");
-                return new ApiResponseDTO<>("error", "Connection to Employee Database failed to be established.", null);
+                return "Connection to Employee Database failed to be established.";
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
-    //Adds Employee details to the employee table
-    public EmployeeDTO toDTO(EmployeeEntity entity) {
-        EmployeeDTO dto = new EmployeeDTO();
-        dto.setEmployeeId(entity.getEmployeeId());
-        dto.setFirstName(entity.getFirstName());
-        dto.setLastName(entity.getLastName());
-        dto.setDateOfBirth(entity.getDateOfBirth());
-        dto.setGender(entity.getGender());
-        dto.setSalary(entity.getSalary());
-        dto.setHireDate(entity.getHireDate());
-        dto.setJobStage(entity.getJobStage());
-        dto.setDesignation(entity.getDesignation());
-        dto.setManagerEmployeeId(entity.getManagerEmployeeId());
-        logger.debug("Mapped entity to DTO");
-        return dto;
+    // Get Total amount of Employee Data Table entries
+    public Long countEntities() {
+        try {
+            return employeeRepository.count();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    //Adds Employee table details to the employee details
-    public EmployeeEntity toEntity(EmployeeDTO dto) {
-        EmployeeEntity entity = new EmployeeEntity();
-        entity.setEmployeeId(dto.getEmployeeId());
-        entity.setFirstName(dto.getFirstName());
-        entity.setLastName(dto.getLastName());
-        entity.setDateOfBirth(dto.getDateOfBirth());
-        entity.setGender(dto.getGender());
-        entity.setSalary(dto.getSalary());
-        entity.setHireDate(dto.getHireDate());
-        entity.setJobStage(dto.getJobStage());
-        entity.setDesignation(dto.getDesignation());
-        entity.setManagerEmployeeId(dto.getManagerEmployeeId());
-        logger.debug("Mapped DTO to entity");
-        return entity;
-    }
-
-    public ApiResponseDTO<List<EmployeeDTO>> fetchPagedDataList(int page, int size) {
+    // Get Employee Data Table with Pageable specifications
+    public Page<EmployeeDTO> fetchPagedDataList(int page, int size) {
         Pageable pageable = PageRequest.of(page - 1, size);  //internally the page index starts from 0 instead of 1
-        Page<EmployeeDTO> pagedData = fetchPageData(pageable);
-        List<EmployeeDTO> currentData = pagedData.getContent();
+        Page<EmployeeDTO> pagedData = employeeRepository.findAll(pageable)
+                .map(employeeMapper::toFetchORCreateDto);
         if (pageable.getPageNumber() < 0 || pageable.getPageNumber() > Math.ceil((float) pagedData.getTotalElements() / pageable.getPageSize()))
             throw new IllegalArgumentException();
-        return new ApiResponseDTO<>("success", "Fetching page " + (pageable.getPageNumber() + 1) + " with " + currentData.size() + " Employee data records", currentData);
-    }
-
-    // Fetches all data with pagination
-    @Override
-    public Page<EmployeeDTO> fetchPageData(Pageable pageable) {
-        return employeeRepository.findAll(pageable)
-                .map(this::toDTO);
-    }
-
-    // Business logic to add employee data records one by one .
-    public ApiResponseDTO<EmployeeResponseDTO> addDataToDataBase(ArrayList<EmployeeDTO> empList) {
-        ArrayList<ApiResponseDTO<EmployeeResponseDTO>> responses = new ArrayList<>();
-        int addCounter = 0;
-        for (EmployeeDTO e : empList) {
-            if (!employeeRepository.existsById(e.getEmployeeId())) {
-                logger.debug("Adding employeeId {} ", e.getEmployeeId());
-                addData(toEntity(e));
-                addCounter++;
-                responses.add(new ApiResponseDTO<>("success", "Successfully added Employee Id " + e.getEmployeeId() + " data records", null));
-            } else {
-                logger.error("employeeId {} is already present thus not added again.", e.getEmployeeId());
-                responses.add(new ApiResponseDTO<>("error", "Employee Id " + e.getEmployeeId() + " already exists ", null));
-            }
-        }
-        return new ApiResponseDTO<>("success", "Successfully added " + addCounter + " . Add failed : " + (empList.size() - addCounter), new EmployeeResponseDTO(null, responses));
-    }
-
-    //Adds Employee details to the employee table
-    @Override
-    public void addData(EmployeeEntity entity) {
-        logger.debug("Attempting to add employeeId {}", entity.getEmployeeId());
-        assert employeeRepository != null;
-        employeeRepository.save(entity);
-        logger.debug("Added employeeId {} successfully", entity.getEmployeeId());
+        return pagedData;
     }
 
     // Business logic to search database for an employee based on its employeeId
-    public ApiResponseDTO<EmployeeResponseDTO> searchDataBase(int employeeId) {
-        ArrayList<EmployeeDTO> entityArrayList = new ArrayList<>();
-        entityArrayList.add(toDTO(searchData(employeeId)));
-        return new ApiResponseDTO<>("success", "Successfully found Employee Id " + employeeId + " data records", new EmployeeResponseDTO(entityArrayList, null));
+    public EmployeeDTO searchDataBase(Long employeeId) {
+        return employeeMapper.toFetchORCreateDto(employeeRepository.findById(employeeId)
+                .orElseThrow(() -> new EntityNotFoundException("employeeId " + employeeId + " not found")));
     }
 
-    // Calling findById to search the table for a employee based on employeeId
-    @Override
-    public EmployeeEntity searchData(int employeeId) {
-        return employeeRepository.findById(employeeId)
-                .orElseThrow(() -> new NoSuchElementException("employeeId " + employeeId + " not found"));
-    }
 
-    public ApiResponseDTO<EmployeeResponseDTO> updateDataToDataBase(ArrayList<EmployeeDTO> empList) {
-        ArrayList<ApiResponseDTO<EmployeeResponseDTO>> responses = new ArrayList<>();
-        int updateCounter = 0;
-        for (EmployeeDTO e : empList) {
-            if (employeeRepository.existsById(e.getEmployeeId())) {
-                logger.debug("Updated employeeId {} successfully", e.getEmployeeId());
-                employeeRepository.save(toEntity(e));
-                updateCounter++;
-                responses.add(new ApiResponseDTO<>("success", "Successfully updated Employee Id " + e.getEmployeeId() + " data records", null));
-            } else {
-                logger.error("Updating employeeId {} failed since employeeId doesn't exist", e.getEmployeeId());
-                responses.add(new ApiResponseDTO<>("error", "Employee Id " + e.getEmployeeId() + " doesn't exist", null));
+    // Business logic to add employee data records one by one .
+    public OperationSummaryDTO addDataToDataBase(List<EmployeeDTO> employeeFetchOrCreateRequestList) {
+        Map<Long, String> operationDetails = new HashMap<>();
+        for (EmployeeDTO e : employeeFetchOrCreateRequestList) {
+            logger.debug("Creating employee with employeeID: {}", e.getEmployeeId());
+            try {
+                if (e.getEmployeeId() != null && employeeRepository.existsById(e.getEmployeeId()))
+                    throw new IllegalArgumentException("The employeeId is either empty or present in the database.");
+                employeeRepository.save(employeeMapper.toEmployeeEntity(e));
+                logger.debug("Successfully created employee with employeeId {} ", e.getEmployeeId());
+            } catch (Exception ex) {
+                logger.error("Error while creating EmployeeId {} -> {}", e.getEmployeeId(), ex.getMessage());
+                operationDetails.put(e.getEmployeeId(), ex.getMessage());
             }
         }
-        return new ApiResponseDTO<>("success", "Update Success : " + updateCounter + " . Update Failed : " + (empList.size() - updateCounter), new EmployeeResponseDTO(null, responses));
+        return new OperationSummaryDTO((long) employeeFetchOrCreateRequestList.size(), (long) employeeFetchOrCreateRequestList.size() - operationDetails.size(), (long) operationDetails.size(), operationDetails);
     }
 
-    public ApiResponseDTO<EmployeeResponseDTO> deleteDataFromDataBase(ArrayList<EmployeeDTO> empList) {
-        ArrayList<ApiResponseDTO<EmployeeResponseDTO>> responses = new ArrayList<>();
-        int deleteCounter = 0;
-        for (EmployeeDTO e : empList) {
-            ApiResponseDTO<EmployeeResponseDTO> apiResponse;
-            if (employeeRepository.existsById(e.getEmployeeId())) {
-                logger.debug("Deleted employeeId {} successfully", e.getEmployeeId());
-                employeeRepository.deleteById(e.getEmployeeId());
-                deleteCounter++;
-                apiResponse = new ApiResponseDTO<>("success", "Successfully deleted Employee Id " + e.getEmployeeId() + " data records", null);
-            } else {
-                logger.error("Deleting employeeId {} failed since employeeId doesn't exist", e.getEmployeeId());
-                apiResponse = new ApiResponseDTO<>("error", "Employee Id " + e.getEmployeeId() + " doesn't exist", null);
+    public OperationSummaryDTO bulkUpdateDataToDataBase(List<BulkUpdateRequest> bulkUpdateRequestArrayList) {
+        Map<Long, String> operationDetails = new HashMap<>();
+        for (BulkUpdateRequest dto : bulkUpdateRequestArrayList) {
+            try {
+                logger.debug("Updating employeeId {} successfully", dto.getEmployeeId());
+                EmployeeEntity entity = employeeRepository.findById(dto.getEmployeeId()).orElseThrow(EntityNotFoundException::new);
+                employeeMapper.fromUpdateDtoToEntity(dto, entity);
+                employeeRepository.save(entity);
+            } catch (Exception ex) {
+                logger.error("Error while updating EmployeeId {} -> {}", dto.getEmployeeId(), ex.getLocalizedMessage());
+                operationDetails.put(dto.getEmployeeId(), "doesn't exist");
             }
-            responses.add(apiResponse);
         }
-        return new ApiResponseDTO<>("success", "Delete Success : " + deleteCounter + ". Delete Failed : " + (empList.size() - deleteCounter), new EmployeeResponseDTO(null, responses));
+        return new OperationSummaryDTO((long) bulkUpdateRequestArrayList.size(), (long) bulkUpdateRequestArrayList.size() - operationDetails.size(), (long) operationDetails.size(), operationDetails);
     }
 
-    public ApiResponseDTO<List<EmployeeResponseDTO>> findByFirstName(String FirstName){
-        List<EmployeeResponseDTO> emp = employeeRepository.findByFirstName(FirstName);
-        return new ApiResponseDTO<>();
+    public OperationSummaryDTO bulkDeleteDataFromDataBase(List<Long> employeeIds) {
+        Map<Long, String> operationDetails = new HashMap<>();
+        for (Long employeeId : employeeIds) {
+            try {
+                logger.debug("Deleted employeeId {} successfully", employeeId);
+                EmployeeEntity e = employeeRepository.findById(employeeId).orElseThrow(EntityNotFoundException::new);
+                employeeRepository.delete(e);
+            } catch (EntityNotFoundException ex) {
+                logger.error("Deleting employeeId {} failed since employeeId doesn't exist", employeeId);
+                operationDetails.put(employeeId, "doesn't exist");
+            }
+        }
+        return new OperationSummaryDTO((long) employeeIds.size(), (long) employeeIds.size() - operationDetails.size(), (long) operationDetails.size(), operationDetails);
     }
 }

@@ -1,39 +1,34 @@
 package com.company.employee.service;
 
-import com.company.employee.dto.ApiResponseDTO;
+import com.company.employee.dto.BulkDeleteRequest;
+import com.company.employee.dto.BulkUpdateRequest;
 import com.company.employee.dto.EmployeeDTO;
-import com.company.employee.dto.EmployeeResponseDTO;
+import com.company.employee.dto.OperationSummaryDTO;
 import com.company.employee.entity.EmployeeEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public interface EmployeeService {
 
-    ApiResponseDTO<String> testDatabaseConnection();
+    // Health check for code and database connection
+    String testDatabaseConnection();
 
-    EmployeeDTO toDTO(EmployeeEntity entity);
+    // Fetching the whole page of employee data based on page and size
+    Page<EmployeeDTO> fetchPagedDataList(int page, int size);
 
-    EmployeeEntity toEntity(EmployeeDTO dto);
+    Long countEntities();
 
-    ApiResponseDTO<List<EmployeeDTO>> fetchPagedDataList(int page, int size);
+    // searching the employee data based on its employeeID
+    EmployeeDTO searchDataBase(Long employeeId);
 
-    Page<EmployeeDTO> fetchPageData(Pageable pageable);
+    // adding the employee data to database
+    OperationSummaryDTO addDataToDataBase(List<EmployeeDTO> employeeDTOList);
 
-    ApiResponseDTO<EmployeeResponseDTO> addDataToDataBase(ArrayList<EmployeeDTO> empList);
+    // updating the employee data based on its employeeID
+    OperationSummaryDTO bulkUpdateDataToDataBase(List<BulkUpdateRequest> bulkUpdateRequestList);
 
-    void addData(EmployeeEntity employee);
-
-    ApiResponseDTO<EmployeeResponseDTO> searchDataBase(int employeeId);
-
-    EmployeeEntity searchData(int employeeId);
-
-    ApiResponseDTO<EmployeeResponseDTO> updateDataToDataBase(ArrayList<EmployeeDTO> empList);
-
-    ApiResponseDTO<EmployeeResponseDTO> deleteDataFromDataBase(ArrayList<EmployeeDTO> empList);
-
-    ApiResponseDTO<List<EmployeeResponseDTO>> findByFirstName(String FirstName);
-
+    // deleting the employee data based on its employeeID/s
+    OperationSummaryDTO bulkDeleteDataFromDataBase(List<Long> employeeIds);
 }

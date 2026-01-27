@@ -12,15 +12,10 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Schema(description = "Generic API response DTO containing status, message, and data")
+@Schema(description = "Unified API response wrapper used across all microservices")
 public class ApiResponseDTO<T> {
-
-    @Schema(description = "Status of the response", example = "success", requiredMode = Schema.RequiredMode.REQUIRED, allowableValues = {"success", "error"})
-    private String status; // "success" or "error"
-
-    @Schema(description = "Message describing the result", example = "Operation successful", requiredMode = Schema.RequiredMode.REQUIRED)
-    private String message;
-
-    @Schema(description = "Data payload of the response", example = "null", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    @Schema(
+            description = "The actual payload — type depends on endpoint: Page<EmployeeDTO> on success, OperationSummaryDTO on mutation feedback, ErrorDetailsDto on failure",
+            requiredMode = Schema.RequiredMode.REQUIRED)
     private T data;
 }

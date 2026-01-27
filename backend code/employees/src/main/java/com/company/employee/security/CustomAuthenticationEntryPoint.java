@@ -1,6 +1,7 @@
 package com.company.employee.security;
 
 import com.company.employee.dto.ApiResponseDTO;
+import com.company.employee.dto.ErrorDetailsDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +22,7 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException {
         String path = request.getRequestURI();
-        if (path.startsWith("/swagger-ui/") || path.equals("/swagger-ui.html") || path.startsWith("/v3/api-docs/")  || path.equals("/api/v1/employees/testConnection") || path.equals("/api/v1/employees/testDataBaseConnection")) {
+        if (path.startsWith("/swagger-ui/") || path.equals("/swagger-ui.html") || path.startsWith("/v3/api-docs/") || path.equals("/api/v1/employees/testConnection") || path.equals("/api/v1/employees/testDataBaseConnection")) {
             logger.debug("Skipping authentication entry point for public path: {}", path);
             return;
         }
@@ -31,7 +32,7 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
 
         ObjectMapper mapper = new ObjectMapper();
         try {
-            String responseBody = mapper.writeValueAsString(new ApiResponseDTO<>("error", "Unauthorized: Authentication required [AUTH_401_NO_TOKEN]", null));
+            String responseBody = mapper.writeValueAsString(new ApiResponseDTO<>(new ErrorDetailsDto("AUTH_401_NO_TOKEN", "Unauthorized: Authentication required")));
             response.getWriter().write(responseBody);
         } catch (IOException e) {
             logger.error("Error writing response: {}", e.getMessage());

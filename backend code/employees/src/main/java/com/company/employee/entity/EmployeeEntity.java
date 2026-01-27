@@ -17,9 +17,10 @@ import java.util.Date;
 @Table(name = "employees")
 public class EmployeeEntity {
     @Id
+    @Positive(message = "EmployeeId must be Positive.")
 // @GeneratedValue(strategy = GenerationType.IDENTITY) Commenting out now to manually create employeeId . will later use this to generate employeeId automatically .
     @Column(name = "EmployeeID", nullable = false)
-    private int employeeId;
+    private Long employeeId;
 
     @Column(name = "FirstName", nullable = false, length = 50)
     @NotBlank(message = "First name cannot be empty")
@@ -64,6 +65,6 @@ public class EmployeeEntity {
     private String designation;
 
     @Column(name = "ManagerEmployeeID")
-    @Positive(message = "Manager Employee ID must be positive")
-    private int managerEmployeeId;
+    @PositiveOrZero(message = "Manager Employee ID must be positive or zero(zero for employees with not manager for now")
+    private Long managerEmployeeId;
 }

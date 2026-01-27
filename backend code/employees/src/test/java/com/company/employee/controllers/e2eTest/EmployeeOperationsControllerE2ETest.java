@@ -1,7 +1,7 @@
 //package com.company.employee.controllers.e2eTest;
 //
 //import com.company.employee.testUtils.TestUtils;
-//import com.company.employee.dto.EmployeeRequestDTO;
+//import com.company.employee.dto.CreateEmployeesDTO;
 //import com.company.employee.EmployeeApplication;
 //import io.restassured.RestAssured;
 //import io.restassured.http.ContentType;
@@ -178,7 +178,7 @@
 //     */
 //    @Test
 //    void addEmployees_Success_WithValidTokenAndAdminDateOfBirth() {
-//        EmployeeRequestDTO sampleEmployeeRequest = testUtils.getSampleEmployeeRequest(1, "John", "Doe", new Date(631152000000L), "Male", 50000.0, new Date(1672531200000L), "L1", "Software Engineer", 2);
+//        CreateEmployeesDTO sampleEmployeeRequest = testUtils.getSampleEmployeeRequest(1, "John", "Doe", new Date(631152000000L), "Male", 50000.0, new Date(1672531200000L), "L1", "Software Engineer", 2);
 //
 //        given()
 //                .contentType(ContentType.JSON)
@@ -202,7 +202,7 @@
 //     */
 //    @Test
 //    void addEmployees_Unauthorized_WithoutToken() {
-//        EmployeeRequestDTO sampleEmployeeRequest = testUtils.getSampleEmployeeRequest(1, "John", "Doe", new Date(631152000000L), "Male", 50000.0, new Date(1672531200000L), "L1", "Software Engineer", 2);
+//        CreateEmployeesDTO sampleEmployeeRequest = testUtils.getSampleEmployeeRequest(1, "John", "Doe", new Date(631152000000L), "Male", 50000.0, new Date(1672531200000L), "L1", "Software Engineer", 2);
 //
 //        given()
 //                .contentType(ContentType.JSON)
@@ -223,7 +223,7 @@
 //     */
 //    @Test
 //    void addEmployees_Forbidden_InsufficientPermissions() {
-//        EmployeeRequestDTO sampleEmployeeRequest = testUtils.getSampleEmployeeRequest(1, "John", "Doe", new Date(631152000000L), "Male", 50000.0, new Date(1672531200000L), "L1", "Software Engineer", 2);
+//        CreateEmployeesDTO sampleEmployeeRequest = testUtils.getSampleEmployeeRequest(1, "John", "Doe", new Date(631152000000L), "Male", 50000.0, new Date(1672531200000L), "L1", "Software Engineer", 2);
 //
 //        given()
 //                .contentType(ContentType.JSON)
@@ -245,7 +245,7 @@
 //     */
 //    @Test
 //    void addEmployees_ValidationFailure() {
-//        EmployeeRequestDTO sampleEmployeeRequest = testUtils.getSampleEmployeeRequest(1, "John", "Doe", new Date(631152000000L), "Male", 50000.0, new Date(1672531200000L), "L1", "Software Engineer", 2);
+//        CreateEmployeesDTO sampleEmployeeRequest = testUtils.getSampleEmployeeRequest(1, "John", "Doe", new Date(631152000000L), "Male", 50000.0, new Date(1672531200000L), "L1", "Software Engineer", 2);
 //
 //        given()
 //                .contentType(ContentType.JSON)
@@ -349,7 +349,7 @@
 //     */
 //    @Test
 //    void updateEmployees_Success_WithValidTokenAndAdminDateOfBirth() {
-//        EmployeeRequestDTO sampleEmployeeRequest = testUtils.getSampleEmployeeRequest(1, "John", "Doe", new Date(631152000000L), "Male", 50000.0, new Date(1672531200000L), "L1", "Software Engineer", 2);
+//        CreateEmployeesDTO sampleEmployeeRequest = testUtils.getSampleEmployeeRequest(1, "John", "Doe", new Date(631152000000L), "Male", 50000.0, new Date(1672531200000L), "L1", "Software Engineer", 2);
 //
 //        given()
 //                .contentType(ContentType.JSON)
@@ -374,7 +374,7 @@
 //     */
 //    @Test
 //    void updateEmployees_NotFound() {
-//        EmployeeRequestDTO sampleEmployeeRequest = testUtils.getSampleEmployeeRequest(1, "John", "Doe", new Date(631152000000L), "Male", 50000.0, new Date(1672531200000L), "L1", "Software Engineer", 2);
+//        CreateEmployeesDTO sampleEmployeeRequest = testUtils.getSampleEmployeeRequest(1, "John", "Doe", new Date(631152000000L), "Male", 50000.0, new Date(1672531200000L), "L1", "Software Engineer", 2);
 //
 //        given()
 //                .contentType(ContentType.JSON)
@@ -399,7 +399,7 @@
 //     */
 //    @Test
 //    void updateEmployees_Unauthorized_WithoutToken() {
-//        EmployeeRequestDTO sampleEmployeeRequest = testUtils.getSampleEmployeeRequest(1, "John", "Doe", new Date(631152000000L), "Male", 50000.0, new Date(1672531200000L), "L1", "Software Engineer", 2);
+//        CreateEmployeesDTO sampleEmployeeRequest = testUtils.getSampleEmployeeRequest(1, "John", "Doe", new Date(631152000000L), "Male", 50000.0, new Date(1672531200000L), "L1", "Software Engineer", 2);
 //
 //        given()
 //                .contentType(ContentType.JSON)
@@ -422,7 +422,7 @@
 //     */
 //    @Test
 //    void updateEmployees_Forbidden_InsufficientPermissions() {
-//        EmployeeRequestDTO sampleEmployeeRequest = testUtils.getSampleEmployeeRequest(1, "John", "Doe", new Date(631152000000L), "Male", 50000.0, new Date(1672531200000L), "L1", "Software Engineer", 2);
+//        CreateEmployeesDTO sampleEmployeeRequest = testUtils.getSampleEmployeeRequest(1, "John", "Doe", new Date(631152000000L), "Male", 50000.0, new Date(1672531200000L), "L1", "Software Engineer", 2);
 //
 //        given()
 //                .contentType(ContentType.JSON)
@@ -446,7 +446,7 @@
 //     */
 //    @Test
 //    void updateEmployees_ValidationFailure() {
-//        EmployeeRequestDTO sampleEmployeeRequest = testUtils.getSampleEmployeeRequest(1, "John", "Doe", new Date(631152000000L), "Male", 50000.0, new Date(1672531200000L), "L1", "Software Engineer", 2);
+//        CreateEmployeesDTO sampleEmployeeRequest = testUtils.getSampleEmployeeRequest(1, "John", "Doe", new Date(631152000000L), "Male", 50000.0, new Date(1672531200000L), "L1", "Software Engineer", 2);
 //
 //        given()
 //                .contentType(ContentType.JSON)
@@ -473,7 +473,7 @@
 //     */
 //    @Test
 //    void deleteEmployees_Success_WithValidTokenAndAdminDateOfBirth() {
-//        EmployeeRequestDTO sampleEmployeeRequest = testUtils.getSampleEmployeeRequest(1, "John", "Doe", new Date(631152000000L), "Male", 50000.0, new Date(1672531200000L), "L1", "Software Engineer", 2);
+//        CreateEmployeesDTO sampleEmployeeRequest = testUtils.getSampleEmployeeRequest(1, "John", "Doe", new Date(631152000000L), "Male", 50000.0, new Date(1672531200000L), "L1", "Software Engineer", 2);
 //
 //        given()
 //                .contentType(ContentType.JSON)
@@ -498,7 +498,7 @@
 //     */
 //    @Test
 //    void deleteEmployees_NotFound() {
-//        EmployeeRequestDTO sampleEmployeeRequest = testUtils.getSampleEmployeeRequest(1, "John", "Doe", new Date(631152000000L), "Male", 50000.0, new Date(1672531200000L), "L1", "Software Engineer", 2);
+//        CreateEmployeesDTO sampleEmployeeRequest = testUtils.getSampleEmployeeRequest(1, "John", "Doe", new Date(631152000000L), "Male", 50000.0, new Date(1672531200000L), "L1", "Software Engineer", 2);
 //
 //        int deleteCounter = 0;
 //
@@ -524,7 +524,7 @@
 //     */
 //    @Test
 //    void deleteEmployees_Unauthorized_WithoutToken() {
-//        EmployeeRequestDTO sampleEmployeeRequest = testUtils.getSampleEmployeeRequest(1, "John", "Doe", new Date(631152000000L), "Male", 50000.0, new Date(1672531200000L), "L1", "Software Engineer", 2);
+//        CreateEmployeesDTO sampleEmployeeRequest = testUtils.getSampleEmployeeRequest(1, "John", "Doe", new Date(631152000000L), "Male", 50000.0, new Date(1672531200000L), "L1", "Software Engineer", 2);
 //
 //        given()
 //                .contentType(ContentType.JSON)
@@ -547,7 +547,7 @@
 //     */
 //    @Test
 //    void deleteEmployees_Forbidden_InsufficientPermissions() {
-//        EmployeeRequestDTO sampleEmployeeRequest = testUtils.getSampleEmployeeRequest(1, "John", "Doe", new Date(631152000000L), "Male", 50000.0, new Date(1672531200000L), "L1", "Software Engineer", 2);
+//        CreateEmployeesDTO sampleEmployeeRequest = testUtils.getSampleEmployeeRequest(1, "John", "Doe", new Date(631152000000L), "Male", 50000.0, new Date(1672531200000L), "L1", "Software Engineer", 2);
 //
 //        given()
 //                .contentType(ContentType.JSON)
