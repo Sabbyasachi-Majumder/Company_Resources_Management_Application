@@ -44,8 +44,10 @@ export function PaginationComponent({
             <div className="flex items-center gap-2 pr-4">
               <span className="text-sm text-muted-foreground whitespace-nowrap">
                 Showing {offset + 1} to{" "}
-                {offset + 10 < totalEntities ? offset + 10 : totalEntities} out
-                of {totalEntities}
+                {offset + pageSize < totalEntities
+                  ? offset + pageSize
+                  : totalEntities}{" "}
+                out of {totalEntities}
               </span>
             </div>
           </PaginationItem>
