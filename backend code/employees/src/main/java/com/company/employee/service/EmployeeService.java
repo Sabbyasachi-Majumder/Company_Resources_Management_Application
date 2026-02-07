@@ -16,7 +16,7 @@ public interface EmployeeService {
     String testDatabaseConnection();
 
     // Fetching the whole page of employee data based on page and size
-    Page<EmployeeDTO> fetchPagedDataList(int page, int size);
+    Page<EmployeeDTO> fetchPagedDataList(int page, int size, String sortByColumnName, String sortOrder);
 
     Long countEntities();
 

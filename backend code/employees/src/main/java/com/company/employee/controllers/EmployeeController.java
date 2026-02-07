@@ -61,7 +61,7 @@ public class EmployeeController {
         }
     }
 
-    // testing Database connection
+    // Counting the total no of employee records
     @GetMapping(value = "/countTotal")
     @Tag(name = "Employee management")
     @Operation(summary = "Test database connection", description = "Tests if the connection to the employee database is established.")
@@ -90,11 +90,11 @@ public class EmployeeController {
 
     @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
     @Tag(name = "Employee Management")
-    @Operation(summary = "Fetch all employees (paginated)", description = "Retrieves paginated list of employees. Requires USER or ADMIN role.")
-    public ResponseEntity<ApiResponseDTO<Page<EmployeeDTO>>> fetchEmployees(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int size) {
+    @Operation(summary = "Fetch all employees (paginated and sorted)", description = "Retrieves paginated and sorted list of employees, according to the criteria user provides. Requires USER or ADMIN role.")
+    public ResponseEntity<ApiResponseDTO<Page<EmployeeDTO>>> fetchEmployees(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "employeeId") String sortByColumnName, @RequestParam(defaultValue = "ASC") String sortOrder) {
         loggingStart();
-        logger.debug("Displaying all employees with page: {}, size: {}", page, size);
-        return ResponseEntity.ok(new ApiResponseDTO<>(employeeService.fetchPagedDataList(page, size)));
+        logger.debug("Displaying all employees with page: {}, size: {}, column to sort: {}, sorting order:{}", page, size, sortByColumnName, sortOrder);
+        return ResponseEntity.ok(new ApiResponseDTO<>(employeeService.fetchPagedDataList(page, size, sortByColumnName, sortOrder)));
     }
 
     //Batch Adding Employees Data
@@ -112,7 +112,6 @@ public class EmployeeController {
             throw e;
         }
     }
-
 
     // Batch Updating Employees Data
     @PatchMapping(consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
