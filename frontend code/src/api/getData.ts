@@ -5,6 +5,8 @@ export async function getDataCalls(
   extraPath: string = "",
   pageNo: number = 1,
   size: number = 10,
+  sortedByColumnName = "",
+  sortOrder = "asc",
 ): Promise<ApiResponse> {
   const token = localStorage.getItem("token");
   if (!token) throw new Error("Authentication token not found");
@@ -12,7 +14,7 @@ export async function getDataCalls(
   //building the proper path
   let finalPath = `/api/v1/${serviceName}`;
   if (extraPath === "")
-    finalPath += `?page=${pageNo}&size=${size}`; //paginated page fetch
+    finalPath += `?page=${pageNo}&size=${size}&sortedByColumnName=${sortedByColumnName}&sortOrder=${sortOrder}`; //paginated and sorted page fetch
   else finalPath += extraPath; //else its fetching specific data
 
   const response = await fetch(finalPath, {

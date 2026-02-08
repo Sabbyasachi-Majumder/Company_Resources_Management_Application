@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
 import { getDataCalls } from "@/api/getData";
+import { cn } from "@/lib/utils";
 import headerData from "../utility-functions/dataHeadersLists";
 
 import type { ColumnDef } from "@tanstack/react-table";
 import {
   flexRender,
   getCoreRowModel,
-  getSortedRowModel,
-  type SortingState,
   useReactTable,
 } from "@tanstack/react-table";
+import { Triangle } from "lucide-react"; //for sorting icons
 
 import {
   Table,
@@ -29,18 +29,20 @@ import { PaginationComponent } from "./paginationComponent";
 interface PureTableProps<TData> {
   columns: ColumnDef<TData>[];
   data: TData[];
+  sortedByColumnName: string;
+  sortOrder: string;
 }
 
-function PureTable<TData>({ columns, data }: PureTableProps<TData>) {
-  const [sorting, setSorting] = useState<SortingState>([]); //not using right now properly
-
+function PureTable<TData>({
+  columns,
+  data,
+  sortedByColumnName,
+  sortOrder,
+}: PureTableProps<TData>) {
   const table = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
-    getSortedRowModel: getSortedRowModel(),
-    state: { sorting },
-    onSortingChange: setSorting,
   });
 
   return (
@@ -49,16 +51,37 @@ function PureTable<TData>({ columns, data }: PureTableProps<TData>) {
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>
-              {headerGroup.headers.map((header) => (
-                <TableHead key={header.id} className="text-left">
-                  {header.isPlaceholder
-                    ? null
-                    : flexRender(
-                        header.column.columnDef.header,
-                        header.getContext(),
-                      )}
-                </TableHead>
-              ))}
+              {headerGroup.headers.map((header) => {
+                return (
+                  <TableHead
+                    key={header.id}
+                    className="text-left whitespace-nowrap"
+                  >
+                    <div className="flex items-center gap-1">
+                      <span className="truncate">
+                        {header.isPlaceholder
+                          ? null
+                          : flexRender(
+                              header.column.columnDef.header,
+                              header.getContext(),
+                            )}
+                      </span>
+                      {/* Sort Icons */}
+                      <Triangle
+                        className={cn(
+                          "h-3 w-3 shrink-0 transition-transform",
+                          // Is this column the currently sorted one?
+                          header.column.id === sortedByColumnName
+                            ? sortOrder === "asc"
+                              ? "text-foreground" // solid black/up
+                              : "text-foreground rotate-180" // solid black/down
+                            : "text-muted-foreground opacity-60", // faint grey for others
+                        )}
+                      />
+                    </div>
+                  </TableHead>
+                );
+              })}
             </TableRow>
           ))}
         </TableHeader>
@@ -93,7 +116,6 @@ function PureTable<TData>({ columns, data }: PureTableProps<TData>) {
 
 interface DataTableProps {
   serviceName: string;
-  // Add more props later, e.g. data?: YourDataType[], columns, etc.
 }
 
 export default function DataTable({ serviceName }: DataTableProps) {
@@ -108,6 +130,12 @@ export default function DataTable({ serviceName }: DataTableProps) {
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
   const [offset, setOffset] = useState(1);
+
+  //sorting related state management
+  const [sortedByColumnName, setSortedByColumnName] = useState<string>(
+    serviceName + "Id",
+  );
+  const [sortOrder, setSortOrder] = useState<string>("asc");
 
   // These are the callback functions
   const handlePageChange = (newPage: number) => {
@@ -132,6 +160,8 @@ export default function DataTable({ serviceName }: DataTableProps) {
           "",
           currentPage,
           pageSize,
+          sortedByColumnName,
+          sortOrder,
         );
         console.log(result);
 
@@ -153,7 +183,7 @@ export default function DataTable({ serviceName }: DataTableProps) {
     };
 
     loadData();
-  }, [pageSize, currentPage]);
+  }, [pageSize, currentPage, sortedByColumnName, sortOrder]);
 
   // Generate columns from dynamic headers
   const columns: ColumnDef<any>[] = Object.entries(headerMap).map(
@@ -188,7 +218,12 @@ export default function DataTable({ serviceName }: DataTableProps) {
         />{" "}
       </div>
       <div>
-        <PureTable columns={columns} data={entities} />
+        <PureTable
+          columns={columns}
+          data={entities}
+          sortedByColumnName={sortedByColumnName}
+          sortOrder={sortOrder}
+        />
         {entities.length === 0 ? (
           <div className="p-8 text-center text-red-600">
             Error: {error}
