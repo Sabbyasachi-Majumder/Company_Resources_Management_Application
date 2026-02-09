@@ -67,7 +67,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     // Get Employee Data Table with Pageable specifications
     public Page<EmployeeDTO> fetchPagedDataList(int page, int size, String sortByColumnName, String sortOrder) {
-        Pageable pageable = PageRequest.of(page - 1, size, sortOrder.equalsIgnoreCase("ASC") ? Sort.by(sortByColumnName).ascending() : Sort.by(sortByColumnName).descending());  //internally the page index starts from 0 instead of 1
+        Pageable pageable = PageRequest.of(page - 1, size, sortOrder.equalsIgnoreCase("ASC") ? Sort.by(sortByColumnName).ascending() : Sort.by(sortByColumnName).descending().and(Sort.by("employeeId").ascending()));  //internally the page index starts from 0 instead of 1
         Page<EmployeeDTO> pagedData = employeeRepository.findAll(pageable)
                 .map(employeeMapper::toFetchORCreateDto);
         if (pageable.getPageNumber() < 0 || pageable.getPageNumber() > Math.ceil((float) pagedData.getTotalElements() / pageable.getPageSize()))
