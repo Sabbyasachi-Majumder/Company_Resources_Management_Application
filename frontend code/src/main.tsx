@@ -5,7 +5,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import LoginPage from "./components/Login Page/loginPage.tsx";
 import HomePage from "./components/HomePage/homePage.tsx";
 import DummyPage from "./components/utility-functions/dummy placeholder react page.tsx";
-import DataTable from "./components/common/dataTable.tsx";
+import DataTable from "./components/common/dynamicDataDisplay.tsx";
 
 const router = createBrowserRouter([
   {
