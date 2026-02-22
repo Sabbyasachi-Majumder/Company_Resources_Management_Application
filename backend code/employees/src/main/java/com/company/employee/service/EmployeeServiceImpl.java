@@ -10,11 +10,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.stereotype.Service;
 
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,38 +19,18 @@ import java.util.Map;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 
-import javax.sql.DataSource;
-
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
 
     private final EmployeeRepository employeeRepository;
-    private final DataSource dataSource;
     private final EmployeeMapper employeeMapper;
 
     // For detailed logging in the application
     private static final Logger logger = LoggerFactory.getLogger(EmployeeServiceImpl.class);
 
-    public EmployeeServiceImpl(EmployeeRepository employeeRepository, DataSource dataSource, EmployeeMapper employeeMapper) {
+    public EmployeeServiceImpl(EmployeeRepository employeeRepository, EmployeeMapper employeeMapper) {
         this.employeeRepository = employeeRepository;
-        this.dataSource = dataSource;
         this.employeeMapper = employeeMapper;
-    }
-
-    //Test Database Connection business logic
-    public String testDatabaseConnection() {
-        Connection connection = DataSourceUtils.getConnection(dataSource);
-        try {
-            if (connection.isValid(1)) {
-                logger.debug("Testing successful . Database connection is present.");
-                return "Connection from Employee Application to Employee Database successfully established.";
-            } else {
-                logger.error("Testing failed . Database connection is not present.");
-                return "Connection to Employee Database failed to be established.";
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     // Get Total amount of Employee Data Table entries

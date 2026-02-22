@@ -1,0 +1,197 @@
+[
+  {
+    "name": "employeeId",
+    "label": "Employee ID",
+    "uiType": "number",
+    "inputType": "text",
+    "required": true,
+    "isEditable": true,
+    "sortable": true,
+    "filterable": true,
+    "visibleInTable": true,
+    "visibleInForm": true,
+    "order": 10,
+    "validation": {
+      "required": true,
+      "minValue": 1,
+      "maxValue": null,
+      "message": "Employee ID must be positive"
+    }
+  },
+  {
+    "name": "firstName",
+    "label": "First Name",
+    "uiType": "string",
+    "inputType": "text",
+    "required": true,
+    "isEditable": true,
+    "sortable": true,
+    "filterable": true,
+    "visibleInTable": true,
+    "visibleInForm": true,
+    "order": 20,
+    "validation": {
+      "required": true,
+      "minValue": null,
+      "maxValue": 50,
+      "message": "First name must be at most 50 characters"
+    }
+  },
+  {
+    "name": "lastName",
+    "label": "Last Name",
+    "uiType": "string",
+    "inputType": "text",
+    "required": false,
+    "isEditable": true,
+    "sortable": true,
+    "filterable": true,
+    "visibleInTable": true,
+    "visibleInForm": true,
+    "order": 30,
+    "validation": {
+      "required": false,
+      "minValue": null,
+      "maxValue": 50,
+      "message": "Last name must be at most 50 characters"
+    }
+  },
+  {
+    "name": "dateOfBirth",
+    "label": "Date of Birth",
+    "uiType": "date",
+    "inputType": "date",
+    "required": true,
+    "isEditable": true,
+    "sortable": true,
+    "filterable": true,
+    "visibleInTable": true,
+    "visibleInForm": true,
+    "order": 40,
+    "validation": {
+      "required": true,
+      "minValue": null,
+      "maxValue": null,
+      "message": "Date of birth must be in the past"
+    }
+  },
+  {
+    "name": "gender",
+    "label": "Gender",
+    "uiType": "string",
+    "inputType": "select",
+    "required": true,
+    "isEditable": true,
+    "sortable": true,
+    "filterable": true,
+    "visibleInTable": true,
+    "visibleInForm": true,
+    "order": 50,
+    "validation": {
+      "required": true,
+      "minValue": null,
+      "maxValue": null,
+      "message": "Gender must be Male, Female, or Other"
+    },
+    "options": [
+      "Male",
+      "Female",
+      "Other"
+    ]
+  },
+  {
+    "name": "salary",
+    "label": "Salary",
+    "uiType": "number",
+    "inputType": "number",
+    "required": true,
+    "isEditable": true,
+    "sortable": true,
+    "filterable": true,
+    "visibleInTable": true,
+    "visibleInForm": true,
+    "order": 60,
+    "validation": {
+      "required": true,
+      "minValue": 1,
+      "maxValue": null,
+      "message": "Salary must be positive"
+    }
+  },
+  {
+    "name": "hireDate",
+    "label": "Hire Date",
+    "uiType": "date",
+    "inputType": "date",
+    "required": true,
+    "isEditable": true,
+    "sortable": true,
+    "filterable": true,
+    "visibleInTable": true,
+    "visibleInForm": true,
+    "order": 70,
+    "validation": {
+      "required": true,
+      "minValue": null,
+      "maxValue": null,
+      "message": "Hire date must be in the past or present"
+    }
+  },
+  {
+    "name": "jobStage",
+    "label": "Job Stage",
+    "uiType": "string",
+    "inputType": "text",
+    "required": true,
+    "isEditable": true,
+    "sortable": true,
+    "filterable": true,
+    "visibleInTable": true,
+    "visibleInForm": true,
+    "order": 80,
+    "validation": {
+      "required": true,
+      "minValue": 3,
+      "maxValue": 4,
+      "message": "Job stage must be at most 4 characters"
+    }
+  },
+  {
+    "name": "designation",
+    "label": "Designation",
+    "uiType": "string",
+    "inputType": "text",
+    "required": true,
+    "isEditable": true,
+    "sortable": true,
+    "filterable": true,
+    "visibleInTable": true,
+    "visibleInForm": true,
+    "order": 90,
+    "validation": {
+      "required": true,
+      "minValue": 1,
+      "maxValue": 100,
+      "message": "Designation must be at most 100 characters"
+    }
+  },
+  {
+    "name": "managerEmployeeId",
+    "label": "Manager ID",
+    "uiType": "number",
+    "inputType": "text",
+    "required": false,
+    "isEditable": true,
+    "sortable": true,
+    "filterable": true,
+    "visibleInTable": true,
+    "visibleInForm": true,
+    "order": 100,
+    "validation": {
+      "required": false,
+      "minValue": 0,
+      "maxValue": null,
+      "message": "Manager Employee ID must be positive or zero (zero for employees with no manager for now)"
+    }
+  }
+]

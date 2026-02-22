@@ -1,6 +1,7 @@
 package com.company.employee.controllers;
 
 import com.company.employee.dto.*;
+import com.company.employee.service.EmployeeMetaDataService;
 import com.company.employee.service.EmployeeService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -12,6 +13,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -25,40 +27,16 @@ public class EmployeeController {
 
     private static final Logger logger = LoggerFactory.getLogger(EmployeeController.class);
     private final EmployeeService employeeService;
+    private final EmployeeMetaDataService employeeMetaDataService;
 
     // Constructor injection
-    public EmployeeController(EmployeeService employeeService) {
+    public EmployeeController(EmployeeService employeeService, EmployeeMetaDataService employeeMetaDataService) {
         this.employeeService = employeeService;
+        this.employeeMetaDataService = employeeMetaDataService;
     }
 
     public void loggingStart() {
         logger.info("\n\n\t\t********************* New Request Started ********************\n\n");
-    }
-
-    // testing connection
-    @GetMapping(value = "/testConnection")
-    @Tag(name = "Health Checks")
-    @Operation(summary = "Test connection to the application", description = "Tests if the connection between the client (e.g., Postman) and the Employee application is established.")
-    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Connection established successfully", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResponseDTO.class)))})
-    public ResponseEntity<ApiResponseDTO<String>> testPostmanToApplicationConnection() {
-        loggingStart();
-        logger.debug("Testing EmployeeController to Postman connection.");
-        return ResponseEntity.ok(new ApiResponseDTO<>("Connection to Employee Application is successfully established."));
-    }
-
-    // testing Database connection
-    @GetMapping(value = "/testDataBaseConnection")
-    @Tag(name = "Health Checks")
-    @Operation(summary = "Test database connection", description = "Tests if the connection to the employee database is established.")
-    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Database connection test result", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResponseDTO.class)))})
-    public ResponseEntity<ApiResponseDTO<String>> testDataBaseConnection() {
-        loggingStart();
-        logger.debug("Testing EmployeeController to employee database connection.");
-        try {
-            return ResponseEntity.ok(new ApiResponseDTO<>(employeeService.testDatabaseConnection()));
-        } catch (Exception e) {
-            return ResponseEntity.ok(new ApiResponseDTO<>("Connection to database not found"));
-        }
     }
 
     // Counting the total no of employee records
@@ -70,6 +48,15 @@ public class EmployeeController {
         loggingStart();
         logger.debug("Counting the total amount of employee entries.");
         return ResponseEntity.ok(new ApiResponseDTO<>(employeeService.countEntities()));
+    }
+
+    @GetMapping("/metadata")
+    @Tag(name = "Employee Datatable Metadata management")
+    @Operation(summary = "Get column metadata for employees table")
+    @Cacheable("employee-metadata")
+    public ResponseEntity<ApiResponseDTO<List<ColumnMetadata>>> getColumnMetadata() {
+        List<ColumnMetadata> metadata = employeeMetaDataService.getEmployeeColumnMetadata();
+        return ResponseEntity.ok(new ApiResponseDTO<>(metadata));
     }
 
     // Displaying singular Employee Data

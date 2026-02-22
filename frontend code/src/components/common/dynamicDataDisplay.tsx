@@ -27,7 +27,8 @@ export default function DataTable({ serviceName }: DataTableProps) {
   const [offset, setOffset] = useState(1);
 
   //sorting related state management
-  const [sortByColumnName, setsortByColumnName] = useState<string>("gender");
+  const [sortByColumnName, setsortByColumnName] =
+    useState<string>("employeeId");
   const [sortOrder, setSortOrder] = useState<string>("asc");
 
   // These are the callback functions
