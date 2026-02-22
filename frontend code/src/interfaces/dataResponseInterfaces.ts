@@ -42,6 +42,28 @@ export interface PaginatedTableData {
   empty: boolean;
 }
 
+export interface ColumnMetadata {
+  name: string; // e.g. "employeeId", "firstName", "gender"
+  label: string; // e.g. "Employee ID", "First Name", "Gender"
+  uiType: "string" | "number" | "date"; // main data type
+  inputType: "text" | "number" | "date" | "select"; // recommended input component
+  required: boolean;
+  editable: boolean; // whether field becomes editable in edit mode
+  sortable: boolean;
+  filterable: boolean;
+  visibleInTable: boolean;
+  visibleInForm: boolean;
+  order: number; // sort order for columns
+  validation: {
+    required: boolean;
+    minValue: number | null;
+    maxValue: number | null;
+    message: string;
+  } | null; // null if no validation rules
+  // If you already added options for gender:
+  options?: string[]; // optional - only present on fields like gender
+}
+
 export interface ApiResponse {
-  data: OperationSummary | ErrorDetails | PaginatedTableData;
+  data: OperationSummary | ErrorDetails | PaginatedTableData | ColumnMetadata[];
 }
