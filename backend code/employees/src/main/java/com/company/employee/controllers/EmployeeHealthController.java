@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/v1/employees")
+@Tag(name = "Endpoints for Employee Application and Database Health Check")
 public class EmployeeHealthController {
 
     private static final Logger logger = LoggerFactory.getLogger(EmployeeHealthController.class);

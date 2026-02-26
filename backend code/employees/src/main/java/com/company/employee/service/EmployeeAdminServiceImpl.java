@@ -6,10 +6,6 @@ import com.company.employee.mapper.EmployeeMapper;
 import com.company.employee.repository.EmployeeRepository;
 
 import jakarta.persistence.EntityNotFoundException;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -20,44 +16,18 @@ import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 
 @Service
-public class EmployeeServiceImpl implements EmployeeService {
+public class EmployeeAdminServiceImpl implements EmployeeAdminService {
 
     private final EmployeeRepository employeeRepository;
     private final EmployeeMapper employeeMapper;
 
     // For detailed logging in the application
-    private static final Logger logger = LoggerFactory.getLogger(EmployeeServiceImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(EmployeeAdminServiceImpl.class);
 
-    public EmployeeServiceImpl(EmployeeRepository employeeRepository, EmployeeMapper employeeMapper) {
+    public EmployeeAdminServiceImpl(EmployeeRepository employeeRepository, EmployeeMapper employeeMapper) {
         this.employeeRepository = employeeRepository;
         this.employeeMapper = employeeMapper;
     }
-
-    // Get Total amount of Employee Data Table entries
-    public Long countEntities() {
-        try {
-            return employeeRepository.count();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    // Get Employee Data Table with Pageable specifications
-    public Page<EmployeeDTO> fetchPagedDataList(int page, int size, String sortByColumnName, String sortOrder) {
-        Pageable pageable = PageRequest.of(page - 1, size, sortOrder.equalsIgnoreCase("ASC") ? Sort.by(sortByColumnName).ascending() : Sort.by(sortByColumnName).descending().and(Sort.by("employeeId").ascending()));  //internally the page index starts from 0 instead of 1
-        Page<EmployeeDTO> pagedData = employeeRepository.findAll(pageable)
-                .map(employeeMapper::toFetchORCreateDto);
-        if (pageable.getPageNumber() < 0 || pageable.getPageNumber() > Math.ceil((float) pagedData.getTotalElements() / pageable.getPageSize()))
-            throw new IllegalArgumentException();
-        return pagedData;
-    }
-
-    // Business logic to search database for an employee based on its employeeId
-    public EmployeeDTO searchDataBase(Long employeeId) {
-        return employeeMapper.toFetchORCreateDto(employeeRepository.findById(employeeId)
-                .orElseThrow(() -> new EntityNotFoundException("employeeId " + employeeId + " not found")));
-    }
-
 
     // Business logic to add employee data records one by one .
     public OperationSummaryDTO addDataToDataBase(List<EmployeeDTO> employeeFetchOrCreateRequestList) {

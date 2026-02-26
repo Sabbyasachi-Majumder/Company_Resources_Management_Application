@@ -1,11 +1,10 @@
 package com.company.employee.configs;
 
 import com.company.employee.security.JwtUtil;
-import com.company.employee.service.EmployeeService;
+import com.company.employee.service.EmployeeAdminService;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.mockito.Mockito;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,8 +21,8 @@ public class TestConfig {
 
     @Bean
     @Primary
-    public EmployeeService employeeService() {
-        return Mockito.mock(EmployeeService.class);
+    public EmployeeAdminService employeeService() {
+        return Mockito.mock(EmployeeAdminService.class);
     }
 
     @Bean

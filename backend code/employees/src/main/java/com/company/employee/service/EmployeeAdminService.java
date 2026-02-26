@@ -3,19 +3,10 @@ package com.company.employee.service;
 import com.company.employee.dto.BulkUpdateRequest;
 import com.company.employee.dto.EmployeeDTO;
 import com.company.employee.dto.OperationSummaryDTO;
-import org.springframework.data.domain.Page;
 
 import java.util.List;
 
-public interface EmployeeService {
-
-    // Fetching the whole page of employee data based on page and size
-    Page<EmployeeDTO> fetchPagedDataList(int page, int size, String sortByColumnName, String sortOrder);
-
-    Long countEntities();
-
-    // searching the employee data based on its employeeID
-    EmployeeDTO searchDataBase(Long employeeId);
+public interface EmployeeAdminService {
 
     // adding the employee data to database
     OperationSummaryDTO addDataToDataBase(List<EmployeeDTO> employeeDTOList);

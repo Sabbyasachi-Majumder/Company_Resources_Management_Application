@@ -4,6 +4,7 @@ import com.company.employee.dto.ApiResponseDTO;
 import com.company.employee.dto.ErrorDetailsDto;
 import io.jsonwebtoken.JwtException;
 import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -28,6 +29,7 @@ import java.util.*;
 
 @Schema(description = "Global Exception Handling class for Employee Service")
 @RestControllerAdvice
+@Tag(name = "Endpoints for Employee Operations System error handling")
 public class EmployeeGlobalExceptionHandler {
 
     private static final Logger logger = LoggerFactory.getLogger(EmployeeGlobalExceptionHandler.class);
